@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.alibaba.dubbo.config.annotation.Service;
 </#if>
 
-import com.baomidou.framework.service.impl.ServiceImpl;
+import org.apache.playframework.service.impl.BaseServiceImpl;
 import ${servicePackage}.${serviceName};
 import ${modelPackage}.${beanName};
 import ${mapperPackage}.${mapperName};
@@ -24,7 +24,7 @@ import ${mapperPackage}.${mapperName};
 @Component  
 @Service
 </#if>
-public class ${serviceImplName} extends ServiceImpl<${mapperName}, ${beanName}> implements ${serviceName} {
+public class ${serviceImplName} extends BaseServiceImpl<${mapperName}, ${beanName}> implements ${serviceName} {
 
 
 }
