@@ -1,6 +1,6 @@
 package org.apache.playframework.generator;
 
-public class ConfigGenerator extends com.baomidou.mybatisplus.generator.ConfigGenerator {
+public class ConfigGenerator extends  org.apache.playframework.generator.mybatisplus.ConfigGenerator {
 
 	protected String dtoPackage;
 	

@@ -22,10 +22,10 @@
 		<commons-configuration.version>1.6</commons-configuration.version>
 		<curator-framework.version>2.4.0</curator-framework.version>
 		<curator-recipes.version>2.4.0</curator-recipes.version>
-		<quartz.version>2.2.1</quartz.version> 
+		<quartz.version>2.2.1</quartz.version>
 	</properties>
-	
-	<dependencies> 
+
+	<dependencies>
 
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -291,17 +291,17 @@
 			<version>3.3.0</version>
 		</dependency>
 		<!-- 二维码 end -->
-
-		<!-- mybatis-plus start --> 
-		<dependency>
+   
+		<!-- mybatis-plus start -->
+		<dependency> 
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus</artifactId>
-			<version>2.0-beta</version> 
+			<version>2.0-rc</version> 
 		</dependency>
 		<!-- mybatis-plus end -->
 
-        <!-- dubbo start -->
-        <dependency>
+		<!-- dubbo start -->
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 			<version>2.5.3</version>
@@ -319,7 +319,7 @@
 			<version>0.4</version>
 		</dependency>
 		<!-- dubbo end -->
-		 
+
 		<!-- json start -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -327,7 +327,7 @@
 			<version>1.9.13</version>
 		</dependency>
 		<!-- json end -->
-		
+
 	</dependencies>
 
 </project>
