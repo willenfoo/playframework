@@ -569,7 +569,7 @@ public class AutoGenerator {
 			bw.write("import com.baomidou.mybatisplus.annotations.TableId;");
 			bw.newLine();
 		}
-		if (table.contains("_")) {
+		if (table.contains("_") || config.isResultMap()) {
 			bw.write("import com.baomidou.mybatisplus.annotations.TableName;");
 			bw.newLine();
 		}

@@ -1,35 +1,32 @@
 package org.apache.playframework.service.impl;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import org.apache.playframework.service.BaseService;
 import org.apache.playframework.service.FieldFillService;
 import org.apache.playframework.util.ReflectUtils;
 import org.apache.playframework.util.SpringUtils;
- 
-import com.baomidou.framework.service.impl.ServiceImpl;
-import com.baomidou.mybatisplus.annotations.IdType; 
+
+import com.baomidou.mybatisplus.entity.TableInfo;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.toolkit.ReflectionKit;
-import com.baomidou.mybatisplus.toolkit.TableInfo;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.baomidou.mybatisplus.toolkit.TableInfoHelper;
 
-public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<BaseMapper<T>, T> {
+public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<BaseMapper<T>, T> implements BaseService<T> {
 
 	private FieldFillService fieldFillService;
 
 	private Map<String, Object> insertData;
 
 	private Map<String, Object> updateData;
-
 
 	public BaseServiceImpl() {
 		if (SpringUtils.getBeanFactory() != null && SpringUtils.containsBean("fieldFillService")) {
@@ -76,7 +73,8 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 			TableInfo tableInfo = TableInfoHelper.getTableInfo(cls);
 			if (null != tableInfo) {
 				Object idVal = ReflectionKit.getMethodValue(cls, entity, tableInfo.getKeyProperty());
-				if (null == idVal || "".equals(idVal)) {
+				if (StringUtils.checkValNull(idVal)) {
+					setInsertData(entity);
 					return insert(entity);
 				} else {
 					/* 特殊处理 INPUT 主键策略逻辑 */
@@ -94,7 +92,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 					return updateById(entity);
 				}
 			} else {
-				throw new MybatisPlusException("Error:  Cannot execute. Could not find @TableId.");
+				throw new MybatisPlusException("Error:  Can not execute. Could not find @TableId.");
 			}
 		}
 		return false;
@@ -134,6 +132,11 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 	public boolean updateBatchById(List<T> entityList) {
 		setUpdateData(entityList);
 		return super.updateBatchById(entityList);
+	}
+
+	@Override
+	public T selectOne(T entity) {
+		return selectOne(new EntityWrapper<T>(entity));
 	}
 
 }
