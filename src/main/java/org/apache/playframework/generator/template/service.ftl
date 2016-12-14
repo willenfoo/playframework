@@ -1,9 +1,8 @@
 package ${package};
 
-import ${modelTargetPackage}.${domainObjectName};
-import ${modelTargetPackage}.example.${domainObjectName}Example;
-import org.apache.framework.service.BaseService;
+import ${modelPackage}.${beanName};
+import org.apache.playframework.service.BaseService;
 
-public interface ${domainObjectName}Service extends BaseService<${domainObjectName}, ${domainObjectName}Example> {
+public interface ${beanName}Service extends BaseService<${beanName}> {
 	
 }

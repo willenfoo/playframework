@@ -189,9 +189,15 @@ public class CodeGenerate extends AutoGenerator {
 					params.put("serviceName", serviceName);
 					params.put("mapperName", mapperName);
 					params.put("mapperPackage", config.getMapperPackage());
-					String dtoText = viewEngine.parse("service_impl.ftl", params);
-					String dtoAddress = PATH_SERVICE_IMPL +"/" + serviceImplName + JAVA_SUFFIX;
-					FileUtils.write(new File(dtoAddress), dtoText);
+					String serviceImplText = viewEngine.parse("service_impl.ftl", params);
+					String serviceImplAddress = PATH_SERVICE_IMPL +"/" + serviceImplName + JAVA_SUFFIX;
+					FileUtils.write(new File(serviceImplAddress), serviceImplText);
+					
+					
+					params.put("package", config.getServicePackage());
+					String serviceText = viewEngine.parse("service.ftl", params);
+					String serviceAddress = PATH_SERVICE +"/" + serviceName + JAVA_SUFFIX;
+					FileUtils.write(new File(serviceAddress), serviceText);
 				}
 				if (config.isJspGenerator()) {
 					for (Map.Entry<String, IdInfo> entry : idMap.entrySet()) {  
