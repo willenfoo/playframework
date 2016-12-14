@@ -15,7 +15,8 @@
  */
 package org.apache.playframework.generator.mybatisplus;
 
-import com.baomidou.mybatisplus.annotations.IdType;
+ 
+import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 
 

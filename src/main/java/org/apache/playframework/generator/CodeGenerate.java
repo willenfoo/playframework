@@ -16,8 +16,8 @@ import org.apache.playframework.generator.mybatisplus.AutoGenerator;
 import org.apache.playframework.generator.mybatisplus.ConfigDataSource;
 import org.apache.playframework.util.StringUtils;
 
-import com.baomidou.mybatisplus.annotations.IdType;
- 
+import com.baomidou.mybatisplus.enums.IdType;
+
 
 /**
  * Hello world!
