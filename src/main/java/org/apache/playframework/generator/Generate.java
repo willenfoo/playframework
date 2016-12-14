@@ -23,7 +23,7 @@ public class Generate {
 		cg.setControllerPackage("com.huanlvjinfu.mall.controller");
 		/*cg.setDtoPackage("com.huanlvjinfu.mall.domain");*/
 		cg.setJspGenerator(true); // 设置生成JSP
-		cg.setDubboRegistryId("couponRegistry"); //设置使用 Dubbo 服务
+		cg.setDubboRegistryId("centerRegistry"); //设置使用 Dubbo 服务
 		// 配置保存路径
 		cg.setSaveDir("D:/src");
 

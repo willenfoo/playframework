@@ -42,7 +42,7 @@ public class ${modelName}Controller extends BaseController {
 	@ResponseBody
 	public Object find(${modelName} ${modelNameVariable}) {
 		EntityWrapper<${modelName}> wrapper = new EntityWrapper<${modelName}>(${modelNameVariable});
-		Page<${modelName}> page = new Page<${modelName}>(getOffset(), getPageSize());
+		Page<${modelName}> page = getEasyuiPage();
 		page = ${serviceNameVariable}.selectPage(page , wrapper);
 		return EasyuiJsonResult.getSuccessResult(page.getTotal(), page.getRecords());
 	}
