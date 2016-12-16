@@ -33,6 +33,17 @@ import org.apache.playframework.domain.EasyuiJsonResult;
 @RequestMapping("${modelNameVariable}/")
 public class ${modelName}Controller extends BaseController {
 	
+	<#if !dubboRegistryId??>
+	@Resource
+	private ${serviceName} ${serviceNameVariable}; //服务层
+	</#if>  
+	<#if dubboRegistryId??>
+	@Reference(registry="${dubboRegistryId}")
+	private ${serviceName} ${serviceNameVariable}; //服务层
+	</#if> 
+
+	private static String VIEWS_PATH = "${modelNameVariable}/";
+	
 	/**
 	 *  查询数据
 	 * @param role
@@ -129,16 +140,5 @@ public class ${modelName}Controller extends BaseController {
 		}
 		return resultMap;
 	} 
-	
-	<#if !dubboRegistryId??>
-	@Resource
-	private ${serviceName} ${serviceNameVariable}; //服务层
-	</#if>  
-	<#if dubboRegistryId??>
-	@Reference(registry="${dubboRegistryId}")
-	private ${serviceName} ${serviceNameVariable}; //服务层
-	</#if> 
-
-	private static String VIEWS_PATH = "${modelNameVariable}/";
 	 
 }
