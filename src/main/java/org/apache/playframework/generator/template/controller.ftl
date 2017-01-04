@@ -1,8 +1,8 @@
 package ${package};
 
-import java.util.Map;
-
+<#if !dubboRegistryId??>
 import javax.annotation.Resource;
+</#if>
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -67,8 +67,7 @@ public class ${modelName}Controller extends BaseController {
 	public Object find(${modelName} ${modelNameVariable}) {
 		EntityWrapper<${modelName}> wrapper = new EntityWrapper<${modelName}>(${modelNameVariable});
 		Page<${modelName}> page = getEasyuiPage();
-		page = ${serviceNameVariable}.selectPage(page , wrapper);
-		return EasyuiJsonResult.getSuccessResult(page.getTotal(), page.getRecords());
+		return EasyuiJsonResult.getSuccessResult(${serviceNameVariable}.selectPage(page , wrapper));
 	}
 
     /**
@@ -105,13 +104,7 @@ public class ${modelName}Controller extends BaseController {
 	@ResponseBody
 	@Permission("${modelNameVariable}_add")
 	public Object add(${modelName} ${modelNameVariable}) {
-		Map<String, Object> resultMap;
-		if (${serviceNameVariable}.insert(${modelNameVariable})) {
-		    resultMap = EasyuiJsonResult.getSuccessResult();
-		} else {
-		    resultMap = EasyuiJsonResult.getFailureResult();
-		}
-		return resultMap;
+		return getResult(${serviceNameVariable}.insert(${modelNameVariable}));
 	}
 	
 	/**
@@ -123,13 +116,7 @@ public class ${modelName}Controller extends BaseController {
 	@ResponseBody
 	@Permission("${modelNameVariable}_update")
 	public Object update(${modelName} ${modelNameVariable}) {
-		Map<String, Object> resultMap;
-		if (${serviceNameVariable}.updateById(${modelNameVariable})) {
-		    resultMap = EasyuiJsonResult.getSuccessResult();
-		} else {
-		    resultMap = EasyuiJsonResult.getFailureResult();
-		}
-		return resultMap;
+		return getResult(${serviceNameVariable}.updateById(${modelNameVariable}));
 	}
 	
 	/**
@@ -144,13 +131,7 @@ public class ${modelName}Controller extends BaseController {
 	    ${modelName} ${modelNameVariable} = new ${modelName}();
 	    ${modelNameVariable}.setId(id);
 	    ${modelNameVariable}.setIsDelete("Y");
-		Map<String, Object> resultMap;
-		if (${serviceNameVariable}.updateById(${modelNameVariable})) {
-		    resultMap = EasyuiJsonResult.getSuccessResult();
-		} else {
-		    resultMap = EasyuiJsonResult.getFailureResult();
-		}
-		return resultMap;
+		return getResult(${serviceNameVariable}.updateById(${modelNameVariable}));
 	} 
 	 
 }
