@@ -10,9 +10,9 @@ request.setAttribute("namespace", "${modelNameVariable}");
 <%@include file="/WEB-INF/views/common/common.jsp" %>
 </head>
 <body>
-    <shiro:hasPermission name="${modelNameVariable}_delete">
+    <kisso:hasPermission name="${modelNameVariable}_delete">
          <input type="hidden" id="deleteAuth" value="Y"/>
-    </shiro:hasPermission>
+    </kisso:hasPermission>
     
     <!-- 数据展示列表查询区 -->
 	<div id="toolbar" style="padding: 1px; height: auto">
@@ -37,17 +37,17 @@ request.setAttribute("namespace", "${modelNameVariable}");
 					</tr>
 				</table>
 			</form>
-			<shiro:hasPermission name="${modelNameVariable}_add">
+			<kisso:hasPermission name="${modelNameVariable}_add">
 				<a href="javascript:void(0);" onclick="add('${modelNameVariable}/toAdd','添加',400,420);" class="easyui-linkbutton" iconCls="icon-add" plain="true" title="添加">添加</a>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="${modelNameVariable}_update">
+			</kisso:hasPermission>
+			<kisso:hasPermission name="${modelNameVariable}_update">
 				<a href="javascript:void(0);" onclick="update('${modelNameVariable}/toUpdate','修改',400,420);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" title="修改">修改</a>
-			</shiro:hasPermission>
+			</kisso:hasPermission>
 		</div>
 	</div>
 	
-	<table class="easyui-datagrid" fit="true" <shiro:hasPermission name="${modelNameVariable}_find"> url="<c:url value="/${modelNameVariable}/find"> </c:url>" </shiro:hasPermission> id="${r'${namespace }'}Grid"  title="数据列表" 
-	     data-options="<shiro:hasPermission name="${modelNameVariable}_update">onDblClickCell: function(index,field,value){update('${modelNameVariable}/toUpdate','修改',400,420);}</shiro:hasPermission>" 
+	<table class="easyui-datagrid" fit="true" <kisso:hasPermission name="${modelNameVariable}_find"> url="<c:url value="/${modelNameVariable}/find"> </c:url>" </kisso:hasPermission> id="${r'${namespace }'}Grid"  title="数据列表" 
+	     data-options="<kisso:hasPermission name="${modelNameVariable}_update">onDblClickCell: function(index,field,value){update('${modelNameVariable}/toUpdate','修改',400,420);}</kisso:hasPermission>" 
 	     singleSelect="true" rownumbers="true" pagination="true" toolbar="#toolbar">
 		<thead>
 			<tr>

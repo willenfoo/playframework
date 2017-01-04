@@ -9,6 +9,8 @@ import java.util.Map;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import com.baomidou.mybatisplus.plugins.Page;
+
 public class EasyuiJsonResult implements Serializable {
 
 	/**
@@ -153,6 +155,24 @@ public class EasyuiJsonResult implements Serializable {
 		map.put(ROWS, resultList);
 		return map;
 	}
+	
+	/**
+	 * 返回成功的标识方法
+	 * @return
+	 */
+	public static Map<String, Object> getSuccessResult(Page<?> page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(CODE, HTTP_OK); 
+		map.put(MESSAGE, SUCCESS_TEXT);
+		if (page == null) {
+			page = new Page<>();
+		}
+		map.put(TOTAL, page.getTotal());
+		map.put(ROWS, page.getRecords());
+		return map;
+	}
+	
+	
 	
 	/**
 	 * 返回成功的标识方法

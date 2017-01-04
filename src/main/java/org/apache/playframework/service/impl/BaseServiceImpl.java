@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.entity.TableInfo;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import org.apache.playframework.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.toolkit.ReflectionKit;

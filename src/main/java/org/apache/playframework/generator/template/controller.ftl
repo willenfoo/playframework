@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.apache.playframework.web.controller.BaseController;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.kisso.annotation.Permission;
+
 <#assign  modelName="${beanName}"/>
 <#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${beanName}')!}"/>
 <#assign  serviceNameVariable="${StringUtils.lowerCaseFirst('${serviceName}')!}"/>
@@ -33,6 +35,8 @@ import org.apache.playframework.domain.EasyuiJsonResult;
 @RequestMapping("${modelNameVariable}/")
 public class ${modelName}Controller extends BaseController {
 	
+	private static String VIEWS_PATH = "${modelNameVariable}/";
+	
 	<#if !dubboRegistryId??>
 	@Resource
 	private ${serviceName} ${serviceNameVariable}; //服务层
@@ -42,7 +46,15 @@ public class ${modelName}Controller extends BaseController {
 	private ${serviceName} ${serviceNameVariable}; //服务层
 	</#if> 
 
-	private static String VIEWS_PATH = "${modelNameVariable}/";
+    /**
+	 * 跳转到查询页面
+	 * @return
+	 */
+	@RequestMapping(value="toFind")
+	@Permission("${modelNameVariable}")
+	public String toFind() {
+		return VIEWS_PATH+"find";
+	}
 	
 	/**
 	 *  查询数据
@@ -51,6 +63,7 @@ public class ${modelName}Controller extends BaseController {
 	 */
 	@RequestMapping(value = "find")
 	@ResponseBody
+	@Permission("${modelNameVariable}_find")
 	public Object find(${modelName} ${modelNameVariable}) {
 		EntityWrapper<${modelName}> wrapper = new EntityWrapper<${modelName}>(${modelNameVariable});
 		Page<${modelName}> page = getEasyuiPage();
@@ -58,21 +71,13 @@ public class ${modelName}Controller extends BaseController {
 		return EasyuiJsonResult.getSuccessResult(page.getTotal(), page.getRecords());
 	}
 
-	/**
-	 * 跳转到查询页面
-	 * @return
-	 */
-	@RequestMapping(value="toFind")
-	public String toFind() {
-		return VIEWS_PATH+"find";
-	}
-	
     /**
      * 跳转到新增页面
      * @param modelMap
      * @return
      */
 	@RequestMapping(value="toAdd")
+	@Permission("${modelNameVariable}_add")
 	public String toAdd(ModelMap modelMap) {
 	    modelMap.put("${modelNameVariable}", new ${modelName}());
 		return VIEWS_PATH+"edit";
@@ -84,6 +89,7 @@ public class ${modelName}Controller extends BaseController {
      * @return
      */
 	@RequestMapping(value="toUpdate")
+	@Permission("${modelNameVariable}_update")
 	public String toUpdate(@RequestParam Long id,ModelMap modelMap) {
 	    ${modelName} ${modelNameVariable} = ${serviceNameVariable}.selectById(id);
 	    modelMap.put("${modelNameVariable}", ${modelNameVariable});
@@ -97,6 +103,7 @@ public class ${modelName}Controller extends BaseController {
 	 */
 	@RequestMapping(value = "add")
 	@ResponseBody
+	@Permission("${modelNameVariable}_add")
 	public Object add(${modelName} ${modelNameVariable}) {
 		Map<String, Object> resultMap;
 		if (${serviceNameVariable}.insert(${modelNameVariable})) {
@@ -114,6 +121,7 @@ public class ${modelName}Controller extends BaseController {
 	 */
 	@RequestMapping(value = "update")
 	@ResponseBody
+	@Permission("${modelNameVariable}_update")
 	public Object update(${modelName} ${modelNameVariable}) {
 		Map<String, Object> resultMap;
 		if (${serviceNameVariable}.updateById(${modelNameVariable})) {
@@ -131,9 +139,13 @@ public class ${modelName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="delete")
 	@ResponseBody
+	@Permission("${modelNameVariable}_delete")
 	public Object delete(@RequestParam("id") Long id) {
+	    ${modelName} ${modelNameVariable} = new ${modelName}();
+	    ${modelNameVariable}.setId(id);
+	    ${modelNameVariable}.setIsDelete("Y");
 		Map<String, Object> resultMap;
-		if (${serviceNameVariable}.deleteById(id)) {
+		if (${serviceNameVariable}.updateById(${modelNameVariable})) {
 		    resultMap = EasyuiJsonResult.getSuccessResult();
 		} else {
 		    resultMap = EasyuiJsonResult.getFailureResult();

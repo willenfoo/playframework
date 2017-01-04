@@ -3,11 +3,14 @@ package org.apache.playframework.web.controller;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.playframework.domain.EasyuiJsonResult;
+import org.apache.playframework.log.Logger;
+import org.apache.playframework.log.LoggerFactory;
 import org.apache.playframework.util.StringUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -25,6 +28,10 @@ import com.baomidou.mybatisplus.plugins.Page;
  */
 public class BaseController extends SuperController {
 
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	protected final static String ROWS = "rows"; //返回json数据的或者list数据的key名称
+	
 	/**
 	 * 得到HttpServletRequest对象
 	 * 
@@ -41,6 +48,10 @@ public class BaseController extends SuperController {
 	}
 
 
+	protected String getParameter(String name) {
+		return request.getParameter(name);
+	}
+	
 	/**
 	 * <p>
 	 * 获取 easyui 分页对象
@@ -85,5 +96,15 @@ public class BaseController extends SuperController {
 			e.printStackTrace();
 		} // name.getBytes("UTF-8")处理safari的乱码问题
 		return "";
+	}
+	
+	public Map<String, Object> getResult(boolean flag) {
+		Map<String, Object> resultMap;
+		if (flag) {
+		    resultMap = EasyuiJsonResult.getSuccessResult();
+		} else {
+		    resultMap = EasyuiJsonResult.getFailureResult();
+		}
+		return resultMap;
 	}
 }

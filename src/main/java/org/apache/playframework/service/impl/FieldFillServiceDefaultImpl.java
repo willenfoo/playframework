@@ -13,14 +13,14 @@ public class FieldFillServiceDefaultImpl implements  FieldFillService {
 	@Override
 	public Map<String, Object> getInsertData() {
 		Map<String, Object> insertData = new HashMap<String, Object>();
-		insertData.put("createDate", new Date());
+		insertData.put("createTime", new Date());
 		return insertData;
 	}
 
 	@Override
 	public Map<String, Object> getUpdateData() {
 		Map<String, Object> updateData = new HashMap<String, Object>();
-		updateData.put("updateDate", new Date());
+		updateData.put("updateTime", new Date());
 		return updateData;
 	}
 
