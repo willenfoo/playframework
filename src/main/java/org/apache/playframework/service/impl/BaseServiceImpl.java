@@ -13,6 +13,9 @@ import com.baomidou.mybatisplus.entity.TableInfo;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import org.apache.playframework.log.Logger;
+import org.apache.playframework.log.LoggerFactory;
 import org.apache.playframework.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -22,6 +25,8 @@ import com.baomidou.mybatisplus.toolkit.TableInfoHelper;
 
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<BaseMapper<T>, T> implements BaseService<T> {
 
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private FieldFillService fieldFillService;
 
 	private Map<String, Object> insertData;
