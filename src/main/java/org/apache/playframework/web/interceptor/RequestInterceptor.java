@@ -23,7 +23,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 		Request.setRIP(ip);
 		LOGGER.debug("rid: {}", rid);
 		Request.setId(rid);
-		LOGGER.debug("{}", Request.getId());
+		LOGGER.debug("RequestId:{}, URL:{}", Request.getId(), request.getRequestURI());
 		if ("true".equalsIgnoreCase(cached) || "false".equalsIgnoreCase(cached)) {
 			CacheSwitcher.set(Boolean.valueOf(cached));
 		} else {
