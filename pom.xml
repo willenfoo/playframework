@@ -339,11 +339,11 @@
 		</dependency>
 		<!-- json end -->
 
-		<!-- kisso start -->
+		<!-- kisso start --> 
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>kisso</artifactId>
-			<version>3.6.13</version> 
+			<version>3.6.13</version>  
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
