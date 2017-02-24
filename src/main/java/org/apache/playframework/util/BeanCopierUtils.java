@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.cglib.beans.BeanCopier;
+import net.sf.cglib.beans.BeanMap;
 
 /**
  * 
@@ -19,6 +20,8 @@ import net.sf.cglib.beans.BeanCopier;
  */
 public class BeanCopierUtils {
 
+	
+	
 	/** 
 	 *  
 	 */
@@ -47,6 +50,13 @@ public class BeanCopierUtils {
 		return target;
 	}
 
+	public static <T> T mapToBean(Map map, T bean) {
+		BeanMap beanMap = BeanMap.create(bean);
+		beanMap.putAll(map);
+		return bean;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public static <T> T copyToObject(Object source, Class<T> clasz) {
 		try {

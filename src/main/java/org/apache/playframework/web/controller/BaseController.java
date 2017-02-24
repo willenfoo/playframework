@@ -107,4 +107,18 @@ public class BaseController extends SuperController {
 		}
 		return resultMap;
 	}
+	
+	public Map<String, Object> getResult(boolean flag, String msg) {
+		Map<String, Object> resultMap;
+		if (flag) {
+		    resultMap = EasyuiJsonResult.getSuccessResult(msg);
+		} else {
+		    resultMap = EasyuiJsonResult.getFailureResult(msg);
+		}
+		return resultMap;
+	}
+	
+	public Map<String, Object> getFailResult(String msg) {
+		return EasyuiJsonResult.getFailureResult(msg);
+	}
 }
