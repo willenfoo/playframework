@@ -12,7 +12,9 @@ import org.apache.playframework.domain.EasyuiJsonResult;
 import org.apache.playframework.log.Logger;
 import org.apache.playframework.log.LoggerFactory;
 import org.apache.playframework.util.StringUtils;
+import org.apache.playframework.util.ValidatorUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -120,5 +122,26 @@ public class BaseController extends SuperController {
 	
 	public Map<String, Object> getFailResult(String msg) {
 		return EasyuiJsonResult.getFailureResult(msg);
+	}
+	
+	/**
+	 * 验证数据，全部数据
+	 * @param t
+	 * @param br
+	 * @return
+	 */
+	public <T> boolean validate(T t, BindingResult br) {
+		return ValidatorUtils.validateAll(t, br);
+	}
+	
+    /**
+     * 验证数据，propertys指定的属性
+     * @param t
+     * @param propertys
+     * @param br
+     * @return
+     */
+	public <T> boolean validate(T t, String[] propertys, BindingResult br) {
+		return ValidatorUtils.validate(t, propertys, br);
 	}
 }
