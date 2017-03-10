@@ -170,11 +170,11 @@ public  class HttpClientUtils {
 		return responseStr;
 	}
 	
-	public String post(String url, String data, Map<String, String> headers)throws Exception{
+	public static String post(String url, String data, Map<String, String> headers)throws Exception{
 		return post(url, data, CHARSET_UTF8,headers);
 	}
 	
-	public String post(String url, final String data, final String charset, Map<String, String> headers)throws Exception{
+	public static String post(String url, final String data, final String charset, Map<String, String> headers)throws Exception{
 
 		HttpClient httpClient = getDefaultHttpClient(charset);
 		HttpPost httpPost = new HttpPost(url); 

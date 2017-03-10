@@ -10,7 +10,12 @@ import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /** 
  * URL工具 
@@ -237,7 +242,7 @@ public  class HttpNetUtils  {
 		HttpURLConnection connection = null;
 		try {
 			connection = (HttpURLConnection) new URL(url).openConnection();
-			
+			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			connection.setConnectTimeout(CONNECTTIMEOUT);
 			connection.setReadTimeout(READTIMEOUT);
 			
@@ -257,7 +262,54 @@ public  class HttpNetUtils  {
 			}
 			in.close();
 			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			if (connection != null) {
+				connection.disconnect();
+			}
+		}
+	}
+	
+	public static String login(String url, String text) {
+		HttpURLConnection connection = null;
+		try {
+			connection = (HttpURLConnection) new URL(url).openConnection();
+			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			connection.setConnectTimeout(CONNECTTIMEOUT);
+			connection.setReadTimeout(READTIMEOUT);
+			
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setRequestMethod("POST");
 
+			connection.getOutputStream().write(text.getBytes(CHARSET_UTF8));
+			connection.getOutputStream().flush();
+			connection.getOutputStream().close();
+
+			StringBuilder sb = new StringBuilder();
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), CHARSET_UTF8));
+			String line;
+			while ((line = in.readLine()) != null) {
+				sb.append(line);
+			}
+			in.close();
+	        if (StringUtils.isNotEmpty(sb.toString())) {
+	        	JSONObject jo = JSON.parseObject(sb.toString());
+	        	String cookieskey = "Set-Cookie";
+	        	Map<String, List<String>> maps = connection.getHeaderFields();
+	        	List<String> coolist = maps.get(cookieskey);
+	        	Iterator<String> it = coolist.iterator();
+	    		while(it.hasNext()){
+	    			String cookieText = it.next();
+	    			cookieText = cookieText.substring(0, cookieText.indexOf(";"));
+	    			String[] cookieKeyVal = cookieText.split("=");
+	    			jo.put(cookieKeyVal[0], cookieKeyVal[1]);
+	    		}
+	    		return jo.toJSONString(); 
+	        }
+	        return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
