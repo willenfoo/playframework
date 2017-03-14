@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.playframework.util.BeanCopierUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -172,6 +173,21 @@ public class EasyuiJsonResult implements Serializable {
 		return map;
 	}
 	
+	/**
+	 * 返回成功的标识方法
+	 * @return
+	 */
+	public static <T> Map<String, Object> getSuccessResult(Page<?> page,Class<T> resultClass) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(CODE, HTTP_OK); 
+		map.put(MESSAGE, SUCCESS_TEXT);
+		if (page == null) {
+			page = new Page<>();
+		}
+		map.put(TOTAL, page.getTotal());
+		map.put(ROWS, BeanCopierUtils.copyToList(page.getRecords(), resultClass));
+		return map;
+	}
 	
 	
 	/**
