@@ -189,7 +189,7 @@ public class PaginationInterceptor implements Interceptor {
 	private IDialect getiDialect() throws Exception {
 		IDialect dialect = null;
 		if (StringUtils.isNotEmpty(dialectType)) {
-			dialect = DialectFactory.getDialectByDbtype(dialectType);
+		 
 		} else {
 			if (StringUtils.isNotEmpty(dialectClazz)) {
 				try {
@@ -242,7 +242,7 @@ public class PaginationInterceptor implements Interceptor {
 		} catch (Exception e) {
 			// ignored
 		} finally {
-			IOUtils.closeQuietly(pstmt, rs);
+			 
 		}
 		return page;
 	}

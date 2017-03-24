@@ -297,36 +297,16 @@
 			<version>3.3.0</version>
 		</dependency>
 		<!-- 二维码 end -->
- 
+  
 		<!-- mybatis-plus start --> 
-		<dependency> 
+		<dependency>  
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus</artifactId>
-			<version>2.0</version>
+			<version>2.0.4</version> 
 		</dependency>
 		<!-- mybatis-plus end -->
  
-		<!-- dubbo start --> 
-		<dependency> 
-			<groupId>com.alibaba</groupId>
-			<artifactId>dubbo</artifactId>
-			<version>2.5.3</version>
-		</dependency>   
-                       
-		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>3.4.6</version>
-		</dependency>
-
-		<dependency> 
-			<groupId>com.101tec</groupId>
-			<artifactId>zkclient</artifactId>
-			<version>0.4</version>
-		</dependency>
-		<!-- dubbo end -->
-
-		<!-- json start -->
+		<!-- json start -->  
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>

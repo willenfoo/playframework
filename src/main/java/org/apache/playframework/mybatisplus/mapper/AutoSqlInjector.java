@@ -44,7 +44,6 @@ import com.baomidou.mybatisplus.enums.FieldStrategy;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.ISqlInjector;
-import com.baomidou.mybatisplus.toolkit.SqlReservedWords;
 import com.baomidou.mybatisplus.toolkit.TableInfoHelper;
 
 /**
@@ -89,7 +88,7 @@ public class AutoSqlInjector implements ISqlInjector {
 		this.configuration = builderAssistant.getConfiguration();
 		this.builderAssistant = builderAssistant;
 		this.languageDriver = configuration.getDefaultScriptingLanuageInstance();
-		GlobalConfiguration globalCache = GlobalConfiguration.GlobalConfig(configuration);
+		GlobalConfiguration globalCache = null;
 		this.dbType = globalCache.getDbType();
 		/*
 		 * 驼峰设置 PLUS 配置 > 原始配置
@@ -486,7 +485,7 @@ public class AutoSqlInjector implements ISqlInjector {
 	 */
 	protected String sqlWordConvert(String convertStr) {
 		DBType dbType = GlobalConfiguration.getDbType(configuration);
-		return SqlReservedWords.convert(dbType, convertStr);
+		return "";
 	}
 
 	/**
@@ -646,7 +645,7 @@ public class AutoSqlInjector implements ISqlInjector {
 			}
 			//TODO 考虑日期类型忽略
 			// 查询策略，使用全局策略
-			fieldStrategy = GlobalConfiguration.GlobalConfig(configuration).getFieldStrategy();
+			 
 		}
 
 		// 关闭标签
@@ -742,6 +741,12 @@ public class AutoSqlInjector implements ISqlInjector {
 		return builderAssistant.addMappedStatement(id, sqlSource, StatementType.PREPARED, sqlCommandType, null, null, null,
 				parameterClass, resultMap, resultType, null, !isSelect, isSelect, false, keyGenerator, keyProperty, keyColumn,
 				configuration.getDatabaseId(), languageDriver, null);
+	}
+
+	@Override
+	public void injectSqlRunner(Configuration arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

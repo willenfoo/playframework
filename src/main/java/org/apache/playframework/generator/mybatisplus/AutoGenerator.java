@@ -918,42 +918,8 @@ public class AutoGenerator {
 			dbType = DBType.MYSQL;
 		}
 
-		/*
-		 * 公共字段
-		 */
-		if (null != config.getConfigBaseEntity()) {
-			for (String column : config.getConfigBaseEntity().getColumns()) {
-				bw.write(SqlReservedWords.convert(dbType, column));
-				if (column.contains("_")) {
-					bw.write(" AS " + processField(column));
-				}
-				bw.write(", ");
-			}
-		}
-		/**
-		 * 个性字段
-		 */
-		for (int i = 0; i < size; i++) {
-			String column = columns.get(i);
-			IdInfo idInfo = idMap.get(column);
-			if (idInfo != null) {
-				bw.write(SqlReservedWords.convert(dbType, column));
-				if (idInfo.getValue().contains("_")) {
-					bw.write(" AS " + processField(idInfo.getValue()));
-				}
-			} else {
-				if (null == config.getConfigBaseEntity()) {
-					bw.write(" ");
-				}
-				bw.write(SqlReservedWords.convert(dbType, column));
-				if (column.contains("_")) {
-					bw.write(" AS " + processField(column));
-				}
-			}
-			if (i != size - 1) {
-				bw.write(",");
-			}
-		}
+		 
+	 
 		bw.newLine();
 		bw.write("\t</sql>");
 		bw.newLine();
@@ -984,36 +950,8 @@ public class AutoGenerator {
 			dbType = DBType.MYSQL;
 		}
 		
-		/*
-		 * 公共字段
-		 */
-		if (null != config.getConfigBaseEntity()) {
-			for (String column : config.getConfigBaseEntity().getColumns()) {
-				bw.write("\t\t<result column=\"" + SqlReservedWords.convert(dbType, column) + "\" property=\""
-						+ processField(column) + "\" />");
-				bw.newLine();
-			}
-		}
-		/**
-		 * 个性字段
-		 */
-		for (int i = 0; i < size; i++) {
-			String column = columns.get(i);
-			IdInfo idInfo = idMap.get(column);
-			if (idInfo != null) {
-				bw.write("\t\t<id column=\"" + SqlReservedWords.convert(dbType, column) + "\" property=\""
-						+ processField(idInfo.getValue()) + "\" />");
-			} else {
-				if (null == config.getConfigBaseEntity()) {
-					bw.write(" ");
-				}
-				bw.write("\t\t<result column=\"" + SqlReservedWords.convert(dbType, column) + "\" property=\""
-						+ processField(column) + "\" />");
-			}
-			if (i != size - 1) {
-				bw.newLine();
-			}
-		}
+		 
+		 
 		bw.newLine();
 		bw.write("\t</resultMap>");
 		bw.newLine();
