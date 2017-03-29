@@ -8,9 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.playframework.domain.EasyuiJsonResult;
-import org.apache.playframework.log.Logger;
-import org.apache.playframework.log.LoggerFactory;
 import org.apache.playframework.util.StringUtils;
 import org.apache.playframework.util.ValidatorUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -30,7 +30,7 @@ import com.baomidou.mybatisplus.plugins.Page;
  */
 public class BaseController extends SuperController {
 
-	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+	protected Logger logger = LogManager.getLogger(getClass());
 	
 	protected final static String ROWS = "rows"; //返回json数据的或者list数据的key名称
 	

@@ -3,8 +3,6 @@ package org.apache.playframework.service.impl;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.playframework.service.FieldFillService;
 

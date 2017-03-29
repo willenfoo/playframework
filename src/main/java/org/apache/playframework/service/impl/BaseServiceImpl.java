@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.playframework.mybatisplus.mapper.EntityWrapper;
 import org.apache.playframework.service.BaseService;
 import org.apache.playframework.service.FieldFillService;
 import org.apache.playframework.util.ReflectUtils;
@@ -13,19 +14,18 @@ import com.baomidou.mybatisplus.entity.TableInfo;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-
-import org.apache.playframework.log.Logger;
-import org.apache.playframework.log.LoggerFactory;
-import org.apache.playframework.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.baomidou.mybatisplus.toolkit.TableInfoHelper;
 
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
+
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<BaseMapper<T>, T> implements BaseService<T> {
 
-	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+	protected Logger logger = LogManager.getLogger(getClass());
 	
 	private FieldFillService fieldFillService;
 
