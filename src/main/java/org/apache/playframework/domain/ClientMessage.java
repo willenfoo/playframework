@@ -18,10 +18,9 @@ public class ClientMessage {
 	private Object data = CollectionUtils.EMPTY_COLLECTION;
 
 	/**
-	 * 1000 : 访问正常 10001：当前接口弃用需要客户端强制升级 1002：维护中 (提示消息放入errorMsg字段中)
-	 * 1003：当前访问的接口有新版本可使用 1004： jsession失效 1005：接口异常或错误
+	 * 0000 : 访问正常, 10001：当前接口弃用需要客户端强制升级, 1002：维护中  1003：当前访问的接口有新版本可使用 1004： jsession失效,1005：非法请求 ,1006：接口异常或错误
 	 */
-	private Integer code = 1000;
+	private String code = "0000";
 	
 	public String getMsg() {
 		return msg;
@@ -31,11 +30,11 @@ public class ClientMessage {
 		this.msg = msg;
 	}
 
-	public Integer getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(Integer code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
@@ -55,7 +54,7 @@ public class ClientMessage {
 		this.data = data;
 	}
 	
-	public ClientMessage(Integer code, String msg) {
+	public ClientMessage(String code, String msg) {
 		this.msg = msg;
 		this.code = code;
 	}
@@ -81,7 +80,7 @@ public class ClientMessage {
 		return new ClientMessage(1005, msg);
 	}
 
-	public static final ClientMessage failed(Integer code, String msg) {
+	public static final ClientMessage failed(String code, String msg) {
 		return new ClientMessage(code, msg);
 	}
  

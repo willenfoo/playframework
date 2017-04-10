@@ -422,7 +422,6 @@ public class AutoSqlInjector implements ISqlInjector {
 		where.append("\n</if>\n</where>");
 		return where.toString();
 	}
-
 	/**
 	 * <p>
 	 * EntityWrapper方式获取select where
