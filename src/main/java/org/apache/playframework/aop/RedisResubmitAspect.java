@@ -78,7 +78,7 @@ public class RedisResubmitAspect {
 			count = jedis.incr(resubmitTokenKey);
 			// 如果等于1，说明是第一个请求，如果该KEY的数值大于1，说明是1分钟内的多次请求，
 			if (count == 1) {
-				// 设置有效期20秒钟
+				// 设置有效期
 				jedis.expire(resubmitTokenKey, resubmitToken.expiredTime());
 				logger.debug("resubmitTokenKey get lock, key: " + resubmitTokenKey + " , expire in " + resubmitToken.expiredTime() + " seconds.");
 				return joinPoint.proceed();
