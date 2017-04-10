@@ -76,15 +76,17 @@ public class RedisResubmitAspect {
 		logger.debug("resubmitTokenKey lock key: " + resubmitTokenKey);
 		try {
 			count = jedis.incr(resubmitTokenKey);
-			// 如果等于1，说明是第一个请求，如果该KEY的数值大于1，说明是1分钟内的多次请求，
+			// 如果等于1，说明是第一个请求，如果该KEY的数值大于1，说明是第一次请求处理未完成，重复提交的请求，不做处理
 			if (count == 1) {
 				// 设置有效期
 				jedis.expire(resubmitTokenKey, resubmitToken.expiredTime());
 				logger.debug("resubmitTokenKey get lock, key: " + resubmitTokenKey + " , expire in " + resubmitToken.expiredTime() + " seconds.");
 				return joinPoint.proceed();
 			} else {
-				String desc = jedis.get(resubmitTokenKey);  
-				logger.debug("resubmitTokenKey key: " + resubmitTokenKey + " locked by another business：" + desc);
+				if (logger.isDebugEnabled()) {
+					String desc = jedis.get(resubmitTokenKey);  
+					logger.debug("resubmitTokenKey key: " + resubmitTokenKey + " locked by another business：" + desc);
+				}
 				return null;
 			}
 		} finally {
