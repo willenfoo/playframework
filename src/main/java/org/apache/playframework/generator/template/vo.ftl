@@ -1,8 +1,8 @@
-package ${packageConfig.parent}.dto;
+package ${packageConfig.parent}.vo;
 
 import ${packageConfig.parent}.model.${table.entityName};
 
-public class ${table.entityName}Dto extends ${table.entityName} {
+public class ${table.entityName}Vo extends ${table.entityName} {
 
 	/**
 	 * 

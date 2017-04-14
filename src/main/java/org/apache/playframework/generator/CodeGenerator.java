@@ -88,8 +88,8 @@ public class CodeGenerator {
 		});
 		dsc.setDriverName("com.mysql.jdbc.Driver");
 		dsc.setUsername("root");
-		dsc.setPassword("123456");
-		dsc.setUrl("jdbc:mysql://127.0.0.1:3306/center?characterEncoding=utf8");
+		dsc.setPassword("root888");
+		dsc.setUrl("jdbc:mysql://192.168.0.200:3306/hljrbackdb?characterEncoding=utf8");
 		mpg.setDataSource(dsc);
 
 		// 策略配置
@@ -98,7 +98,7 @@ public class CodeGenerator {
 		// strategy.setDbColumnUnderline(true);//全局下划线命名
 		strategy.setTablePrefix(new String[] { "bmd_", "mp_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		strategy.setInclude(new String[] { "param" }); // 需要生成的表
+		strategy.setInclude(new String[] { "demo" }); // 需要生成的表
 		// strategy.setExclude(new String[]{"test"}); // 排除生成的表
 		// 自定义实体父类
 		// strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -122,8 +122,8 @@ public class CodeGenerator {
 
 		// 包配置
 		final PackageConfig pc = new PackageConfig();
-		pc.setModuleName("center");
-		pc.setParent("org.apache");// 自定义包路径
+		pc.setModuleName("tourism");
+		pc.setParent("com.huanlvjinfu");// 自定义包路径
 		pc.setFunctionModuleName("systemmanage");
 		pc.setController("controller/"+pc.getFunctionModuleName());// 这里是控制器包名，默认 web
 		pc.setMapper("dao");
@@ -184,7 +184,7 @@ public class CodeGenerator {
 				String voText = viewEngine.parse("vo.ftl", params);
 				String voAddress = gc.getOutputDir() + "/" +
 						pc.getParent().replaceAll("\\.", "/") + "/vo/" +
-						"/" + tableInfo.getEntityName() + "Dto.java";
+						"/" + tableInfo.getEntityName() + "Vo.java";
 				try {
 					FileUtils.write(new File(voAddress), voText);
 				} catch (IOException e) {

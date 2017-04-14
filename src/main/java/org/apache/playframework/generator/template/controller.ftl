@@ -1,13 +1,14 @@
 <#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${table.entityName}')!}"/>
 package ${packageConfig.parent}.web.${StringUtils.replacePattern('${packageConfig.controller}', '/', '.')!};
 
-import ${packageConfig.parent}.dto.${table.entityName}Dto;
+import ${packageConfig.parent}.vo.${table.entityName}Vo;
 import ${packageConfig.parent}.model.${table.entityName};
 import ${packageConfig.parent}.service.${table.entityName}Service;
 
 import org.apache.playframework.domain.EasyuiClientMessage;
-import org.apache.playframework.mybatisplus.mapper.EntityWrapper;
 import org.apache.playframework.web.controller.BaseController;
+import org.apache.playframework.mybatisplus.mapper.EntityWrapperBind;
+import org.apache.playframework.mybatisplus.plugins.PageId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baomidou.kisso.annotation.Permission;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 
 /**
@@ -55,7 +57,7 @@ public class ${table.entityName}Controller extends BaseController {
 	@GetMapping("add")
 	@Permission("${modelNameVariable}_add")
 	public String add(ModelMap modelMap) {
-		modelMap.put("${modelNameVariable}", new ${table.entityName}Dto());
+		modelMap.put("${modelNameVariable}", new ${table.entityName}Vo());
 		return VIEWS_PATH + "edit";
 	}
 
@@ -68,8 +70,8 @@ public class ${table.entityName}Controller extends BaseController {
 	@GetMapping("{id}/update")
 	@Permission("${modelNameVariable}_update")
 	public String update(@PathVariable(value = "id") Long id, ModelMap modelMap) {
-		${table.entityName}Dto ${modelNameVariable}Dto = (${table.entityName}Dto)${modelNameVariable}Service.selectById(id);
-		modelMap.put("${modelNameVariable}", ${modelNameVariable}Dto);
+		${table.entityName}Vo ${modelNameVariable}Vo = (${table.entityName}Vo)${modelNameVariable}Service.selectById(id);
+		modelMap.put("${modelNameVariable}", ${modelNameVariable}Vo);
 		return VIEWS_PATH + "edit";
 	}
 
@@ -82,10 +84,10 @@ public class ${table.entityName}Controller extends BaseController {
 	@GetMapping
 	@ResponseBody
 	@Permission("${modelNameVariable}_find")
-	public Object find(${table.entityName}Dto ${modelNameVariable}Dto) {
-		EntityWrapper<${table.entityName}> wrapper = new EntityWrapper<${table.entityName}>(${modelNameVariable}Dto);
-		Page<${table.entityName}> page = getEasyuiPage();
-		return EasyuiClientMessage.success(${modelNameVariable}Service.selectPage(page, wrapper), ${table.entityName}Dto.class);
+	public Object find(${table.entityName}Vo ${modelNameVariable}Vo) {
+		PageId<${table.entityName}> pageId = getEasyuiPageId();
+        EntityWrapper<${table.entityName}> wrapper = EntityWrapperBind.bind(${table.entityName}.class, ${modelNameVariable}Vo, pageId);
+		return EasyuiClientMessage.success(${modelNameVariable}Service.selectPage(pageId, wrapper), ${table.entityName}Vo.class);
 	}
 
 	/**
@@ -97,10 +99,10 @@ public class ${table.entityName}Controller extends BaseController {
 	@PostMapping
 	@ResponseBody
 	@Permission("${modelNameVariable}_add")
-	public Object add(${table.entityName} ${modelNameVariable}Dto, BindingResult br) {
+	public Object add(${table.entityName} ${modelNameVariable}Vo, BindingResult br) {
 		// 数据验证
-		if (validate(${modelNameVariable}Dto, br)) {
-			return getResult(${modelNameVariable}Service.insert(${modelNameVariable}Dto));
+		if (validate(${modelNameVariable}Vo, br)) {
+			return getResult(${modelNameVariable}Service.insert(${modelNameVariable}Vo));
 		} else {
 			return getFailResult(br.getFieldError().getDefaultMessage());
 		}
@@ -115,10 +117,10 @@ public class ${table.entityName}Controller extends BaseController {
 	@PutMapping("{id}")
 	@ResponseBody
 	@Permission("${modelNameVariable}_update")
-	public Object update(@PathVariable(value = "id") Long id, ${table.entityName}Dto ${modelNameVariable}Dto, BindingResult br) {
+	public Object update(@PathVariable(value = "id") Long id, ${table.entityName}Vo ${modelNameVariable}Vo, BindingResult br) {
 		// 数据验证
-		if (validate(${modelNameVariable}Dto, br)) {
-			return getResult(${modelNameVariable}Service.updateById(${modelNameVariable}Dto));
+		if (validate(${modelNameVariable}Vo, br)) {
+			return getResult(${modelNameVariable}Service.updateById(${modelNameVariable}Vo));
 		} else {
 			return getFailResult(br.getFieldError().getDefaultMessage());
 		}
@@ -134,10 +136,10 @@ public class ${table.entityName}Controller extends BaseController {
 	@ResponseBody
 	@Permission("${modelNameVariable}_delete")
 	public Object delete(@PathVariable(value = "id") Long id) {
-		${table.entityName}Dto ${modelNameVariable}Dto = new ${table.entityName}Dto();
-		${modelNameVariable}Dto.setId(id);
-		${modelNameVariable}Dto.setDeleteFlag("Y");
-		return getResult(${modelNameVariable}Service.updateById(${modelNameVariable}Dto));
+		${table.entityName}Vo ${modelNameVariable}Vo = new ${table.entityName}Vo();
+		${modelNameVariable}Vo.setId(id);
+		${modelNameVariable}Vo.setDeleteFlag("Y");
+		return getResult(${modelNameVariable}Service.updateById(${modelNameVariable}Vo));
 	}
 
 }

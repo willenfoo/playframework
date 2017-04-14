@@ -27,11 +27,12 @@ import java.lang.annotation.Target;
  * </p>
  * 
  * @author fuwei
- * @Date 2016-04-09
+ * @Date 2017-04-09
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
+
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface ResubmitToken {
 
 	/**
