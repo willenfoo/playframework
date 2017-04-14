@@ -64,9 +64,9 @@ public class RedisResubmitAspect {
 	 */
 	@Around("@annotation(resubmitToken)")
 	public Object execute(ProceedingJoinPoint joinPoint, ResubmitToken resubmitToken) throws Throwable {
-		String lockRequestParam = request.getParameter(resubmitToken.lockRequestParam());
+		String lockRequestParam = request.getParameter(resubmitToken.value());
 		if (StringUtils.isBlank(lockRequestParam)) {
-			logger.debug("防止重复提交,锁定请求参数【{}】为空", resubmitToken.lockRequestParam());
+			logger.debug("防止重复提交,锁定请求参数【{}】为空", resubmitToken.value());
 			return new ClientMessage("1005", "非法请求");
 		}
 		String methodFullName = joinPoint.getTarget().getClass().getName()+"."+joinPoint.getSignature().getName();

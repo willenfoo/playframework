@@ -1,137 +1,143 @@
-package ${package};
+<#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${table.entityName}')!}"/>
+package ${packageConfig.parent}.web.${StringUtils.replacePattern('${packageConfig.controller}', '/', '.')!};
 
-<#if !dubboRegistryId??>
-import javax.annotation.Resource;
-</#if>
+import ${packageConfig.parent}.dto.${table.entityName}Dto;
+import ${packageConfig.parent}.model.${table.entityName};
+import ${packageConfig.parent}.service.${table.entityName}Service;
 
+import org.apache.playframework.domain.EasyuiClientMessage;
+import org.apache.playframework.mybatisplus.mapper.EntityWrapper;
+import org.apache.playframework.web.controller.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.apache.playframework.web.controller.BaseController;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
+
 import com.baomidou.kisso.annotation.Permission;
-
-<#assign  modelName="${beanName}"/>
-<#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${beanName}')!}"/>
-<#assign  serviceNameVariable="${StringUtils.lowerCaseFirst('${serviceName}')!}"/>
-
-import ${modelPackage}.${beanName};
-import ${servicePackage}.${serviceName};
-
-<#if dubboRegistryId??>
-import com.alibaba.dubbo.config.annotation.Reference;
-</#if>
-	
-import org.apache.playframework.domain.EasyuiJsonResult;
-
+import com.baomidou.mybatisplus.plugins.Page;
 
 /**
  * @author willenfoo
  */
 @Controller
-@RequestMapping("${modelNameVariable}/")
-public class ${modelName}Controller extends BaseController {
-	
-	private static String VIEWS_PATH = "${modelNameVariable}/";
-	
-	<#if !dubboRegistryId??>
-	@Resource
-	private ${serviceName} ${serviceNameVariable}; //服务层
-	</#if>  
-	<#if dubboRegistryId??>
-	@Reference(registry="${dubboRegistryId}")
-	private ${serviceName} ${serviceNameVariable}; //服务层
-	</#if> 
+@RequestMapping("${modelNameVariable}s/")
+public class ${table.entityName}Controller extends BaseController {
 
-    /**
+	private static String VIEWS_PATH = "${packageConfig.functionModuleName}/${modelNameVariable}/";
+
+	@Autowired
+	private ${table.entityName}Service ${modelNameVariable}Service; // 服务层
+
+	/**
 	 * 跳转到查询页面
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value="toFind")
+	@GetMapping("list")
 	@Permission("${modelNameVariable}")
-	public String toFind() {
-		return VIEWS_PATH+"find";
+	public String list() {
+		return VIEWS_PATH + "list";
 	}
-	
+
 	/**
-	 *  查询数据
+	 * 跳转到新增页面
+	 * 
+	 * @param modelMap
+	 * @return
+	 */
+	@GetMapping("add")
+	@Permission("${modelNameVariable}_add")
+	public String add(ModelMap modelMap) {
+		modelMap.put("${modelNameVariable}", new ${table.entityName}Dto());
+		return VIEWS_PATH + "edit";
+	}
+
+	/**
+	 * 跳转到更新页面
+	 * 
+	 * @param modelMap
+	 * @return
+	 */
+	@GetMapping("{id}/update")
+	@Permission("${modelNameVariable}_update")
+	public String update(@PathVariable(value = "id") Long id, ModelMap modelMap) {
+		${table.entityName}Dto ${modelNameVariable}Dto = (${table.entityName}Dto)${modelNameVariable}Service.selectById(id);
+		modelMap.put("${modelNameVariable}", ${modelNameVariable}Dto);
+		return VIEWS_PATH + "edit";
+	}
+
+	/**
+	 * 查询数据
+	 * 
 	 * @param role
 	 * @return
 	 */
-	@RequestMapping(value = "find")
+	@GetMapping
 	@ResponseBody
 	@Permission("${modelNameVariable}_find")
-	public Object find(${modelName} ${modelNameVariable}) {
-		EntityWrapper<${modelName}> wrapper = new EntityWrapper<${modelName}>(${modelNameVariable});
-		Page<${modelName}> page = getEasyuiPage();
-		return EasyuiJsonResult.getSuccessResult(${serviceNameVariable}.selectPage(page , wrapper));
+	public Object find(${table.entityName}Dto ${modelNameVariable}Dto) {
+		EntityWrapper<${table.entityName}> wrapper = new EntityWrapper<${table.entityName}>(${modelNameVariable}Dto);
+		Page<${table.entityName}> page = getEasyuiPage();
+		return EasyuiClientMessage.success(${modelNameVariable}Service.selectPage(page, wrapper), ${table.entityName}Dto.class);
 	}
 
-    /**
-     * 跳转到新增页面
-     * @param modelMap
-     * @return
-     */
-	@RequestMapping(value="toAdd")
-	@Permission("${modelNameVariable}_add")
-	public String toAdd(ModelMap modelMap) {
-	    modelMap.put("${modelNameVariable}", new ${modelName}());
-		return VIEWS_PATH+"edit";
-	}
-	
-	/**
-     * 跳转到更新页面
-     * @param modelMap
-     * @return
-     */
-	@RequestMapping(value="toUpdate")
-	@Permission("${modelNameVariable}_update")
-	public String toUpdate(@RequestParam Long id,ModelMap modelMap) {
-	    ${modelName} ${modelNameVariable} = ${serviceNameVariable}.selectById(id);
-	    modelMap.put("${modelNameVariable}", ${modelNameVariable});
-		return VIEWS_PATH+"edit";
-	}
-	
 	/**
 	 * 添加
-	 * @param user
+	 * 
+	 * @param ${modelNameVariable}
 	 * @return
 	 */
-	@RequestMapping(value = "add")
+	@PostMapping
 	@ResponseBody
 	@Permission("${modelNameVariable}_add")
-	public Object add(${modelName} ${modelNameVariable}) {
-		return getResult(${serviceNameVariable}.insert(${modelNameVariable}));
+	public Object add(${table.entityName} ${modelNameVariable}Dto, BindingResult br) {
+		// 数据验证
+		if (validate(${modelNameVariable}Dto, br)) {
+			return getResult(${modelNameVariable}Service.insert(${modelNameVariable}Dto));
+		} else {
+			return getFailResult(br.getFieldError().getDefaultMessage());
+		}
 	}
-	
+
 	/**
 	 * 更新
-	 * @param user
+	 * 
+	 * @param ${modelNameVariable}
 	 * @return
 	 */
-	@RequestMapping(value = "update")
+	@PutMapping("{id}")
 	@ResponseBody
 	@Permission("${modelNameVariable}_update")
-	public Object update(${modelName} ${modelNameVariable}) {
-		return getResult(${serviceNameVariable}.updateById(${modelNameVariable}));
+	public Object update(@PathVariable(value = "id") Long id, ${table.entityName}Dto ${modelNameVariable}Dto, BindingResult br) {
+		// 数据验证
+		if (validate(${modelNameVariable}Dto, br)) {
+			return getResult(${modelNameVariable}Service.updateById(${modelNameVariable}Dto));
+		} else {
+			return getFailResult(br.getFieldError().getDefaultMessage());
+		}
 	}
-	
+
 	/**
 	 * 删除
+	 * 
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="delete")
+	@DeleteMapping("{id}")
 	@ResponseBody
 	@Permission("${modelNameVariable}_delete")
-	public Object delete(@RequestParam("id") Long id) {
-	    ${modelName} ${modelNameVariable} = new ${modelName}();
-	    ${modelNameVariable}.setId(id);
-	    ${modelNameVariable}.setIsDelete("Y");
-		return getResult(${serviceNameVariable}.updateById(${modelNameVariable}));
-	} 
-	 
+	public Object delete(@PathVariable(value = "id") Long id) {
+		${table.entityName}Dto ${modelNameVariable}Dto = new ${table.entityName}Dto();
+		${modelNameVariable}Dto.setId(id);
+		${modelNameVariable}Dto.setDeleteFlag("Y");
+		return getResult(${modelNameVariable}Service.updateById(${modelNameVariable}Dto));
+	}
+
 }

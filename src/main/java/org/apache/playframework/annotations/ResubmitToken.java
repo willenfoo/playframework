@@ -38,7 +38,7 @@ public @interface ResubmitToken {
 	 * 锁一个【请求参数】,默认读取request中userId的值，如果在request得到的值为空，会抛出异常，比如下单接口，为了防止重复下单，以【用户id】为lockAttribute（锁定的属性）
 	 * @return
 	 */
-	String lockRequestParam() default "userId";
+	String value() default "userId";
 	
 	/**
 	 * 键的过期时间,单位为秒,有效期默认为20秒

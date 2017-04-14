@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/WEB-INF/views/common/taglibs.jsp" %> <#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${beanName}')!}"/>
+<%@include file="/WEB-INF/views/common/taglibs.jsp" %> <#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${table.entityName}')!}"/>
 <%
 request.setAttribute("namespace", "${modelNameVariable}");
 %>
@@ -51,11 +51,11 @@ request.setAttribute("namespace", "${modelNameVariable}");
 	     singleSelect="true" rownumbers="true" pagination="true" toolbar="#toolbar">
 		<thead>
 			<tr>
-			    <#list columns as column>
-			    <#if column.className == "Date">
-			    <th data-options="field:'${column.propertyName}',fit:true" formatter=dateFormatByEasyui>${column.remarks}</th>
+			    <#list table.fields as column>
+			    <#if column.columnType.type == "Date">
+			    <th data-options="field:'${column.propertyName}',fit:true" formatter=dateFormatByEasyui>${column.comment}</th>
 			    <#else>
-			    <th data-options="field:'${column.propertyName}',fit:true">${column.remarks}</th>
+			    <th data-options="field:'${column.propertyName}',fit:true">${column.comment}</th>
 			    </#if>
 				</#list>
 				<th data-options="field:'action',fit:true" formatter="formatterAction">操作</th>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/WEB-INF/views/common/taglibs.jsp" %><#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${beanName}')!}"/>
+<%@include file="/WEB-INF/views/common/taglibs.jsp" %><#assign  modelNameVariable="${StringUtils.lowerCaseFirst('${table.entityName}')!}"/>
 <div style="padding: 10px 0 10px 0px">  
 
     <%-- 设置 form 的action 地址，id为空，为添加的地址，否则为修改的地址 --%>
@@ -10,24 +10,24 @@
 	<form:form id="form" method="post" action="${r'${action }'}" modelAttribute="${modelNameVariable }" style="display: inline;" class="tab">
 	    <form:hidden path="id"/>
 		<table>
-		<#list columns as column>
-        <#if column.className == "String">
+		<#list table.fields as column>
+        <#if column.columnType.type == "String">
 		   <tr>
-				<td class="bule" align="right" width="35%"><span class="requiredField">*</span>${column.remarks}:</td>
+				<td class="bule" align="right" width="35%"><span class="requiredField">*</span>${column.comment}:</td>
 				<td align="left">
 				   <form:input path="${column.propertyName}" class="easyui-validatebox"  data-options="required:true,validType:['length[0,20]']"/>
 				</td>
 			</tr>
-        <#elseif column.className == "Integer">
+        <#elseif column.columnType.type == "Integer">
             <tr>
-				<td class="bule" align="right" width="35%">${column.remarks}:</td>
+				<td class="bule" align="right" width="35%">${column.comment}:</td>
 				<td align="left">
 				  <form:input path="${column.propertyName}" class="easyui-numberbox"  max="10000"   data-options="required:false"/> 
 				</td>
 			</tr>
-        <#elseif column.className == "Long">
+        <#elseif column.columnType.type == "Long">
             <tr>
-				<td class="bule" align="right" width="35%">${column.remarks}:</td>
+				<td class="bule" align="right" width="35%">${column.comment}:</td>
 				<td align="left">
 				  <form:input path="${column.propertyName}" class="easyui-numberbox"  max="10000"   data-options="required:false"/> 
 				</td>
