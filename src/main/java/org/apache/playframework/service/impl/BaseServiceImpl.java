@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.playframework.mybatisplus.mapper.EntityWrapper;
+import org.apache.playframework.mybatisplus.mapper.EntityWrapperBind;
 import org.apache.playframework.service.BaseService;
 import org.apache.playframework.service.FieldFillService;
 import org.apache.playframework.util.ReflectUtils;
@@ -141,7 +141,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 
 	@Override
 	public T selectOne(T entity) {
-		return selectOne(new EntityWrapper<T>(entity));
+		return selectOne(new EntityWrapperBind<T>(entity));
 	}
 
 }
