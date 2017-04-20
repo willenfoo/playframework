@@ -16,7 +16,8 @@ public class EntityWrapperBind {
 	@SuppressWarnings("unchecked")
 	public static <T> EntityWrapper<T> bind(Class<T> entity, Object entityVo, PageId<T> pageId) {
 		EntityWrapper<T> ew = new EntityWrapper<T>((T)entityVo);
-		if (pageId.getIndexId() != null) {
+		ew.isWhere(false);
+		if (pageId != null && pageId.getIndexId() != null) {
         	if (pageId.getOffset() >= 0) {
             	ew.gt("id", pageId.getIndexId());
             } else {
@@ -26,4 +27,11 @@ public class EntityWrapperBind {
 		return ew;
 	}
 	
+	public static <T> EntityWrapper<T> bind(Class<T> entity) {
+		return bind(entity, null, null);
+	}
+	
+	public static <T> EntityWrapper<T> bind(Class<T> entity, Object entityVo) {
+		return bind(entity, entityVo, null);
+	}
 }
