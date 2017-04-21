@@ -20,9 +20,9 @@ public class ClientMessage {
 	/**
 	 * 0000 : 访问正常, 1001：当前接口弃用需要客户端强制升级, 1002：维护中  1003：当前访问的接口有新版本可使用 1004： jsession失效,1005：非法请求 ,1006：接口异常或错误
 	 */
-	private String code = SUCCESS_CODE;
+	private String state = SUCCESS_CODE;
 	
-	private static String SUCCESS_CODE = "0000";
+	private static String SUCCESS_CODE = "S";
 	
 	public String getMsg() {
 		return msg;
@@ -32,12 +32,12 @@ public class ClientMessage {
 		this.msg = msg;
 	}
 
-	public String getCode() {
-		return code;
+	public String getState() {
+		return state;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public Object getData() {
@@ -58,7 +58,7 @@ public class ClientMessage {
 	
 	public ClientMessage(String code, String msg) {
 		this.msg = msg;
-		this.code = code;
+		this.state = code;
 	}
 
 	public ClientMessage(Object data, String msg) {
