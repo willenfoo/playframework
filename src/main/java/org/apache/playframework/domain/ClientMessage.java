@@ -20,7 +20,9 @@ public class ClientMessage {
 	/**
 	 * 0000 : 访问正常, 10001：当前接口弃用需要客户端强制升级, 1002：维护中  1003：当前访问的接口有新版本可使用 1004： jsession失效,1005：非法请求 ,1006：接口异常或错误
 	 */
-	private String code = "0000";
+	private String code = SUCCESS_CODE;
+	
+	private static String SUCCESS_CODE = "0000";
 	
 	public String getMsg() {
 		return msg;
@@ -68,6 +70,10 @@ public class ClientMessage {
 		return new ClientMessage();
 	}
 
+	public static final ClientMessage success(String msg) {
+		return new ClientMessage();
+	}
+	
 	public static final ClientMessage success(Object data) {
 		return new ClientMessage(data);
 	}
