@@ -36,6 +36,13 @@ public class BaseController extends SuperController {
 	protected final static String ROWS = "rows"; //返回json数据的或者list数据的key名称
 	
 	/**
+	 * 用户ID
+	 */
+	protected String getUserId() {
+		return String.valueOf(getSSOToken().getId());
+	}
+	
+	/**
 	 * 得到HttpServletRequest对象
 	 * 
 	 * @return
