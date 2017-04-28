@@ -39,7 +39,7 @@ public class BaseController extends SuperController {
 	 * 用户ID
 	 */
 	protected String getUserId() {
-		return String.valueOf(getSSOToken().getId());
+		return getSSOToken().getUid();
 	}
 	
 	/**

@@ -32,7 +32,7 @@ public class BeanCopierUtils {
 	 * @Description: TODO(bean属性转换)
 	 * @param source
 	 *            资源类
-	 * @param target
+	 * @param targetapplication-dev.properties
 	 *            目标类
 	 * @author yushaojian
 	 * @date 2015年11月25日下午4:56:44

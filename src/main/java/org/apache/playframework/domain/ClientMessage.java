@@ -1,6 +1,6 @@
 package org.apache.playframework.domain;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.playframework.util.JacksonUtils;
 
 /**
@@ -15,14 +15,14 @@ public class ClientMessage {
 	private String msg = "操作成功";
 	 
 	// 对象信息
-	private Object data = CollectionUtils.EMPTY_COLLECTION;
+	private Object data = MapUtils.EMPTY_MAP;
 
 	/**
-	 * 0000 : 访问正常, 1001：当前接口弃用需要客户端强制升级, 1002：维护中  1003：当前访问的接口有新版本可使用 1004： jsession失效,1005：非法请求 ,1006：接口异常或错误
+	 * 0000 : 访问正常, 1000：用户未登录  , 1001： sessionId过期, 1002：IP地址发生变化 ,  1003：当前接口弃用需要客户端强制升级, 1004：维护中  ,1005：非法请求 ,1006：接口异常或错误
 	 */
-	private String state = SUCCESS_CODE;
+	private String code = SUCCESS_CODE;
 	
-	private static String SUCCESS_CODE = "S";
+	private static String SUCCESS_CODE = "0000";
 	
 	public String getMsg() {
 		return msg;
@@ -32,12 +32,12 @@ public class ClientMessage {
 		this.msg = msg;
 	}
 
-	public String getState() {
-		return state;
+	public String getCode() {
+		return code;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Object getData() {
@@ -58,7 +58,7 @@ public class ClientMessage {
 	
 	public ClientMessage(String code, String msg) {
 		this.msg = msg;
-		this.state = code;
+		this.code = code;
 	}
 
 	public ClientMessage(Object data, String msg) {
