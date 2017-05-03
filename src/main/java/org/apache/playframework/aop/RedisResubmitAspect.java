@@ -67,7 +67,7 @@ public class RedisResubmitAspect {
 		String lockRequestParam = request.getParameter(resubmitToken.value());
 		if (StringUtils.isBlank(lockRequestParam)) {
 			logger.debug("防止重复提交,锁定请求参数【{}】为空", resubmitToken.value());
-			return new ClientMessage("1005", "非法请求");
+			return ClientMessage.failed("1005", "非法请求");
 		}
 		String methodFullName = joinPoint.getTarget().getClass().getName()+"."+joinPoint.getSignature().getName();
 		String resubmitTokenKey = RESUBMIT_TOKEN + Md5Utils.getMD5(methodFullName) + "_" + lockRequestParam;

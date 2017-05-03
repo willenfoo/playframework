@@ -1,5 +1,9 @@
 package org.apache.playframework.domain;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.MapUtils;
 import org.apache.playframework.util.JacksonUtils;
 
@@ -48,20 +52,20 @@ public class ClientMessage {
 		this.data = data;
 	}
 
-	public ClientMessage() {
+	private ClientMessage() {
 		
 	}
 	
-	public ClientMessage(Object data) {
+	private ClientMessage(Object data) {
 		this.data = data;
 	}
 	
-	public ClientMessage(String code, String msg) {
+	private ClientMessage(String code, String msg) {
 		this.msg = msg;
 		this.code = code;
 	}
 
-	public ClientMessage(Object data, String msg) {
+	private ClientMessage(Object data, String msg) {
 		this.msg = msg;
 		this.data = data;
 	}
@@ -75,6 +79,11 @@ public class ClientMessage {
 	}
 	
 	public static final ClientMessage success(Object data) {
+		if (data instanceof List) {
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap.put("list", data);
+			return new ClientMessage(resultMap);
+		}
 		return new ClientMessage(data);
 	}
 
