@@ -109,7 +109,7 @@ public class EasyuiClientMessage {
 		return new EasyuiClientMessage(page.getTotal(), page.getRecords());
 	}
 	
-	public static final <T> EasyuiClientMessage success(Page<?> page,Class<T> resultClass) {
+	public static final <T> EasyuiClientMessage success(Page<?> page, Class<T> resultClass) {
 		return new EasyuiClientMessage(page.getTotal(), BeanCopierUtils.copyToList(page.getRecords(), resultClass));
 	}
 	
