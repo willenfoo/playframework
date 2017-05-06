@@ -80,30 +80,6 @@ public class BaseController extends SuperController {
 		return new Page<T>(offset, pageSize);
 	}
 	
-	/**
-	 * <p>
-	 * 获取 easyui 分页对象
-	 * </p>
-	 * @param size 每页显示数量
-	 * @return
-	 */
-	protected <T> PageId<T> getEasyuiPageId() {
-		int pageSize = 10, offset = 1;
-		if (request.getParameter("rows") != null) {
-			pageSize = Integer.parseInt(request.getParameter("rows"));
-			if (pageSize > 100) {
-				pageSize = 10;
-			}
-		}
-		String indexIdStr = request.getParameter("indexId");
-		Long indexId = null;
-		if (StringUtils.isNotBlank(indexIdStr)) {
-			indexId = Long.parseLong(indexIdStr);
-		}
-		return new PageId<T>(offset, pageSize, indexId);
-	}
-	
-
 	@InitBinder
 	protected void initBinder(ServletRequestDataBinder binder) throws Exception {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

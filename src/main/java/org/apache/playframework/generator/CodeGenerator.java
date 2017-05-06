@@ -87,9 +87,9 @@ public class CodeGenerator {
 			}
 		});
 		dsc.setDriverName("com.mysql.jdbc.Driver");
-		dsc.setUsername("root");
-		dsc.setPassword("root888");
-		dsc.setUrl("jdbc:mysql://192.168.0.200:3306/hljrbackdb?characterEncoding=utf8");
+		dsc.setUsername("devhlapp");
+		dsc.setPassword("ab7a2YZfsihSmRjK");
+		dsc.setUrl("jdbc:mysql://106.14.29.74:3306/devhlapp_0426?characterEncoding=utf8");
 		mpg.setDataSource(dsc);
 
 		// 策略配置
@@ -98,7 +98,7 @@ public class CodeGenerator {
 		// strategy.setDbColumnUnderline(true);//全局下划线命名
 		strategy.setTablePrefix(new String[] { "bmd_", "mp_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		strategy.setInclude(new String[] { "user" }); // 需要生成的表
+		strategy.setInclude(new String[] { "promotion_channels" }); // 需要生成的表
 		// strategy.setExclude(new String[]{"test"}); // 排除生成的表
 		// 自定义实体父类
 		// strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -124,7 +124,7 @@ public class CodeGenerator {
 		final PackageConfig pc = new PackageConfig();
 		pc.setModuleName("tourism");
 		pc.setParent("com.huanlvjinfu");// 自定义包路径
-		pc.setFunctionModuleName("systemmanage");
+		pc.setFunctionModuleName("financecheck");
 		pc.setController("controller/"+pc.getFunctionModuleName());// 这里是控制器包名，默认 web
 		pc.setMapper("dao");
 		pc.setXml("dao/mapper");

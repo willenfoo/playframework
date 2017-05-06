@@ -18,6 +18,37 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	private static final int[] dayArray = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	/**
+	 * 凌晨
+	 * 
+	 * @param date
+	 * @flag 0 返回yyyy-MM-dd 00:00:00日期<br>
+	 *       1 返回yyyy-MM-dd 23:59:59日期
+	 * @return
+	 */
+	public static Date formatDate(Date date, int mode) {
+		if (date == null) {
+			return null;
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		int second = cal.get(Calendar.SECOND);
+		// 时分秒（毫秒数）
+		long millisecond = hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000;
+		// 凌晨00:00:00
+		cal.setTimeInMillis(cal.getTimeInMillis() - millisecond);
+
+		if (mode == 0) {
+			return cal.getTime();
+		} else if (mode == 1) {
+			// 凌晨23:59:59
+			cal.setTimeInMillis(cal.getTimeInMillis() + 23 * 60 * 60 * 1000 + 59 * 60 * 1000 + 59 * 1000);
+		}
+		return cal.getTime();
+	}
+    
+	/**
 	 * 得到当前时期是星期几，1是星期天，2是星期一，3是星期二，4是星期三，5是星期四，6是星期五，7是星期六
 	 * 
 	 * @param date
