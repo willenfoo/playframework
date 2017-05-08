@@ -37,20 +37,19 @@ public class RedisResubmitAspect {
 	@Autowired
 	private ShardedJedisPool shardedJedisPool;
 	 
-	@Autowired
+	@Autowired 
 	private HttpServletRequest request; 
 	
 	public ShardedJedis getShardedJedis() {
 		ShardedJedis shardJedis = null;
 		try {
 			shardJedis = shardedJedisPool.getResource();
-			return shardJedis;
 		} catch (Exception e) {
 			if (shardJedis != null) {
 				shardJedis.close();
 			}
 		}
-		return null;
+		return shardJedis;
 	}
 
 

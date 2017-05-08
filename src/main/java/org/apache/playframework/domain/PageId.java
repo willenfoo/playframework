@@ -27,6 +27,10 @@ public class PageId implements Serializable {
 		
 	}
 	
+	public PageId(Integer limit) {
+        this.limit = limit;
+    }
+	
 	public PageId(Long indexId, Integer indexOffset, Integer limit) {
         this.indexId = indexId;
         this.indexOffset = indexOffset;
