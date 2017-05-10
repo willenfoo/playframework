@@ -38,8 +38,8 @@ public class BaseAdminController extends SuperController {
 	/**
 	 * 用户ID
 	 */
-	protected String getUserId() {
-		return getSSOToken().getUid();
+	protected Long getUserId() {
+		return 1000L;
 	}
 	
 	/**

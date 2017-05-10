@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.playframework.mybatisplus.mapper.EntityWrapperBind;
 import org.apache.playframework.service.BaseService;
 import org.apache.playframework.service.FieldFillService;
 import org.apache.playframework.util.ReflectUtils;
-import org.apache.playframework.util.SpringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baomidou.mybatisplus.entity.TableInfo;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -28,29 +27,32 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 
 	protected Logger logger = LogManager.getLogger(getClass());
 	
+	@Autowired(required = false)
 	private FieldFillService fieldFillService;
 
-	private Map<String, Object> insertData;
-
-	private Map<String, Object> updateData;
-
-	public BaseServiceImpl() {
-		if (SpringUtils.getBeanFactory() != null && SpringUtils.containsBean("fieldFillService")) {
-			fieldFillService = (FieldFillService) SpringUtils.getBean("fieldFillService");
-		} else {
+	public Map<String, Object> loadInsertData() {
+		if (fieldFillService == null) {
 			fieldFillService = new FieldFillServiceDefaultImpl();
 		}
-		insertData = fieldFillService.getInsertData();
-		updateData = fieldFillService.getUpdateData();
+		return fieldFillService.getInsertData();
+	}
+	
+	public Map<String, Object> loadUpdateData() {
+		if (fieldFillService == null) {
+			fieldFillService = new FieldFillServiceDefaultImpl();
+		}
+		return fieldFillService.getUpdateData();
 	}
 	
 	private void setInsertData(T entity) {
+		Map<String, Object> insertData = loadInsertData();
 		for (Map.Entry<String, Object> entry : insertData.entrySet()) {
 			ReflectUtils.setProperty(entity, entry.getKey(), entry.getValue());
 		}
 	}
 
 	private void setInsertData(List<T> list) {
+		Map<String, Object> insertData = loadInsertData();
 		for (T t : list) {
 			for (Map.Entry<String, Object> entry : insertData.entrySet()) {
 				ReflectUtils.setProperty(t, entry.getKey(), entry.getValue());
@@ -59,12 +61,14 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 	}
 
 	private void setUpdateData(T entity) {
+		Map<String, Object> updateData = loadUpdateData();
 		for (Map.Entry<String, Object> entry : updateData.entrySet()) {
 			ReflectUtils.setProperty(entity, entry.getKey(), entry.getValue());
 		}
 	}
 
 	private void setUpdateData(List<T> list) {
+		Map<String, Object> updateData = loadUpdateData();
 		for (T t : list) {
 			for (Map.Entry<String, Object> entry : updateData.entrySet()) {
 				ReflectUtils.setProperty(t, entry.getKey(), entry.getValue());

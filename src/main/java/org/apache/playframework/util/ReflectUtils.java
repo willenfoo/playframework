@@ -16,7 +16,12 @@ public class ReflectUtils {
 			 if (!PropertyUtils.isWriteable(bean, name)) {
 				 return ;
 			 }
-			 Field field = bean.getClass().getDeclaredField(name);
+			Field field = null;
+			try {
+				field = bean.getClass().getDeclaredField(name);
+			} catch (Exception e) {
+				field = bean.getClass().getSuperclass().getDeclaredField(name);
+			}
 			 if (String.class.equals(field.getType())) {
 				 PropertyUtils.setProperty(bean, name, new String(value.toString()));
 			 } else if (Long.class.equals(field.getType())) {
