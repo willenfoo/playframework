@@ -101,12 +101,11 @@ public class BaseAdminController extends SuperController {
 			indexId = Long.parseLong(indexIdStr);
 		}
 		
-		String indexOffsetStr = request.getParameter("indexOffset");
-		Integer indexOffset = null;
-		if (StringUtils.isNotBlank(indexOffsetStr)) {
-			indexOffset = Integer.valueOf(indexOffsetStr);
+		String currentStr = request.getParameter("current");
+		if (StringUtils.isNotBlank(currentStr)) {
+			offset = Integer.valueOf(currentStr);
 		}
-		return new PageId<T>(offset, pageSize, indexId, indexOffset);
+		return new PageId<T>(offset, pageSize, indexId);
 	}
 	
 

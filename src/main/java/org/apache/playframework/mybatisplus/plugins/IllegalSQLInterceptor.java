@@ -84,7 +84,9 @@ public class IllegalSQLInterceptor implements Interceptor {
             
             //根据逻辑删除判断，是否必须要有二个以上where条件，实体存在逻辑删除，需要二个以上where，否则只需要一个
             if (isLogicDeleteUpdate()) {
-            	isWhereGtOne = tableInfoMap.get(tableName).isLogicDelete();
+            	if (tableInfoMap.get(tableName) != null) {
+            		isWhereGtOne = tableInfoMap.get(tableName).isLogicDelete();
+            	}
             } else {
             	// 按照配置来判断，是否必须要有二个以上where条件
             	if (updateWhereOneTables != null && !updateWhereOneTables.isEmpty()) {

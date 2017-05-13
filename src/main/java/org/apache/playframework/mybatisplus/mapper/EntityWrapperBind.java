@@ -18,7 +18,7 @@ public class EntityWrapperBind {
 		EntityWrapper<T> ew = new EntityWrapper<T>((T)entityVo);
 		ew.isWhere(false);
 		if (pageId != null && pageId.getIndexId() != null) {
-        	if (pageId.getOffset() >= 0) {
+        	if (pageId.getCurrent() >= 0) {
             	ew.gt("id", pageId.getIndexId());
             } else {
             	ew.lt("id", pageId.getIndexId());

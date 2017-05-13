@@ -1,6 +1,8 @@
 package org.apache.playframework.util;
 
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 
@@ -33,6 +35,30 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 			}
 		}
 		return false;
+	}
+	
+	public static String getCardFirstNo(String cardNo) {
+		Pattern p = Pattern.compile("\\d{1,}\\*");// 这个2是指连续数字的最少个数
+		Matcher m = p.matcher(cardNo);
+		while (m.find()) {
+			String result = m.group();
+	        if (StringUtils.isNotBlank(result)) {
+	        	return result.replaceAll("\\*", "");
+	        }
+		}
+        return null;
+	}
+
+	public static String getCardLastNo(String cardNo) {
+		Pattern p = Pattern.compile("\\*\\d{1,}");// 这个2是指连续数字的最少个数
+		Matcher m = p.matcher(cardNo);
+		while (m.find()) {
+			String result = m.group();
+			if (StringUtils.isNotBlank(result)) {
+				return result.replaceAll("\\*", "");
+			}
+		}
+        return null;
 	}
 
 	/**
@@ -93,7 +119,7 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("把首字母转换成大写:" + upperCaseFirst("aaa"));
-		System.out.println("把首字母转换成小写:" + lowerCaseFirst("Aaa"));
+		System.out.println("把首字母转换成大写:" + getCardFirstNo("448******516"));
+		System.out.println("把首字母转换成小写:" + getCardLastNo("448******516"));
 	}
 }

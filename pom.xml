@@ -31,7 +31,15 @@
 			<artifactId>spring-wind</artifactId>
 			<version>1.1.5</version>
 		</dependency>
-
+        
+        <!--jsqlparser -->
+		<dependency> 
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!--jsqlparser -->
+		
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
