@@ -1,27 +1,19 @@
 package org.apache.playframework.service.impl;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.playframework.service.BaseService;
 import org.apache.playframework.service.FieldFillService;
 import org.apache.playframework.util.ReflectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.baomidou.mybatisplus.entity.TableInfo;
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.baomidou.mybatisplus.toolkit.ReflectionKit;
-import com.baomidou.mybatisplus.toolkit.StringUtils;
-import com.baomidou.mybatisplus.toolkit.TableInfoHelper;
-
-import org.apache.logging.log4j.Logger; 
-import org.apache.logging.log4j.LogManager;
 
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<BaseMapper<T>, T> implements BaseService<T> {
 
@@ -74,38 +66,6 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<Bas
 				ReflectUtils.setProperty(t, entry.getKey(), entry.getValue());
 			}
 		}
-	}
-
-	@Override
-	public boolean insertOrUpdate(T entity) {
-		if (null != entity) {
-			Class<?> cls = entity.getClass();
-			TableInfo tableInfo = TableInfoHelper.getTableInfo(cls);
-			if (null != tableInfo) {
-				Object idVal = ReflectionKit.getMethodValue(cls, entity, tableInfo.getKeyProperty());
-				if (StringUtils.checkValNull(idVal)) {
-					setInsertData(entity);
-					return insert(entity);
-				} else {
-					/* 特殊处理 INPUT 主键策略逻辑 */
-					if (IdType.INPUT == tableInfo.getIdType()) {
-						T entityValue = selectById((Serializable) idVal);
-						if (null != entityValue) {
-							setUpdateData(entity);
-							return updateById(entity);
-						} else {
-							setInsertData(entity);
-							return insert(entity);
-						}
-					}
-					setUpdateData(entity);
-					return updateById(entity);
-				}
-			} else {
-				throw new MybatisPlusException("Error:  Can not execute. Could not find @TableId.");
-			}
-		}
-		return false;
 	}
 
 	@Override

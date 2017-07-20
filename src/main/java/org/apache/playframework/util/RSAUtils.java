@@ -27,15 +27,18 @@ import com.alibaba.druid.util.Base64;
 
 public class RSAUtils {
 
-	private static final String DEFAULT_PRIVATE_KEY_STRING = "MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAocbCrurZGbC5GArEHKlAfDSZi7gFBnd4yxOt0rwTqKBFzGyhtQLu5PRKjEiOXVa95aeIIBJ6OhC2f8FjqFUpawIDAQABAkAPejKaBYHrwUqUEEOe8lpnB6lBAsQIUFnQI/vXU4MV+MhIzW0BLVZCiarIQqUXeOhThVWXKFt8GxCykrrUsQ6BAiEA4vMVxEHBovz1di3aozzFvSMdsjTcYRRo82hS5Ru2/OECIQC2fAPoXixVTVY7bNMeuxCP4954ZkXp7fEPDINCjcQDywIgcc8XLkkPcs3Jxk7uYofaXaPbg39wuJpEmzPIxi3k0OECIGubmdpOnin3HuCP/bbjbJLNNoUdGiEmFL5hDI4UdwAdAiEAtcAwbm08bKN7pwwvyqaCBC//VnEWaq39DCzxr+Z2EIk=";
-	public static final String DEFAULT_PUBLIC_KEY_STRING = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKHGwq7q2RmwuRgKxBypQHw0mYu4BQZ3eMsTrdK8E6igRcxsobUC7uT0SoxIjl1WveWniCASejoQtn/BY6hVKWsCAwEAAQ==";
+	private static String DEFAULT_PRIVATE_KEY_STRING = "MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAgOnTZ9RjryLg4cIKyXnPqJXEIIglGX0n95Hk+wmZBo1frtx8e/mWujdg63O/LEDb2kipzZXbv4WiBnW1RyPOiwIDAQABAkBkkoe89GUEyKg7WMBDqQXKF3WYj76p4QuiSK8k7rr08YJRH9+ktNL7G1k9YXbdRRVbzXVfEysQzMarhH0IJ37xAiEA+q/J0HYpCSBOY0Kkp0WqBfNqwlxGdjH/AsFM/ePKwLkCIQCDpU1witY3sULHVJaxpTBTRCg3XFu/hItQ+aDmeFv/YwIhAJzoAm2UR8MKkYXXZK++DtmCrkPQ9dltGaxjyQjw1yshAiBiUixjOJ5DnBWG8EtYREqydb4fktBHWsP+Z2Jfn1b+hwIhAOvgTGIiviGatFRKNt/Ccans+BoVoDmDszXS2ZlAMGzy";
+	public static final String DEFAULT_PUBLIC_KEY_STRING = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIDp02fUY68i4OHCCsl5z6iVxCCIJRl9J/eR5PsJmQaNX67cfHv5lro3YOtzvyxA29pIqc2V27+FogZ1tUcjzosCAwEAAQ==";
 
 	public static void main(String[] args) throws Exception {
-        String password = "123456";
+        /*String password = "W0JiKsiqja6NC8X3";
         String[] arr = genKeyPair(512);
         System.out.println("privateKey:" + arr[0]);
         System.out.println("publicKey:" + arr[1]);
-        System.out.println("password:" + encrypt(arr[0], password));
+        System.out.println("password:" + encrypt(arr[0], password));*/
+        
+		DEFAULT_PRIVATE_KEY_STRING = "MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAgi8c4AkeRbM47pozhu3b5/qT39LfyDqVc/PZ7qFlh0pYKC+cs0kfui6mQW4u+0kdO7AOiSY51g0v7Lw1IT7y7wIDAQABAkB4ELGF4oL775ZzYN5i9B7b7ZvSUy83AOjzvxPg5RO5WMOYfuke3N3uWLF0ji3Ltg2YiYefiyJrvUiMZjiyV0QJAiEAv/9yzP/OCTApLOTWAicl0IymPmYUfaPBGgm6RNq3sVsCIQCtlKYnUdaLNwSHyVGOj5Wcj5CIJLfGhvJzWtPwArHE/QIgPLLWqWapzY/TRKUn31BfDRqaKBn/mmTd1IyEveXjswcCIHZpxb9lENr/uVN4fu6l/QZE2fBGPChuvs7600IUVHlxAiEAlqRql2hae5xUeCQrRgfs0FMV40XURuGU4PXCXpGS2+0=";
+        System.out.println(encrypt(DEFAULT_PRIVATE_KEY_STRING, "oBhc3uBfLQdgRha9"));
 	}
 
 	public static String decrypt(String cipherText) throws Exception {

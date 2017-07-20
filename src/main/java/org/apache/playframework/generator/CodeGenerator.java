@@ -98,7 +98,7 @@ public class CodeGenerator {
 		// strategy.setDbColumnUnderline(true);//全局下划线命名
 		strategy.setTablePrefix(new String[] { "bmd_", "mp_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		strategy.setInclude(new String[] { "loan" }); // 需要生成的表
+		strategy.setInclude(new String[] { "user_action" }); // 需要生成的表
 		// strategy.setExclude(new String[]{"test"}); // 排除生成的表
 		// 自定义实体父类
 		// strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");
@@ -159,6 +159,14 @@ public class CodeGenerator {
 				String listAddress = gc.getOutputDir()+"/views/"+pc.getFunctionModuleName()+"/"+entityName+"/list.jsp";
 				try {
 					FileUtils.write(new File(listAddress), listText);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				String jsText = viewEngine.parse("js.ftl", params);
+				String jsAddress = gc.getOutputDir()+"/views/"+pc.getFunctionModuleName()+"/"+entityName+"/"+entityName+".js";
+				try {
+					FileUtils.write(new File(jsAddress), jsText);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

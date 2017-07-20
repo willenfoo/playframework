@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.playframework.domain.EasyuiClientMessage;
 import org.apache.playframework.domain.EasyuiJsonResult;
 import org.apache.playframework.mybatisplus.plugins.PageId;
 import org.apache.playframework.util.StringUtils;
@@ -144,6 +145,24 @@ public class BaseAdminController extends SuperController {
 		    resultMap = EasyuiJsonResult.getFailureResult();
 		}
 		return resultMap;
+	}
+	
+	public Map<String, Object> success(boolean flag) {
+		Map<String, Object> resultMap;
+		if (flag) {
+		    resultMap = EasyuiJsonResult.getSuccessResult();
+		} else {
+		    resultMap = EasyuiJsonResult.getFailureResult();
+		}
+		return resultMap;
+	}
+	
+	public EasyuiClientMessage success(Page<?> page) {
+		return EasyuiClientMessage.success(page);
+	}
+	
+	public EasyuiClientMessage success(Page<?> page, Class<?> resultClass) {
+		return EasyuiClientMessage.success(page, resultClass);
 	}
 	
 	public Map<String, Object> getResult(boolean flag, String msg) {

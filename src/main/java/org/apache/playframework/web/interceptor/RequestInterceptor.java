@@ -18,12 +18,14 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
 		String rid = request.getHeader("X-Request-ID");
+		Request.setId(rid);
+		LOGGER.info("RequestId:{}, URL:{}", Request.getId(), request.getRequestURI());
+		
 		String cached = request.getHeader("X-Cached");
 		String ip = HttpServletUtils.getIpAddr(request);
 		Request.setRIP(ip);
-		LOGGER.debug("rid: {}", rid);
-		Request.setId(rid);
-		LOGGER.debug("RequestId:{}, URL:{}", Request.getId(), request.getRequestURI());
+		LOGGER.info("rid: {}", rid);
+		
 		if ("true".equalsIgnoreCase(cached) || "false".equalsIgnoreCase(cached)) {
 			CacheSwitcher.set(Boolean.valueOf(cached));
 		} else {

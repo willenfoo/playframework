@@ -3,8 +3,11 @@ package org.apache.playframework.util;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.util.StringUtils;
 
 public class ReflectUtils {
 
@@ -43,4 +46,20 @@ public class ReflectUtils {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public static <T> T getValue(List<?> list, String eqField, String eqValue, String returnField,Class<T> returnClass) {
+		for (Object object : list) {
+			Field field = ReflectionUtils.findField(object.getClass(), eqField, String.class);
+			field.setAccessible(true);
+			Object value = ReflectionUtils.getField(field, object);
+			if (StringUtils.pathEquals(eqValue, String.valueOf(value))) {
+				field = ReflectionUtils.findField(object.getClass(), returnField);
+				field.setAccessible(true);
+				return (T)ReflectionUtils.getField(field, object);
+			}
+		}
+		return null;
+	}
+	
 }

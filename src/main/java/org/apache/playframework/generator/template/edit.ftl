@@ -37,11 +37,15 @@
 		</table>
 	</form:form>
 	
-	<div
-		style="position: absolute; bottom: 0px; right: 0px; background-color: #F4F4F4; height: 40px; width: 100%; text-align: center;">
+	<div style="position: absolute; bottom: 0px; right: 0px; background-color: #F4F4F4; height: 40px; width: 100%; text-align: center;">
 		<a href="javascript:void(0);" class="easyui-linkbutton"
 			data-options="iconCls:'icon-ok'" style="margin-top: 10px;" onclick="submitForm();">保存</a> 
 		<a href="javascript:void(0);" class="easyui-linkbutton"
 			data-options="iconCls:'icon-reload'" style="margin-top: 10px;" onclick="resetForm();">重置</a>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    ${modelNameVariable}.initUpdate();
+		});
+	</script>
 </div>

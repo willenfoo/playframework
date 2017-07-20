@@ -13,7 +13,7 @@ import org.apache.playframework.util.JacksonUtils;
  * @author tangxiaojun
  *
  */
-public class ClientMessage {
+public class ClientMessage  {
 
 	// 错误描述信息
 	private String msg = "操作成功";
@@ -22,7 +22,8 @@ public class ClientMessage {
 	private Object data = MapUtils.EMPTY_MAP;
 
 	/**
-	 * 0000 : 访问正常, 1000：用户未登录  , 1001： sessionId过期, 1002：IP地址发生变化 ,  1003：当前接口弃用需要客户端强制升级, 1004：维护中  ,1005：非法请求 ,1006：接口异常或错误
+	 * 0000 : 访问正常, 1000：用户未登录  , 1001： sessionId过期, 1002：IP地址发生变化 ,  1003：当前接口弃用需要客户端强制升级, 
+	 * 1004：维护中  ,1005：非法请求 ,1006：接口异常或错误
 	 */
 	private String code = SUCCESS_CODE;
 	
@@ -64,6 +65,12 @@ public class ClientMessage {
 		this.msg = msg;
 		this.code = code;
 	}
+	
+	private ClientMessage(String code, String msg, Object data) {
+		this.msg = msg;
+		this.code = code;
+		this.data = data;
+	}
 
 	private ClientMessage(Object data, String msg) {
 		this.msg = msg;
@@ -99,6 +106,13 @@ public class ClientMessage {
 		return new ClientMessage(code, msg);
 	}
  
+	public static final ClientMessage failed(Object data, String msg) {
+		return new ClientMessage("0001", msg ,data);
+	}
+	
+	public static final ClientMessage failed(Object data) {
+		return new ClientMessage("0001", "" , data);
+	}
 	
 	public static void main(String[] args) {
 		ClientMessage cm = success();

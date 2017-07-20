@@ -122,7 +122,7 @@ public class IllegalSQLInterceptor implements Interceptor {
             Object parameter = invocation.getArgs()[1];
             BoundSql boundSql = ms.getBoundSql(parameter);
             
-           // 得到当前SQL操作的表名
+            // 得到当前SQL操作的表名
             MySqlStatementParser sqlStatementParser = new MySqlStatementParser(boundSql.getSql()) ;
             MySqlDeleteStatement deleteStatement = sqlStatementParser.parseDeleteStatement();
     		String tableName = deleteStatement.getTableName().getSimpleName();

@@ -28,8 +28,19 @@ public class Response implements Serializable {
 
 	private String msg = SUCCESS_TEXT;
 
+	private String number; //业务逻辑编号
+	
 	private List<?> list;
 
+	public Response() {
+
+	}
+
+	public Response(String code, String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
+	
 	public String getCode() {
 		return code;
 	}
@@ -46,13 +57,12 @@ public class Response implements Serializable {
 		this.msg = msg;
 	}
 
-	public Response() {
-
+	public String getNumber() {
+		return number;
 	}
 
-	public Response(String code, String msg) {
-		this.code = code;
-		this.msg = msg;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	public List<?> getList() {

@@ -6,7 +6,7 @@ import ${packageConfig.parent}.model.${table.entityName};
 import ${packageConfig.parent}.service.${table.entityName}Service;
 
 import org.apache.playframework.domain.EasyuiClientMessage;
-import org.apache.playframework.web.controller.BaseController;
+import org.apache.playframework.web.controller.BaseAdminController;
 import org.apache.playframework.mybatisplus.mapper.EntityWrapperBind;
 import org.apache.playframework.mybatisplus.plugins.PageId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +25,14 @@ import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 /**
  * @author willenfoo
  */
 @Controller
-@RequestMapping("${modelNameVariable}s/")
-public class ${table.entityName}Controller extends BaseController {
+@RequestMapping("${modelNameVariable}/")
+public class ${table.entityName}Controller extends BaseAdminController {
 
 	private static String VIEWS_PATH = "${packageConfig.functionModuleName}/${modelNameVariable}/";
 
@@ -43,7 +45,7 @@ public class ${table.entityName}Controller extends BaseController {
 	 * @return
 	 */
 	@GetMapping("list")
-	@Permission("${modelNameVariable}")
+	@PreAuthorize("hasPermission('${modelNameVariable}', '${modelNameVariable}_list')")
 	public String list() {
 		return VIEWS_PATH + "list";
 	}
@@ -55,7 +57,7 @@ public class ${table.entityName}Controller extends BaseController {
 	 * @return
 	 */
 	@GetMapping("add")
-	@Permission("${modelNameVariable}_add")
+	@PreAuthorize("hasPermission('${modelNameVariable}', '${modelNameVariable}_add')")
 	public String add(ModelMap modelMap) {
 		modelMap.put("${modelNameVariable}", new ${table.entityName}Vo());
 		return VIEWS_PATH + "edit";
@@ -67,9 +69,9 @@ public class ${table.entityName}Controller extends BaseController {
 	 * @param modelMap
 	 * @return
 	 */
-	@GetMapping("{id}/update")
-	@Permission("${modelNameVariable}_update")
-	public String update(@PathVariable(value = "id") Long id, ModelMap modelMap) {
+	@GetMapping("update")
+	@PreAuthorize("hasPermission('${modelNameVariable}', '${modelNameVariable}_update')")
+	public String update(@RequestParam(value = "id") Long id, ModelMap modelMap) {
 		${table.entityName}Vo ${modelNameVariable}Vo = (${table.entityName}Vo)${modelNameVariable}Service.selectById(id);
 		modelMap.put("${modelNameVariable}", ${modelNameVariable}Vo);
 		return VIEWS_PATH + "edit";
@@ -77,17 +79,16 @@ public class ${table.entityName}Controller extends BaseController {
 
 	/**
 	 * 查询数据
-	 * 
 	 * @param role
 	 * @return
 	 */
-	@GetMapping
+	@PostMapping
 	@ResponseBody
-	@Permission("${modelNameVariable}_find")
-	public Object find(${table.entityName}Vo ${modelNameVariable}Vo) {
-		PageId<${table.entityName}> pageId = getEasyuiPageId();
-        EntityWrapper<${table.entityName}> wrapper = EntityWrapperBind.bind(${table.entityName}.class, ${modelNameVariable}Vo, pageId);
-		return EasyuiClientMessage.success(${modelNameVariable}Service.selectPage(pageId, wrapper), ${table.entityName}Vo.class);
+	@PreAuthorize("hasPermission('${modelNameVariable}', '${modelNameVariable}_list')")
+	public Object list(${table.entityName}Vo ${modelNameVariable}Vo) {
+		Page<${table.entityName}> page = getEasyuiPage();
+        EntityWrapper<${table.entityName}> wrapper = EntityWrapperBind.bind(${table.entityName}.class, ${modelNameVariable}Vo);
+		return success(${modelNameVariable}Service.selectPage(page, wrapper), ${table.entityName}Vo.class);
 	}
 
 	/**
@@ -98,7 +99,7 @@ public class ${table.entityName}Controller extends BaseController {
 	 */
 	@PostMapping
 	@ResponseBody
-	@Permission("${modelNameVariable}_add")
+	@PreAuthorize("hasPermission('${modelNameVariable}', '${modelNameVariable}_add')")
 	public Object add(${table.entityName} ${modelNameVariable}Vo, BindingResult br) {
 		// 数据验证
 		if (validate(${modelNameVariable}Vo, br)) {
@@ -114,10 +115,10 @@ public class ${table.entityName}Controller extends BaseController {
 	 * @param ${modelNameVariable}
 	 * @return
 	 */
-	@PutMapping("{id}")
+	@PostMapping("update")
 	@ResponseBody
-	@Permission("${modelNameVariable}_update")
-	public Object update(@PathVariable(value = "id") Long id, ${table.entityName}Vo ${modelNameVariable}Vo, BindingResult br) {
+	@PreAuthorize("hasPermission('${modelNameVariable}', '${modelNameVariable}_update')")
+	public Object update(${table.entityName}Vo ${modelNameVariable}Vo, BindingResult br) {
 		// 数据验证
 		if (validate(${modelNameVariable}Vo, br)) {
 			return getResult(${modelNameVariable}Service.updateById(${modelNameVariable}Vo));
@@ -132,10 +133,10 @@ public class ${table.entityName}Controller extends BaseController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("{id}")
+	@PostMapping("delete")
 	@ResponseBody
-	@Permission("${modelNameVariable}_delete")
-	public Object delete(@PathVariable(value = "id") Long id) {
+	@PreAuthorize("hasPermission('${modelNameVariable}', '${modelNameVariable}_delete')")
+	public Object delete(@RequestParam(value = "id") Long id) {
 		${table.entityName}Vo ${modelNameVariable}Vo = new ${table.entityName}Vo();
 		${modelNameVariable}Vo.setId(id);
 		${modelNameVariable}Vo.setDeleteFlag("Y");

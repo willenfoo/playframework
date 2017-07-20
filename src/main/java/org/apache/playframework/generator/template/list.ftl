@@ -10,9 +10,9 @@ request.setAttribute("namespace", "${modelNameVariable}");
 <%@include file="/WEB-INF/views/common/common.jsp" %>
 </head>
 <body>
-    <kisso:hasPermission name="${modelNameVariable}_delete">
+    <sec:accesscontrollist hasPermission="${modelNameVariable}_delete" domainObject="${modelNameVariable}">
          <input type="hidden" id="deleteAuth" value="Y"/>
-    </kisso:hasPermission>
+    </sec:accesscontrollist>
     
     <!-- 数据展示列表查询区 -->
 	<div id="toolbar" style="padding: 1px; height: auto">
@@ -27,51 +27,32 @@ request.setAttribute("namespace", "${modelNameVariable}");
 						<td>
 						<input style="width: 120px" name="name"  class="easyui-validatebox" data-options="required:true,validType:['length[0,20]']"/>
 						</td>
-						<td align="center" colspan="2"><a href="javascript:void(0);"
-							class="easyui-linkbutton" data-options="iconCls:'icon-search'"
-							onclick="searchData();">查询</a> &nbsp;&nbsp;&nbsp;&nbsp; <a
-							href="javascript:void(0);" class="easyui-linkbutton"
-							data-options="iconCls:'icon-reload'"
-							onclick="$('#${r'${namespace }'}SearchDiv').find('#searchForm').form('reset');">清空</a>
+						<td align="center" colspan="2">
+							<sec:accesscontrollist hasPermission="${modelNameVariable}_delete" domainObject="${modelNameVariable}">
+							  <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchData();">查询</a> &nbsp;&nbsp;&nbsp;&nbsp; 
+							  <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="resetSearchForm();">清空</a>
+							</sec:accesscontrollist>
 						</td>
 					</tr>
 				</table>
 			</form>
-			<kisso:hasPermission name="${modelNameVariable}_add">
+			<sec:accesscontrollist hasPermission="${modelNameVariable}_delete" domainObject="${modelNameVariable}">
 				<a href="javascript:void(0);" onclick="add('${modelNameVariable}/toAdd','添加',400,420);" class="easyui-linkbutton" iconCls="icon-add" plain="true" title="添加">添加</a>
-			</kisso:hasPermission>
-			<kisso:hasPermission name="${modelNameVariable}_update">
+			</sec:accesscontrollist>
+			<sec:accesscontrollist hasPermission="${modelNameVariable}_delete" domainObject="${modelNameVariable}">
 				<a href="javascript:void(0);" onclick="update('${modelNameVariable}/toUpdate','修改',400,420);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" title="修改">修改</a>
-			</kisso:hasPermission>
+			</sec:accesscontrollist>
 		</div>
 	</div>
 	
-	<table class="easyui-datagrid" fit="true" <kisso:hasPermission name="${modelNameVariable}_find"> url="<c:url value="/${modelNameVariable}/find"> </c:url>" </kisso:hasPermission> id="${r'${namespace }'}Grid"  title="数据列表" 
-	     data-options="<kisso:hasPermission name="${modelNameVariable}_update">onDblClickCell: function(index,field,value){update('${modelNameVariable}/toUpdate','修改',400,420);}</kisso:hasPermission>" 
-	     singleSelect="true" rownumbers="true" pagination="true" toolbar="#toolbar">
-		<thead>
-			<tr>
-			    <#list table.fields as column>
-			    <#if column.columnType.type == "Date">
-			    <th data-options="field:'${column.propertyName}',fit:true" formatter=dateFormatByEasyui>${column.comment}</th>
-			    <#else>
-			    <th data-options="field:'${column.propertyName}',fit:true">${column.comment}</th>
-			    </#if>
-				</#list>
-				<th data-options="field:'action',fit:true" formatter="formatterAction">操作</th>
-			</tr>
-		</thead>
+	<table class="easyui-datagrid" id="${r'${namespace }'}Grid" >
 	</table>
 	 
 	<script type="text/javascript">
-	    setNamespace("${r'${namespace }'}");
-		function formatterAction(value, row, index) {
-			var deleteAuth = $("#deleteAuth").val();
-			if ("Y" == deleteAuth) {
-				return "<a href='javascript:void(0);' onclick='delById(\"${modelNameVariable}/delete\","+row.id+");'>删除</a>";
-			}
-			return "";
-		}
+		$(document).ready(function() {
+		    setNamespace("${r'${namespace }'}");
+		    ${modelNameVariable}.initList();
+		});
 	</script>
 </body>
 </html>
