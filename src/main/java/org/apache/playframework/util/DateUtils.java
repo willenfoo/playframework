@@ -130,6 +130,12 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 			return "yyyy-MM";
 		} catch (ParseException e) {
 		}
+		try {
+			dateFormat = new SimpleDateFormat("yyyyMMdd");
+			dateFormat.parse(date);
+			return "yyyyMMdd";
+		} catch (ParseException e) {
+		}
 		return null;
 	}
 
