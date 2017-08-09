@@ -41,7 +41,6 @@ import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import com.baomidou.mybatisplus.MybatisDefaultParameterHandler;
-import com.baomidou.mybatisplus.entity.CountOptimize;
 import com.baomidou.mybatisplus.entity.TableInfo;
 import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.plugins.pagination.DialectFactory;
@@ -208,48 +207,6 @@ public class PaginationInterceptor implements Interceptor {
             dialectType = JdbcUtils.getDbType(connection.getMetaData().getURL()).getDb();
         }
         
-        if (rowBounds instanceof PageId) {
-        	/**
-        	 * id分页需要满足的条件，  
-        	 * 第一：表中最新的数据排在最前面（desc） 或者排在最后面（asc），无特殊排序需求
-        	 * 第二：不能跳页，比如成第一页跳转到第三页
-        	 * 
-        	 * 实现思路
-        	 * 第一：得到 from 的表名 及 as 的别名,也得到表对应的主健id，拼接成字符串准备放在where条件后面
-        	 * 第二：得到排序是 desc 还是 asc， 人工是desc就用 id < 传入id值， 人工是asc 就用 id > 传入id值
-             * 第三：得到sql中是否有where条件，把 id 加到where条件第一位，利用索引性能极高 
-        	 */
-        	PageId<?> pageId = (PageId<?>) rowBounds;
-            boolean orderBy = true;
-            if (pageId.isSearchCount()) {
-                CountOptimize countOptimize = SqlUtils.getCountOptimize(originalSql, optimizeType, dialectType, pageId.isOptimizeCount());
-                orderBy = countOptimize.isOrderBy();
-                this.queryTotal(countOptimize.getCountSQL(), mappedStatement, boundSql, pageId, connection);
-                if (pageId.getTotal() <= 0) {
-                    return invocation.proceed();
-                }
-            }
-            String buildSql = SqlUtils.concatOrderBy(originalSql, pageId, orderBy);
-            buildSql = getPageIdSql(pageId, buildSql);
-            originalSql = DialectFactory.buildPaginationSql(pageId, buildSql, dialectType, dialectClazz);
-        } else if (rowBounds instanceof Pagination) {
-            Pagination page = (Pagination) rowBounds;
-            boolean orderBy = true;
-            if (page.isSearchCount()) {
-                CountOptimize countOptimize = SqlUtils.getCountOptimize(originalSql, optimizeType, dialectType, page.isOptimizeCount());
-                orderBy = countOptimize.isOrderBy();
-                this.queryTotal(countOptimize.getCountSQL(), mappedStatement, boundSql, page, connection);
-                if (page.getTotal() <= 0) {
-                    return invocation.proceed();
-                }
-            }
-            String buildSql = SqlUtils.concatOrderBy(originalSql, page, orderBy);
-            originalSql = DialectFactory.buildPaginationSql(page, buildSql, dialectType, dialectClazz);
-        } else {
-            // support physical Pagination for RowBounds
-            originalSql = DialectFactory.buildPaginationSql(rowBounds, originalSql, dialectType, dialectClazz);
-        }
-
 		/*
          * <p> 禁用内存分页 </p> <p> 内存分页会查询所有结果出来处理（这个很吓人的），如果结果变化频繁这个数据还会不准。</p>
 		 */
