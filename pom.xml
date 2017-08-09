@@ -4,7 +4,7 @@
 
 	<groupId>org.apache</groupId>
 	<artifactId>playframework</artifactId>
-	<version>0.1.5</version> 
+	<version>0.1.6</version> 
 	<packaging>jar</packaging> 
 
 	<name>playframework</name>
@@ -25,7 +25,6 @@
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>spring-wind</artifactId>
@@ -107,11 +106,6 @@
 			<groupId>commons-pool</groupId>
 			<artifactId>commons-pool</artifactId>
 			<version>${commons-pool.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>${commons-dbcp.version}</version>
 		</dependency>
 		<!-- apache工具类 start -->
 
@@ -237,15 +231,6 @@
 		</dependency>
 		<!-- ehcache end -->
 
-		<!-- dbcp数据库连接池 start -->
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
-		</dependency>
-		<!-- dbcp数据库连接池 end -->
-
-
 		<!-- mysql驱动 start -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -286,29 +271,6 @@
 		</dependency>
 		<!-- validator验证框架 end -->
 
-		<!-- shiro安全框架 start -->
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-core</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-web</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-quartz</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<!-- shiro安全框架 end -->
-
 		<!-- 邮件 start -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -331,12 +293,12 @@
 		<!-- 二维码 end -->
 
 		<!-- mybatis-plus start -->
-		<dependency>
+		<dependency> 
 			<groupId>com.baomidou</groupId> 
 			<artifactId>mybatis-plus</artifactId>
-			<version>2.0.8</version>  
+			<version>2.1.0</version>  
 		</dependency>  
-		<!-- mybatis-plus end --> 
+		<!-- mybatis-plus end -->  
 
 		<!-- json start -->
 		<dependency>
@@ -360,7 +322,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.29</version>
+			<version>1.2.35</version>
 		</dependency>
 		<!-- kisso end -->
  
