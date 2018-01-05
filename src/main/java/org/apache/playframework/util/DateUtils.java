@@ -1122,7 +1122,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
 		System.out.println("添加月份： " + addMonth("2015-3-3", 1));
 
-		System.out.println("添加天数： " + addDay("2008-9-29 12:12:12", 1));
+		System.out.println("添加天数： " + addDay("2017-9-27 12:12:12", 92));
 		
 		System.out.println("添加分钟： " + addMinute("2008-9-29 12:12:12", 1));
 

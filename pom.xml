@@ -25,12 +25,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>spring-wind</artifactId>
-			<version>1.1.5</version>
-		</dependency>
-        
         <!--jsqlparser -->
 		<dependency> 
 			<groupId>com.github.jsqlparser</groupId>
@@ -296,7 +290,7 @@
 		<dependency> 
 			<groupId>com.baomidou</groupId> 
 			<artifactId>mybatis-plus</artifactId>
-			<version>2.1.0</version>  
+			<version>2.1.8</version>
 		</dependency>  
 		<!-- mybatis-plus end -->  
 
@@ -313,19 +307,12 @@
 		</dependency>
 		<!-- json end -->
 
-		<!-- kisso start -->
-		<dependency> 
-			<groupId>com.baomidou</groupId>
-			<artifactId>kisso</artifactId>
-			<version>3.6.13</version> 
-		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.35</version>
 		</dependency>
-		<!-- kisso end -->
- 
+
 		<dependency> 
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>

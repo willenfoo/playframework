@@ -1,19 +1,16 @@
 package org.apache.playframework.aop;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.playframework.annotations.ResubmitToken;
 import org.apache.playframework.domain.ClientMessage;
+import org.apache.playframework.security.UserUtils;
 import org.apache.playframework.util.Md5Utils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
@@ -36,10 +33,7 @@ public class RedisResubmitAspect {
 	
 	@Autowired
 	private ShardedJedisPool shardedJedisPool;
-	 
-	@Autowired 
-	private HttpServletRequest request; 
-	
+
 	public ShardedJedis getShardedJedis() {
 		ShardedJedis shardJedis = null;
 		try {
@@ -58,18 +52,17 @@ public class RedisResubmitAspect {
 	 * 执行切面拦截逻辑
 	 * </p>
 	 * @param joinPoint 切面对象
-	 * @param resubmitToken 表单票据注解
 	 * @throws Throwable
 	 */
-	@Around("@annotation(resubmitToken)")
-	public Object execute(ProceedingJoinPoint joinPoint, ResubmitToken resubmitToken) throws Throwable {
-		String lockRequestParam = request.getParameter(resubmitToken.value());
-		if (StringUtils.isBlank(lockRequestParam)) {
-			logger.debug("防止重复提交,锁定请求参数【{}】为空", resubmitToken.value());
-			return ClientMessage.failed("1005", "非法请求");
+	@Around("@annotation(org.springframework.web.bind.annotation.PostMapping) || @annotation(org.springframework.web.bind.annotation.PutMapping) || @annotation(org.springframework.web.bind.annotation.DeleteMapping)")
+	public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
+		String userId = UserUtils.getUserId();
+		if (StringUtils.isBlank(userId)) {
+			logger.debug("防止重复提交,用户未登录【{}】为空");
+			return ClientMessage.failed("1000", "用户未登录");
 		}
 		String methodFullName = joinPoint.getTarget().getClass().getName()+"."+joinPoint.getSignature().getName();
-		String resubmitTokenKey = RESUBMIT_TOKEN + Md5Utils.getMD5(methodFullName) + "_" + lockRequestParam;
+		String resubmitTokenKey = RESUBMIT_TOKEN + Md5Utils.getMD5(methodFullName) + "_" + userId;
 		ShardedJedis jedis = getShardedJedis();
 		long count = 0;
 		logger.debug("resubmitTokenKey lock key: " + resubmitTokenKey);
@@ -78,8 +71,8 @@ public class RedisResubmitAspect {
 			// 如果等于1，说明是第一个请求，如果该KEY的数值大于1，说明是第一次请求处理未完成，重复提交的请求，不做处理
 			if (count == 1) {
 				// 设置有效期
-				jedis.expire(resubmitTokenKey, resubmitToken.expiredTime());
-				logger.debug("resubmitTokenKey get lock, key: " + resubmitTokenKey + " , expire in " + resubmitToken.expiredTime() + " seconds.");
+				jedis.expire(resubmitTokenKey, 20);
+				logger.debug("resubmitTokenKey get lock, key: " + resubmitTokenKey + " , expire in 20 seconds.");
 				return joinPoint.proceed();
 			} else {
 				if (logger.isDebugEnabled()) {

@@ -32,42 +32,12 @@ import com.baomidou.mybatisplus.plugins.Page;
  */
 public class BaseAdminController extends SuperController {
 
-	protected Logger logger = LogManager.getLogger(getClass());
-	
 	protected final static String ROWS = "rows"; //返回json数据的或者list数据的key名称
-	
-	/**
-	 * 用户ID
-	 */
-	protected Long getUserId() {
-		return 1000L;
-	}
-	
-	/**
-	 * 得到HttpServletRequest对象
-	 * 
-	 * @return
-	 */
-	protected HttpServletRequest getRequest() {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		return request;
-	}
 
-	protected HttpServletResponse getResponse() {
-		HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-		return response;
-	}
-
-
-	protected String getParameter(String name) {
-		return request.getParameter(name);
-	}
-	
 	/**
 	 * <p>
 	 * 获取 easyui 分页对象
 	 * </p>
-	 * @param size 每页显示数量
 	 * @return
 	 */
 	protected <T> Page<T> getEasyuiPage() {
@@ -80,63 +50,7 @@ public class BaseAdminController extends SuperController {
 		}
 		return new Page<T>(offset, pageSize);
 	}
-	
-	/**
-	 * <p>
-	 * 获取 easyui 分页对象
-	 * </p>
-	 * @param size 每页显示数量
-	 * @return
-	 */
-	protected <T> PageId<T> getEasyuiPageId() {
-		int pageSize = 10, offset = 1;
-		if (request.getParameter("rows") != null) {
-			pageSize = Integer.parseInt(request.getParameter("rows"));
-			if (pageSize > 100) {
-				pageSize = 10;
-			}
-		}
-		String indexIdStr = request.getParameter("indexId");
-		Long indexId = null;
-		if (StringUtils.isNotBlank(indexIdStr)) {
-			indexId = Long.parseLong(indexIdStr);
-		}
-		
-		String currentStr = request.getParameter("current");
-		if (StringUtils.isNotBlank(currentStr)) {
-			offset = Integer.valueOf(currentStr);
-		}
-		return new PageId<T>(offset, pageSize, indexId);
-	}
-	
 
-	@InitBinder
-	protected void initBinder(ServletRequestDataBinder binder) throws Exception {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-
-		SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		datetimeFormat.setLenient(false);
-
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-	}
-
-	public String initDownloadFileName(String fileName, String suffixName) {
-		if (StringUtils.isEmpty(fileName)) {
-			return "";
-		}
-		String userAgent = getRequest().getHeader("User-Agent");
-		byte[] bytes;
-		try {
-			bytes = userAgent.contains("MSIE") ? fileName.getBytes() : fileName.getBytes("UTF-8");
-			fileName = new String(bytes, "ISO-8859-1"); // 各浏览器基本都支持ISO编码
-			return String.format("attachment; filename=\"%s\"", fileName + "." + suffixName);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} // name.getBytes("UTF-8")处理safari的乱码问题
-		return "";
-	}
-	
 	public Map<String, Object> getResult(boolean flag) {
 		Map<String, Object> resultMap;
 		if (flag) {
@@ -178,25 +92,5 @@ public class BaseAdminController extends SuperController {
 	public Map<String, Object> getFailResult(String msg) {
 		return EasyuiJsonResult.getFailureResult(msg);
 	}
-	
-	/**
-	 * 验证数据，全部数据
-	 * @param t
-	 * @param br
-	 * @return
-	 */
-	public <T> boolean validate(T t, BindingResult br) {
-		return ValidatorUtils.validateAll(t, br);
-	}
-	
-    /**
-     * 验证数据，propertys指定的属性
-     * @param t
-     * @param propertys
-     * @param br
-     * @return
-     */
-	public <T> boolean validate(T t, String[] propertys, BindingResult br) {
-		return ValidatorUtils.validate(t, propertys, br);
-	}
+
 }

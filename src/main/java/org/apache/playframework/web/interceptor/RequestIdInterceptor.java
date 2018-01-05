@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class RequestInterceptor extends HandlerInterceptorAdapter {
+public class RequestIdInterceptor extends HandlerInterceptorAdapter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RequestInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RequestIdInterceptor.class);
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
