@@ -1,29 +1,10 @@
 package org.apache.playframework.web.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.playframework.domain.EasyuiClientMessage;
 import org.apache.playframework.domain.EasyuiJsonResult;
-import org.apache.playframework.mybatisplus.plugins.PageId;
-import org.apache.playframework.util.StringUtils;
-import org.apache.playframework.util.ValidatorUtils;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.baomidou.framework.controller.SuperController;
-import com.baomidou.mybatisplus.plugins.Page;
+import java.util.Map;
 
 /**
  * 所有Controller都应该继承该类，但是要看具体需求
