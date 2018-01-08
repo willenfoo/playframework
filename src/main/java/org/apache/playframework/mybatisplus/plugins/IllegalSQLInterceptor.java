@@ -57,7 +57,8 @@ public class IllegalSQLInterceptor implements Interceptor {
 	public boolean logicDeleteRemove = true;
 	
 	
-    public Object intercept(Invocation invocation) throws Throwable {
+    @Override
+	public Object intercept(Invocation invocation) throws Throwable {
     	if (tableInfoMap.isEmpty()) {
     		List<TableInfo> tableInfos = TableInfoHelper.getTableInfos();
     		for (TableInfo tableInfo : tableInfos) {
@@ -150,14 +151,16 @@ public class IllegalSQLInterceptor implements Interceptor {
     }
 
 
-    public Object plugin(Object target) {
+    @Override
+	public Object plugin(Object target) {
         if (target instanceof Executor) {
             return Plugin.wrap(target, this);
         }
         return target;
     }
 
-    public void setProperties(Properties prop) {
+    @Override
+	public void setProperties(Properties prop) {
         
     }
 

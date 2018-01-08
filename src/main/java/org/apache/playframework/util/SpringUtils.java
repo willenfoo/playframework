@@ -13,7 +13,8 @@ public class SpringUtils implements BeanFactoryAware {
 	
 	private static BeanFactory beanFactory = null;
 
-	public void setBeanFactory(BeanFactory factory) throws BeansException {
+	@Override
+    public void setBeanFactory(BeanFactory factory) throws BeansException {
 		beanFactory = factory;
 	}
 

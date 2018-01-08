@@ -31,7 +31,8 @@ public class MessagePromptException extends RuntimeException {
 		this.code = code;
 	}
 
-	public String getMessage() {
+	@Override
+    public String getMessage() {
 		return message;
 	}
 

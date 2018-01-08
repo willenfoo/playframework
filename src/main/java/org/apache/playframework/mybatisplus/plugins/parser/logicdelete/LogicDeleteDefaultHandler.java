@@ -57,6 +57,7 @@ public class LogicDeleteDefaultHandler implements LogicDeleteHandler {
         }
     }
 
+    @Override
     public Expression getValue(String tableName) {
         init();
         if (String.class.equals(tableLogicDeleteMap.get(tableName).getPropertyType())) {
@@ -66,11 +67,13 @@ public class LogicDeleteDefaultHandler implements LogicDeleteHandler {
         }
     }
 
+    @Override
     public String getColumn(String tableName) {
         init();
         return tableLogicDeleteMap.get(tableName).getColumn();
     }
 
+    @Override
     public boolean doTableFilter(String tableName) {
         init();
         return !tableLogicDeleteMap.containsKey(tableName);

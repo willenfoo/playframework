@@ -19,8 +19,9 @@ public class NetUtils {
 	private static volatile InetAddress LOCAL_ADDRESS = null;
 
 	public static InetAddress getLocalAddress() {
-		if (LOCAL_ADDRESS != null)
-			return LOCAL_ADDRESS;
+		if (LOCAL_ADDRESS != null) {
+            return LOCAL_ADDRESS;
+        }
 		InetAddress localAddress = getLocalAddress0();
 		LOCAL_ADDRESS = localAddress;
 		return localAddress;
@@ -35,8 +36,9 @@ public class NetUtils {
 		InetAddress localAddress = null;
 		try {
 			localAddress = InetAddress.getLocalHost();
-			if (isValidAddress(localAddress))
-				return localAddress;
+			if (isValidAddress(localAddress)) {
+                return localAddress;
+            }
 		} catch (Throwable e) {
 			logger.warn(
 					new StringBuilder().append("Failed to retriving ip address, ").append(e.getMessage()).toString(),
@@ -44,26 +46,30 @@ public class NetUtils {
 		}
 		try {
 			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-			if (interfaces != null)
-				while (interfaces.hasMoreElements()) {
-					try {
-						NetworkInterface network = (NetworkInterface) interfaces.nextElement();
-						Enumeration<InetAddress> addresses = network.getInetAddresses();
-						if (addresses != null)
-							while (addresses.hasMoreElements())
-								try {
-									InetAddress address = (InetAddress) addresses.nextElement();
-									if (isValidAddress(address))
-										return address;
-								} catch (Throwable e) {
-									logger.warn(new StringBuilder().append("Failed to retriving ip address, ")
-											.append(e.getMessage()).toString(), e);
-								}
-					} catch (Throwable e) {
-						logger.warn(new StringBuilder().append("Failed to retriving ip address, ")
-								.append(e.getMessage()).toString(), e);
-					}
-				}
+			if (interfaces != null) {
+                while (interfaces.hasMoreElements()) {
+                    try {
+                        NetworkInterface network = (NetworkInterface) interfaces.nextElement();
+                        Enumeration<InetAddress> addresses = network.getInetAddresses();
+                        if (addresses != null) {
+                            while (addresses.hasMoreElements()) {
+                                try {
+                                    InetAddress address = (InetAddress) addresses.nextElement();
+                                    if (isValidAddress(address)) {
+                                        return address;
+                                    }
+                                } catch (Throwable e) {
+                                    logger.warn(new StringBuilder().append("Failed to retriving ip address, ")
+                                            .append(e.getMessage()).toString(), e);
+                                }
+                            }
+                        }
+                    } catch (Throwable e) {
+                        logger.warn(new StringBuilder().append("Failed to retriving ip address, ")
+                                .append(e.getMessage()).toString(), e);
+                    }
+                }
+            }
 		} catch (Throwable e) {
 			logger.warn(
 					new StringBuilder().append("Failed to retriving ip address, ").append(e.getMessage()).toString(),
@@ -74,8 +80,9 @@ public class NetUtils {
 	}
 
 	private static boolean isValidAddress(InetAddress address) {
-		if ((address == null) || (address.isLoopbackAddress()))
-			return false;
+		if ((address == null) || (address.isLoopbackAddress())) {
+            return false;
+        }
 		String name = address.getHostAddress();
 		return (name != null) && (!"0.0.0.0".equals(name)) && (!"127.0.0.1".equals(name))
 				&& (IP_PATTERN.matcher(name).matches());

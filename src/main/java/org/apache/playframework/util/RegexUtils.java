@@ -42,8 +42,9 @@ public class RegexUtils {
 			int groupCount = matcher.groupCount();
 			for (int i = 1; i <= groupCount; i++) {
 				String result = matcher.group(i);
-				if(result != null && !result.isEmpty())
-					return result;
+				if(result != null && !result.isEmpty()) {
+                    return result;
+                }
 			}
 		}
 		return null;

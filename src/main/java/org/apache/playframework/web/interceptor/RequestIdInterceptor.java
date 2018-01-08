@@ -15,6 +15,7 @@ public class RequestIdInterceptor extends HandlerInterceptorAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RequestIdInterceptor.class);
 
+	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
 		String rid = request.getHeader("X-Request-ID");
@@ -34,8 +35,9 @@ public class RequestIdInterceptor extends HandlerInterceptorAdapter {
 		return true;
 	}
 
+	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) {
+						   ModelAndView modelAndView) {
 		Request.unset();
 		CacheSwitcher.unset();
 	}

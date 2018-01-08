@@ -786,15 +786,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		 * 详细设计： 1.被400整除是闰年，否则： 2.不能被4整除则不是闰年 3.能被4整除同时不能被100整除则是闰年
 		 * 3.能被4整除同时能被100整除则不是闰年
 		 */
-		if ((year % 400) == 0)
-			return true;
-		else if ((year % 4) == 0) {
-			if ((year % 100) == 0)
-				return false;
-			else
-				return true;
-		} else
-			return false;
+		if ((year % 400) == 0) {
+            return true;
+        } else if ((year % 4) == 0) {
+			if ((year % 100) == 0) {
+                return false;
+            } else {
+                return true;
+            }
+		} else {
+            return false;
+        }
 	}
 
 	/**
@@ -838,15 +840,18 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		cal2.setTime(date2);
 		int subYear = cal1.get(Calendar.YEAR) - cal2.get(Calendar.YEAR);
 		if (0 == subYear) {
-			if (cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR))
-				return true;
+			if (cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR)) {
+                return true;
+            }
 		} else if (1 == subYear && 11 == cal2.get(Calendar.MONTH)) {
 			// 如果12月的最后一周横跨来年第一周的话则最后一周即算做来年的第一周
-			if (cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR))
-				return true;
+			if (cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR)) {
+                return true;
+            }
 		} else if (-1 == subYear && 11 == cal1.get(Calendar.MONTH)) {
-			if (cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR))
-				return true;
+			if (cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR)) {
+                return true;
+            }
 		}
 		return false;
 	}

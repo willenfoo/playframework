@@ -74,7 +74,8 @@ public  class HttpClientUtils {
 	// 异常自动恢复处理, 使用HttpRequestRetryHandler接口实现请求的异常恢复
 	private static HttpRequestRetryHandler requestRetryHandler = new HttpRequestRetryHandler() {
 		// 自定义的恢复策略
-		public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
+		@Override
+        public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
 			// 设置恢复策略，在发生异常时候将自动重试3次
 			if (executionCount >= 3) {
 				// Do not retry if over max retry count
@@ -100,7 +101,8 @@ public  class HttpClientUtils {
 	// 使用ResponseHandler接口处理响应，HttpClient使用ResponseHandler会自动管理连接的释放，解决了对连接的释放管理
 	private static ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 		// 自定义响应处理
-		public String handleResponse(HttpResponse response)	throws ClientProtocolException, IOException {
+		@Override
+        public String handleResponse(HttpResponse response)	throws ClientProtocolException, IOException {
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				String charset = EntityUtils.getContentCharSet(entity) == null ? CHARSET_GBK : EntityUtils.getContentCharSet(entity);
@@ -183,7 +185,8 @@ public  class HttpClientUtils {
 		}
 		HttpEntity entity = new EntityTemplate(new ContentProducer() {
 			 
-			public void writeTo(OutputStream outputstream) throws IOException {
+			@Override
+            public void writeTo(OutputStream outputstream) throws IOException {
 				Writer writer = new OutputStreamWriter(outputstream, charset);
 		        writer.write(data);
 		        writer.flush();
@@ -214,7 +217,8 @@ public  class HttpClientUtils {
 		HttpClient httpClient = getDefaultHttpClient(charset);
 		HttpPost httpPost = new HttpPost(url); 
 		HttpEntity entity = new EntityTemplate(new ContentProducer() {
-			public void writeTo(OutputStream outputstream) throws IOException {
+			@Override
+            public void writeTo(OutputStream outputstream) throws IOException {
 				Writer writer = new OutputStreamWriter(outputstream, charset);
 		        writer.write(data);
 		        writer.flush();

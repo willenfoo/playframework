@@ -89,7 +89,8 @@ public class MailHelper {
 		Authenticator auth = null;
 		if ("true".equals(smtpAuth)) {
 			auth = new Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
+				@Override
+                protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(smtpUsername, smtpPassword);
 				}
 			};

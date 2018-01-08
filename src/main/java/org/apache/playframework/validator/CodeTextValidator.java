@@ -11,10 +11,12 @@ public class CodeTextValidator implements ConstraintValidator<ValidCodeText, Str
 
     private Class<?> validatorClass;
   
+    @Override
     public void initialize(ValidCodeText constraintAnnotation) {
         this.validatorClass = constraintAnnotation.value();
     }
 
+    @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintContext) {
     	if (value == null) {
 			return true;

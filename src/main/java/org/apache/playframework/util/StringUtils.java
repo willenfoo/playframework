@@ -36,10 +36,12 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 		}
 		return false;
 	}
-	
+
+	public static Pattern GETCARDFIRSTNO_PATTERN = Pattern.compile("\\d{1,}\\*");
+
 	public static String getCardFirstNo(String cardNo) {
-		Pattern p = Pattern.compile("\\d{1,}\\*");// 这个2是指连续数字的最少个数
-		Matcher m = p.matcher(cardNo);
+		// 这个2是指连续数字的最少个数
+		Matcher m = GETCARDFIRSTNO_PATTERN.matcher(cardNo);
 		while (m.find()) {
 			String result = m.group();
 	        if (StringUtils.isNotBlank(result)) {
@@ -49,9 +51,13 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
         return null;
 	}
 
+
+	private static Pattern GETCARDLASTNO_PATTERN = Pattern.compile("\\*\\d{1,}");
+
 	public static String getCardLastNo(String cardNo) {
-		Pattern p = Pattern.compile("\\*\\d{1,}");// 这个2是指连续数字的最少个数
-		Matcher m = p.matcher(cardNo);
+		// 这个2是指连续数字的最少个数
+
+		Matcher m = GETCARDLASTNO_PATTERN.matcher(cardNo);
 		while (m.find()) {
 			String result = m.group();
 			if (StringUtils.isNotBlank(result)) {
