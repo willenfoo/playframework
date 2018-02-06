@@ -2,9 +2,10 @@ package org.apache.playframework.web.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.playframework.enums.ErrorCode;
+import org.apache.playframework.exception.RestServiceException;
 import org.apache.playframework.security.UserUtils;
 import org.apache.playframework.util.StringUtils;
-import org.apache.playframework.util.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindingResult;
@@ -73,25 +74,13 @@ public class SuperController {
         return "";
     }
 
-    /**
-     * 验证数据，全部数据
-     * @param t
-     * @param br
-     * @return
-     */
-    public <T> boolean validate(T t, BindingResult br) {
-        return ValidatorUtils.validateAll(t, br);
-    }
-
-    /**
-     * 验证数据，propertys指定的属性
-     * @param t
-     * @param propertys
-     * @param br
-     * @return
-     */
-    public <T> boolean validate(T t, String[] propertys, BindingResult br) {
-        return ValidatorUtils.validate(t, propertys, br);
+    public void validate(BindingResult result) {
+        if(result.hasErrors()){
+            String field = result.getFieldError().getField();
+            String message = field + "," + result.getFieldError().getDefaultMessage();
+            logger.info("参数验证有错, {}", message);
+            throw new RestServiceException(ErrorCode.PARAMS_ERROR.getCode(), message);
+        }
     }
 
 

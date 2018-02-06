@@ -11,6 +11,9 @@ import org.springframework.validation.Errors;
 
 public class ValidatorUtils {
 
+	public static final String LENGTH_MESSAGE = "字符长度在{min}-{max}之间";
+
+	public static final String NOTBLANK_MESSAGE = "不能为空";
 	
 	/**
 	 * 验证 javabean中所有属性值是否正确

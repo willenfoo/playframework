@@ -7,8 +7,4 @@ package org.apache.playframework.web.controller;
  */
 public class BaseController extends SuperController {
 
-
-	
-
-
 }
