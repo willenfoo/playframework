@@ -11,10 +11,8 @@
 public enum ErrorCode {
     SUCCESS("0000", "成功"),
     FAILED("0001", "失败"),
-    PARAMS_ERROR("0002", "参数有误"),
-    TOKEN_ERROR("-1", "失败 RestToken 错误"),
-
-    ;
+    SYSTEM_ERROR("0002", "系统维护中,请稍后再试"),
+    TOKEN_ERROR("-1", "失败 RestToken 错误"),;
 
     private final String code;
     private final String msg;

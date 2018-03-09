@@ -3,7 +3,7 @@ package org.apache.playframework.web.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.playframework.enums.ErrorCode;
-import org.apache.playframework.exception.RestServiceException;
+import org.apache.playframework.exception.RestException;
 import org.apache.playframework.security.UserUtils;
 import org.apache.playframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,15 +73,5 @@ public class SuperController {
         } // name.getBytes("UTF-8")处理safari的乱码问题
         return "";
     }
-
-    public void validate(BindingResult result) {
-        if(result.hasErrors()){
-            String field = result.getFieldError().getField();
-            String message = field + "," + result.getFieldError().getDefaultMessage();
-            logger.info("参数验证有错, {}", message);
-            throw new RestServiceException(ErrorCode.PARAMS_ERROR.getCode(), message);
-        }
-    }
-
 
 }

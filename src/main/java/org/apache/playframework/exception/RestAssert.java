@@ -119,7 +119,7 @@ public class RestAssert {
      * @return
      */
     public static void fail(ErrorCode errorCode) {
-        throw new RestServiceException(errorCode);
+        throw new RestException(errorCode);
     }
 
     public static void notEmpty(Object[] array, ErrorCode ErrorCode) {
@@ -138,7 +138,7 @@ public class RestAssert {
      *
      * @param array         the array to check
      * @param ErrorCode the exception message to use if the assertion fails
-     * @throws RestServiceException if the object array contains a {@code null} element
+     * @throws RestException if the object array contains a {@code null} element
      */
     public static void noNullElements(Object[] array, ErrorCode ErrorCode) {
         if (array != null) {
@@ -160,7 +160,7 @@ public class RestAssert {
      *
      * @param collection    the collection to check
      * @param ErrorCode the exception message to use if the assertion fails
-     * @throws RestServiceException if the collection is {@code null} or has no elements
+     * @throws RestException if the collection is {@code null} or has no elements
      */
     public static void notEmpty(Collection<?> collection, ErrorCode ErrorCode) {
         if (CollectionUtils.isNotEmpty(collection)) {
@@ -178,7 +178,7 @@ public class RestAssert {
      *
      * @param map           the map to check
      * @param ErrorCode the exception message to use if the assertion fails
-     * @throws RestServiceException if the map is {@code null} or has no entries
+     * @throws RestException if the map is {@code null} or has no entries
      */
     public static void notEmpty(Map<?, ?> map, ErrorCode ErrorCode) {
         if (MapUtils.isEmpty(map)) {
@@ -199,7 +199,7 @@ public class RestAssert {
      *                      the function itself, and which may be used to provide context.
      *                      It should normally end in ":" or "." so that the generated
      *                      message looks OK when appended to it.
-     * @throws RestServiceException if the object is not an instance of clazz
+     * @throws RestException if the object is not an instance of clazz
      * @see Class#isInstance
      */
     public static void isInstanceOf(Class<?> type, Object obj, ErrorCode ErrorCode) {
@@ -222,7 +222,7 @@ public class RestAssert {
      *                      the function itself, and which may be used to provide context.
      *                      It should normally end in ":" or "." so that the generated
      *                      message looks OK when appended to it.
-     * @throws RestServiceException if the classes are not assignable
+     * @throws RestException if the classes are not assignable
      */
     public static void isAssignable(Class<?> superType, Class<?> subType, ErrorCode ErrorCode) {
         notNull(ErrorCode, superType);
