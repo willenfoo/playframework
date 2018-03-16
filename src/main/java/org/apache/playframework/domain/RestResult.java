@@ -26,7 +26,7 @@ public class RestResult<T> extends ResponseEntity<T> {
         super(body, status);
     }
 
-    public static RestResult ok(Object object) {
+    public static RestResult success(Object object) {
         return restResult(object, HttpStatus.OK, ErrorCode.SUCCESS);
     }
 

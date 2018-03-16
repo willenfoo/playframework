@@ -2,13 +2,10 @@ package org.apache.playframework.web.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.playframework.enums.ErrorCode;
-import org.apache.playframework.exception.RestException;
 import org.apache.playframework.security.UserUtils;
 import org.apache.playframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 

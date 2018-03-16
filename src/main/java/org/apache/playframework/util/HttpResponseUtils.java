@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
  
 
-public class ResponseUtils {
+public class HttpResponseUtils {
 	
 	/**
 	 *回调Js

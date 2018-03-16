@@ -12,6 +12,8 @@ public enum ErrorCode {
     SUCCESS("0000", "成功"),
     FAILED("0001", "失败"),
     SYSTEM_ERROR("0002", "系统维护中,请稍后再试"),
+    USER_NOT_LOGIN("0003", "用户未登录"),
+    USER_SESSION_EXPIRE("0004", "用户session过期"),
     TOKEN_ERROR("-1", "失败 RestToken 错误"),;
 
     private final String code;
