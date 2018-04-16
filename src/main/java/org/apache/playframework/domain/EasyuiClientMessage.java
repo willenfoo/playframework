@@ -23,7 +23,7 @@ public class EasyuiClientMessage {
 	// 对象信息
 	private Collection<?> rows = CollectionUtils.EMPTY_COLLECTION;
 
-	private Integer total;
+	private long total;
 	
 	/**
 	 * 1000 : 访问正常 10001：当前接口弃用需要客户端强制升级 1002：维护中 (提示消息放入errorMsg字段中)
@@ -66,7 +66,7 @@ public class EasyuiClientMessage {
 		this.data = data;
 	}
 
-	public Integer getTotal() {
+	public long getTotal() {
 		return total;
 	}
 
@@ -92,7 +92,7 @@ public class EasyuiClientMessage {
 		this.rows = rows;
 	}
 	
-	public EasyuiClientMessage(Integer total, Collection<?> rows) {
+	public EasyuiClientMessage(long total, Collection<?> rows) {
 		this.total = total;
 		this.rows = rows;
 	}
