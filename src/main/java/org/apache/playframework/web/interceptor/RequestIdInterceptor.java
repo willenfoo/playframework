@@ -25,8 +25,7 @@ public class RequestIdInterceptor extends HandlerInterceptorAdapter {
 		String cached = request.getHeader("X-Cached");
 		String ip = HttpServletUtils.getIpAddr(request);
 		Request.setRIP(ip);
-		LOGGER.info("rid: {}", rid);
-		
+
 		if ("true".equalsIgnoreCase(cached) || "false".equalsIgnoreCase(cached)) {
 			CacheSwitcher.set(Boolean.valueOf(cached));
 		} else {

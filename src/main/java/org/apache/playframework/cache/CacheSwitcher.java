@@ -1,5 +1,7 @@
 package org.apache.playframework.cache;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * 客户端调用服务时，服务端缓存否启用开关；
  * @author alexzhu
@@ -23,5 +25,21 @@ public class CacheSwitcher {
     		return CACHES.get();
     	}
     	return true;
+    }
+
+
+    public static void main(String[] args) {
+        AtomicInteger atomic = new AtomicInteger(1);
+        try {
+            if(atomic.incrementAndGet() > 100) {
+                //熔断逻辑
+            } else {
+                //处理逻辑
+            }
+
+        } finally {
+            atomic.decrementAndGet();
+        }
+
     }
 }

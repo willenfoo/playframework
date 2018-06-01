@@ -1,8 +1,8 @@
 package org.apache.playframework.util;
 
+import org.apache.playframework.logging.MessageUtils;
+
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 
@@ -35,36 +35,6 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 			}
 		}
 		return false;
-	}
-
-	public static Pattern GETCARDFIRSTNO_PATTERN = Pattern.compile("\\d{1,}\\*");
-
-	public static String getCardFirstNo(String cardNo) {
-		// 这个2是指连续数字的最少个数
-		Matcher m = GETCARDFIRSTNO_PATTERN.matcher(cardNo);
-		while (m.find()) {
-			String result = m.group();
-	        if (StringUtils.isNotBlank(result)) {
-	        	return result.replaceAll("\\*", "");
-	        }
-		}
-        return null;
-	}
-
-
-	private static Pattern GETCARDLASTNO_PATTERN = Pattern.compile("\\*\\d{1,}");
-
-	public static String getCardLastNo(String cardNo) {
-		// 这个2是指连续数字的最少个数
-
-		Matcher m = GETCARDLASTNO_PATTERN.matcher(cardNo);
-		while (m.find()) {
-			String result = m.group();
-			if (StringUtils.isNotBlank(result)) {
-				return result.replaceAll("\\*", "");
-			}
-		}
-        return null;
 	}
 
 	/**
@@ -123,9 +93,12 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 	public static String lowerCaseFirst(String str) {
 		return str.replaceFirst(str.substring(0, 1), str.substring(0, 1).toLowerCase());
 	}
-	
+
+	public static String format(final String msgPattern, final Object... params) {
+		return MessageUtils.formatMessage(msgPattern, params);
+	}
+
 	public static void main(String[] args) {
-		System.out.println("把首字母转换成大写:" + getCardFirstNo("448******516"));
-		System.out.println("把首字母转换成小写:" + getCardLastNo("448******516"));
+
 	}
 }

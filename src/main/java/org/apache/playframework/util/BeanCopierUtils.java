@@ -1,14 +1,12 @@
 package org.apache.playframework.util;
 
+import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.cglib.beans.BeanMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.BeanUtils;
-
-import net.sf.cglib.beans.BeanCopier;
-import net.sf.cglib.beans.BeanMap;
 
 /**
  * 
@@ -22,8 +20,6 @@ import net.sf.cglib.beans.BeanMap;
  */
 public class BeanCopierUtils {
 
-	
-	
 	/** 
 	 *  
 	 */
@@ -31,16 +27,18 @@ public class BeanCopierUtils {
 
 	/**
 	 * @Title: copyProperties
-	 * @Description: TODO(bean属性转换)
+	 * @Description: (bean属性转换)
 	 * @param source
 	 *            资源类
-	 * @param targetapplication-dev.properties
-	 *            目标类
+	 * @param  目标类
 	 * @author yushaojian
 	 * @date 2015年11月25日下午4:56:44
 	 */
 	public static Object copyProperties(Object source, Object target) {
-		/*String beanKey = generateKey(source.getClass(), target.getClass());
+		if (source == null || target == null) {
+			return null;
+		}
+		String beanKey = generateKey(source.getClass(), target.getClass());
 		BeanCopier copier = null;
 		if (!beanCopierMap.containsKey(beanKey)) {
 			copier = BeanCopier.create(source.getClass(), target.getClass(), false);
@@ -48,9 +46,7 @@ public class BeanCopierUtils {
 		} else {
 			copier = beanCopierMap.get(beanKey);
 		}
-		copier.copy(source, target, null);*/
-		
-		BeanUtils.copyProperties(source, target);
+		copier.copy(source, target, null);
 		return target;
 	}
 
