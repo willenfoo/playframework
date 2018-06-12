@@ -5,13 +5,13 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import org.apache.playframework.util.Request;
 
 /**
- * logback日志id
+ * logback，日志关键字
  */
-public class MsgIdConvert extends ClassicConverter {
+public class LogKeywordConvert extends ClassicConverter {
 
     @Override
     public String convert(ILoggingEvent event) {
-        return Request.getId();
+        return Request.getLogKeyword();
     }
-
+    
 }

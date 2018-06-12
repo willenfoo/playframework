@@ -26,6 +26,8 @@ public class Request {
     private static final String XID = "XID";
     private static final String RIP = "RIP";
     private static final String XCACHED = "XCACHED";
+
+    private static final String LOG_KEYWORD = "logKeyword";
     
     
     public static void setId(String rid) {
@@ -55,6 +57,16 @@ public class Request {
     public static String getRIP(){
     	init();
     	return REQUESTS.get().get(RIP);
+    }
+
+    public static void setLogKeyword(String logKeyword){
+        init();
+        REQUESTS.get().put(LOG_KEYWORD, logKeyword);
+    }
+
+    public static String getLogKeyword(){
+        init();
+        return REQUESTS.get().get(LOG_KEYWORD);
     }
     
     public static void setXCached(String remoteIp){
