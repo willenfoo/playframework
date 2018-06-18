@@ -6,7 +6,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
-import org.apache.playframework.domain.RestResult;
+import org.apache.playframework.domain.ApiResult;
 import org.apache.playframework.enums.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,9 +38,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public RestResult handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+	public ApiResult handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
 		logger.warn("缺少请求参数", e);
-		return RestResult.failed(e.getMessage());
+		return ApiResult.failed(e.getMessage());
 	}
 
 	/**
@@ -48,9 +48,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(HttpMessageNotReadableException.class)
-	public RestResult handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+	public ApiResult handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 		logger.warn("参数解析失败", e);
-		return RestResult.failed(e.getMessage());
+		return ApiResult.failed(e.getMessage());
 	}
 
 	/**
@@ -58,14 +58,14 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public RestResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+	public ApiResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		logger.warn("参数验证失败", e);
 		BindingResult result = e.getBindingResult();
 		FieldError error = result.getFieldError();
 		String field = error.getField();
 		String msg = error.getDefaultMessage();
 		String message = String.format("%s:%s", field, msg);
-		return RestResult.failed(message);
+		return ApiResult.failed(message);
 	}
 
 	/**
@@ -73,14 +73,14 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BindException.class)
-	public RestResult handleBindException(BindException e) {
+	public ApiResult handleBindException(BindException e) {
 		logger.warn("参数绑定失败", e);
 		BindingResult result = e.getBindingResult();
 		FieldError error = result.getFieldError();
 		String field = error.getField();
 		String msg = error.getDefaultMessage();
 		String message = String.format("%s:%s", field, msg);
-		return RestResult.failed(message);
+		return ApiResult.failed(message);
 	}
 
 	/**
@@ -88,12 +88,12 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ConstraintViolationException.class)
-	public RestResult handleServiceException(ConstraintViolationException e) {
+	public ApiResult handleServiceException(ConstraintViolationException e) {
 		logger.warn("参数验证失败", e);
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
 		ConstraintViolation<?> violation = violations.iterator().next();
 		String message = violation.getMessage();
-		return RestResult.failed("parameter:" + message);
+		return ApiResult.failed("parameter:" + message);
 	}
 
 	/**
@@ -101,9 +101,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ValidationException.class)
-	public RestResult handleValidationException(ValidationException e) {
+	public ApiResult handleValidationException(ValidationException e) {
 		logger.warn("参数验证失败", e);
-		return RestResult.failed("validation_exception");
+		return ApiResult.failed("validation_exception");
 	}
 
 	/**
@@ -111,9 +111,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public RestResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+	public ApiResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
 		logger.warn("不支持当前请求方法", e);
-		return RestResult.failed("request_method_not_supported");
+		return ApiResult.failed("request_method_not_supported");
 	}
 
 	/**
@@ -121,19 +121,19 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
 	@ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-	public RestResult handleHttpMediaTypeNotSupportedException(Exception e) {
+	public ApiResult handleHttpMediaTypeNotSupportedException(Exception e) {
 		logger.warn("不支持当前媒体类型", e);
-		return RestResult.failed("content_type_not_supported");
+		return ApiResult.failed("content_type_not_supported");
 	}
 
 	/**
 	 * 500 - Internal Server Error
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(RestException.class)
-	public RestResult handleRestException(RestException e) {
+	@ExceptionHandler(ApitException.class)
+	public ApiResult handleRestException(ApitException e) {
 		logger.warn("业务逻辑异常", e);
-		return RestResult.failed(e.getErrorCode());
+		return ApiResult.failed(e.getErrorCode());
 	}
 
 	/**
@@ -141,9 +141,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
-	public RestResult handleException(Exception e) {
+	public ApiResult handleException(Exception e) {
 		logger.error("系统异常", e);
-		return RestResult.failed(ErrorCode.SYSTEM_ERROR);
+		return ApiResult.failed(ErrorCode.SYSTEM_ERROR);
 	}
 
 	/**
@@ -151,9 +151,9 @@ public class GlobalExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(DataIntegrityViolationException.class)
-	public RestResult handleException(DataIntegrityViolationException e) {
+	public ApiResult handleException(DataIntegrityViolationException e) {
 		logger.error("操作数据库系统异常:", e);
-		return RestResult.failed(ErrorCode.SYSTEM_ERROR);
+		return ApiResult.failed(ErrorCode.SYSTEM_ERROR);
 	}
 
 }

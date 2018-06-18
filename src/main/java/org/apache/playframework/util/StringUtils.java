@@ -4,7 +4,7 @@ import org.apache.playframework.logging.MessageUtils;
 
 import java.util.Random;
 
-public final class StringUtils extends org.apache.commons.lang3.StringUtils {
+public final class StringUtils extends org.springframework.util.StringUtils {
 
 	/**
 	 * 判断字符串是否 在指定的长度内

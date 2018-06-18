@@ -82,7 +82,7 @@ public  class HttpNetUtils  {
 	
 	/** 
 	 * 判断URL地址是否存在 
-	 * @param url 
+	 * @param connection
 	 * @return 
 	 */
 	public static boolean isURLExist(HttpURLConnection connection) {
@@ -126,7 +126,7 @@ public  class HttpNetUtils  {
 
 	/** 
 	 * 抓取网页内容,自动识别编码 
-	 * @param urlString 
+	 * @param urlLink
 	 * @return 
 	 */
 	public static String readWebPageContent(String urlLink) {
@@ -295,7 +295,7 @@ public  class HttpNetUtils  {
 				sb.append(line);
 			}
 			in.close();
-	        if (StringUtils.isNotEmpty(sb.toString())) {
+	        if (!StringUtils.isEmpty(sb.toString())) {
 	        	JSONObject jo = JSON.parseObject(sb.toString());
 	        	String cookieskey = "Set-Cookie";
 	        	Map<String, List<String>> maps = connection.getHeaderFields();

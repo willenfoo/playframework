@@ -1,5 +1,8 @@
 package org.apache.playframework.enums;
 
+
+import org.apache.playframework.exception.IErrorCode;
+
 /**
  * <p>
  * 错误码
@@ -8,7 +11,7 @@ package org.apache.playframework.enums;
  * @author hubin
  * @Date 2017-02-16
  */
-public enum ErrorCode {
+public enum ErrorCode implements IErrorCode {
     SUCCESS("0000", "成功"),
     FAILED("0001", "失败"),
     SYSTEM_ERROR("0002", "系统维护中,请稍后再试"),
@@ -34,10 +37,12 @@ public enum ErrorCode {
         return SUCCESS;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public String getMsg() {
         return msg;
     }

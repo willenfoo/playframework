@@ -8,7 +8,7 @@ import org.apache.playframework.enums.ErrorCode;
  * @author carver
  * @since 1.0, Jun 12, 2007
  */
-public class RestException extends RuntimeException {
+public class ApitException extends RuntimeException {
 
 	private static final long serialVersionUID = 381260478228427716L;
 
@@ -18,17 +18,17 @@ public class RestException extends RuntimeException {
 
 	private ErrorCode errorCode;
 
-	public RestException(ErrorCode errorCode) {
+	public ApitException(ErrorCode errorCode) {
 		this.code = errorCode.getCode();
 		this.message = errorCode.getMsg();
 		this.errorCode = errorCode;
 	}
 
-	public RestException(String code) {
+	public ApitException(String code) {
 		this.code = code;
 	}
 	
-	public RestException(String code, String message) {
+	public ApitException(String code, String message) {
 		this.code = code;
 		this.message = message;
 	}
