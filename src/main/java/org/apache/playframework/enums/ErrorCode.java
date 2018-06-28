@@ -12,8 +12,8 @@ import org.apache.playframework.exception.IErrorCode;
  * @Date 2017-02-16
  */
 public enum ErrorCode implements IErrorCode {
-    SUCCESS("0000", "成功"),
-    FAILED("0001", "失败"),
+    SUCCESS("0", "成功"),
+    FAILED("-1", "失败"),
     SYSTEM_ERROR("0002", "系统维护中,请稍后再试"),
     USER_NOT_LOGIN("0003", "用户未登录"),
     USER_SESSION_EXPIRE("0004", "用户session过期"),

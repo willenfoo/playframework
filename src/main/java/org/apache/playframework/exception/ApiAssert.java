@@ -98,7 +98,7 @@ public class ApiAssert {
         }
     }
 
-    public static void isNull(ErrorCode errorCode, Object... conditions) {
+    public static void isNull(IErrorCode errorCode, Object... conditions) {
         if (!ObjectUtils.isEmpty(conditions)) {
             fail(errorCode);
         }
@@ -118,8 +118,8 @@ public class ApiAssert {
      * @param errorCode 异常错误码
      * @return
      */
-    public static void fail(ErrorCode errorCode) {
-        throw new ApitException(errorCode);
+    public static void fail(IErrorCode errorCode) {
+        throw new ApiException(errorCode);
     }
 
     public static void notEmpty(Object[] array, ErrorCode ErrorCode) {
@@ -138,7 +138,7 @@ public class ApiAssert {
      *
      * @param array         the array to check
      * @param ErrorCode the exception message to use if the assertion fails
-     * @throws ApitException if the object array contains a {@code null} element
+     * @throws ApiException if the object array contains a {@code null} element
      */
     public static void noNullElements(Object[] array, ErrorCode ErrorCode) {
         if (array != null) {
@@ -160,7 +160,7 @@ public class ApiAssert {
      *
      * @param collection    the collection to check
      * @param ErrorCode the exception message to use if the assertion fails
-     * @throws ApitException if the collection is {@code null} or has no elements
+     * @throws ApiException if the collection is {@code null} or has no elements
      */
     public static void notEmpty(Collection<?> collection, ErrorCode ErrorCode) {
         if (CollectionUtils.isNotEmpty(collection)) {
@@ -178,7 +178,7 @@ public class ApiAssert {
      *
      * @param map           the map to check
      * @param ErrorCode the exception message to use if the assertion fails
-     * @throws ApitException if the map is {@code null} or has no entries
+     * @throws ApiException if the map is {@code null} or has no entries
      */
     public static void notEmpty(Map<?, ?> map, ErrorCode ErrorCode) {
         if (MapUtils.isEmpty(map)) {
@@ -199,7 +199,7 @@ public class ApiAssert {
      *                      the function itself, and which may be used to provide context.
      *                      It should normally end in ":" or "." so that the generated
      *                      message looks OK when appended to it.
-     * @throws ApitException if the object is not an instance of clazz
+     * @throws ApiException if the object is not an instance of clazz
      * @see Class#isInstance
      */
     public static void isInstanceOf(Class<?> type, Object obj, ErrorCode ErrorCode) {
@@ -222,7 +222,7 @@ public class ApiAssert {
      *                      the function itself, and which may be used to provide context.
      *                      It should normally end in ":" or "." so that the generated
      *                      message looks OK when appended to it.
-     * @throws ApitException if the classes are not assignable
+     * @throws ApiException if the classes are not assignable
      */
     public static void isAssignable(Class<?> superType, Class<?> subType, ErrorCode ErrorCode) {
         notNull(ErrorCode, superType);

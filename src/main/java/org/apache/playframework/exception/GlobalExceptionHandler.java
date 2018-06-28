@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
 		ConstraintViolation<?> violation = violations.iterator().next();
 		String message = violation.getMessage();
-		return ApiResult.failed("parameter:" + message);
+		return ApiResult.failed(String.format("%s:%s", violation.getPropertyPath(), message));
 	}
 
 	/**
@@ -130,8 +130,8 @@ public class GlobalExceptionHandler {
 	 * 500 - Internal Server Error
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(ApitException.class)
-	public ApiResult handleRestException(ApitException e) {
+	@ExceptionHandler(ApiException.class)
+	public ApiResult handleRestException(ApiException e) {
 		logger.warn("业务逻辑异常", e);
 		return ApiResult.failed(e.getErrorCode());
 	}
