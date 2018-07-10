@@ -5,6 +5,8 @@ import org.apache.playframework.enums.ErrorCode;
 import org.apache.playframework.exception.IErrorCode;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
+
 /**
  * <p>
  * API REST 返回结果
@@ -20,25 +22,25 @@ public class ApiResult<T>  {
     }
 
     public static ApiResult failed(String msg) {
-        return restResult(null, HttpStatus.OK, ErrorCode.FAILED.getCode(), msg);
+        return restResult(new ArrayList<>(), HttpStatus.OK, ErrorCode.FAILED.getCode(), msg);
     }
 
     public static ApiResult failed(IErrorCode errorCode) {
-        return restResult(null, HttpStatus.OK, errorCode.getCode(), errorCode.getMsg());
+        return restResult(new ArrayList<>(), HttpStatus.OK, errorCode.getCode(), errorCode.getMsg());
     }
 
     public static ApiResult restResult(Object object, HttpStatus httpStatus, ErrorCode errorCode) {
         return restResult(object, httpStatus, errorCode.getCode(), errorCode.getMsg());
     }
 
-    private static ApiResult restResult(Object object, HttpStatus httpStatus, String code, String msg) {
+    private static ApiResult restResult(Object object, HttpStatus httpStatus, Integer code, String msg) {
         return new ApiResult(code, msg, object);
     }
 
     /**
      * 业务错误码
      */
-    private String code;
+    private Integer code;
     /**
      * 结果集
      */
@@ -51,11 +53,11 @@ public class ApiResult<T>  {
     private String message;
 
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -83,7 +85,7 @@ public class ApiResult<T>  {
         this.message = message;
     }
 
-    public ApiResult(String code, String msg, T data) {
+    public ApiResult(Integer code, String msg, T data) {
         this.code = code;
         this.data = data;
         this.msg = msg;

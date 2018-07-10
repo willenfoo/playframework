@@ -378,6 +378,6 @@ public  class HttpNetUtils  {
 		params.put("11", "111");
 		params.put("22", null);
 		System.out.println(getParamString(params));
-		/*post("http://58.246.136.11:5000/vpay/v!checkPluginNum.ac", "pluginSerialNo=4234&terminalModel=3GW100&terminalOs=OS&terminalPhysicalNo=3323");*/
+		post("http://127.0.0.1:8086/order/refund/sellerRejectReceipt", "refundId=101405&userId=115617&refuseReason=不要了&pics=[[\"ServiceCenter\\/c2\\/0f0a4304b634ee04\"]]");
 	}
 }

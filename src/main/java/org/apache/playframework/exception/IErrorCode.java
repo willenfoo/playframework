@@ -13,7 +13,7 @@ public interface IErrorCode {
     /**
      * 错误编码 0、失败 1、正常
      */
-    String getCode();
+    Integer getCode();
 
     /**
      * 错误描述

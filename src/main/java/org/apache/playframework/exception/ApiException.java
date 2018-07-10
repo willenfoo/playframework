@@ -12,7 +12,7 @@ public class ApiException extends RuntimeException {
 
 	private static final long serialVersionUID = 381260478228427716L;
 
-	private String code;
+	private Integer code;
 	
 	private String message;
 
@@ -24,20 +24,20 @@ public class ApiException extends RuntimeException {
 		this.errorCode = errorCode;
 	}
 
-	public ApiException(String code) {
+	public ApiException(Integer code) {
 		this.code = code;
 	}
 	
-	public ApiException(String code, String message) {
+	public ApiException(Integer code, String message) {
 		this.code = code;
 		this.message = message;
 	}
 
-	public String getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 

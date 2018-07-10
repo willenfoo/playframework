@@ -47,7 +47,7 @@ public class RedisResubmitAspect {
 		String userId = UserUtils.getUserId();
 		if (StringUtils.isBlank(userId)) {
 			logger.debug("防止重复提交,用户未登录【{}】为空");
-			return ApiResult.failed(ErrorCode.USER_NOT_LOGIN);
+			return ApiResult.failed(ErrorCode.FAILED);
 		}
 		String methodFullName = joinPoint.getTarget().getClass().getName()+"."+joinPoint.getSignature().getName() + "_" + userId;
 		String resubmitTokenKey = RESUBMIT_TOKEN + Md5Utils.getMD5(methodFullName);
