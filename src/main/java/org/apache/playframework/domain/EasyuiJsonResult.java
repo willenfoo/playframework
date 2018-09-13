@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.playframework.util.BeanCopierUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-
-import com.baomidou.mybatisplus.plugins.Page;
 
 public class EasyuiJsonResult implements Serializable {
 
@@ -161,7 +161,7 @@ public class EasyuiJsonResult implements Serializable {
      * 返回成功的标识方法
      * @return
      */
-    public static Map<String, Object> getSuccessResult(Page<?> page) {
+    public static Map<String, Object> getSuccessResult(IPage<?> page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(CODE, HTTP_OK);
         map.put(MESSAGE, SUCCESS_TEXT);

@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.util.ReflectionUtils;
@@ -60,6 +62,10 @@ public class ReflectUtils {
 			}
 		}
 		return null;
+	}
+
+	public void setValue(List<?> sourceList, Supplier<Integer> sourceField, List<?> targetList, Function targetField, String[][] templates) {
+
 	}
 	
 }

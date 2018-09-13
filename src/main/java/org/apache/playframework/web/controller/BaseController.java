@@ -1,10 +1,95 @@
 package org.apache.playframework.web.controller;
 
+import com.baomidou.mybatisplus.extension.api.ApiController;
+import com.baomidou.mybatisplus.extension.api.Assert;
+import com.baomidou.mybatisplus.extension.api.R;
+import org.apache.playframework.domain.SimpleResult;
+import org.apache.playframework.enums.ErrorCode;
+import org.apache.playframework.util.HttpServletUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
 /**
  * 所有Controller都应该继承该类，但是要看具体需求
  * 
  * @author willenfoo
  */
-public class BaseController extends SuperController {
+public class BaseController extends ApiController {
+
+    public static String CHARSET_UTF8 = "UTF-8";
+
+    @Autowired
+    protected HttpServletRequest request;
+
+    @Autowired
+    protected HttpServletResponse response;
+
+    /**
+     * 成功简单结果，接口里面， 返回一个字段的， 都调用这个方法返回
+     * @param data
+     * @param <T>
+     * @return
+     */
+    protected <T> R<SimpleResult<T>> successResult(T data) {
+        return R.ok(new SimpleResult(data));
+    }
+
+    /**
+     * 得到用户id， 提供给手机端的API接口可以获取用户
+     * @return
+     */
+    public Long getUserId() {
+        String userId =request.getHeader("userId");
+        //用户未登录，会抛出异常
+        Assert.notNull(ErrorCode.USER_NOT_LOGIN, userId);
+        return  Long.valueOf(userId);
+    }
+
+    /**
+     * 得到appId， 提供给手机端的API接口可以获取用户
+     * @return
+     */
+    public Integer getAppId() {
+        String appId = request.getHeader("appId");
+        //用户未登录，会抛出异常
+        if (appId == null) {
+            logger.warn("appId不能为空");
+            Assert.notNull(ErrorCode.PARAMETER__ERROR, appId);
+        }
+        return Integer.valueOf(appId);
+    }
+
+    public String getIpAddr() {
+        return HttpServletUtils.getIpAddr(request);
+    }
+
+    public String getInputStream() {
+        return getInputStream(CHARSET_UTF8);
+    }
+
+    public String getInputStream(String charset) {
+        return HttpServletUtils.getInputStream(request, charset);
+    }
+
+    /**
+     * 获得请求路径
+     * @return
+     */
+    public String getRequestPath() {
+        return HttpServletUtils.getRequestPath(request);
+    }
+
+    public Map<String, String> getParameterMap() {
+        return HttpServletUtils.getParameterMap(request);
+    }
+
+    public boolean isAjaxRequest() {
+        return HttpServletUtils.isAjaxRequest(request);
+    }
+
+
 
 }
