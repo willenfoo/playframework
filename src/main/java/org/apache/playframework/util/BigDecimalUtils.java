@@ -2,6 +2,7 @@ package org.apache.playframework.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class BigDecimalUtils {
 
@@ -147,11 +148,21 @@ public class BigDecimalUtils {
 	public static BigDecimal valueOf(Object value) {
 		return valueOf(value, null);
 	}
+
+
+	public static boolean equals(BigDecimal value1, BigDecimal value2) {
+		if (value1 == null || value2 == null) {
+			return false;
+		}
+		return value1.compareTo(value2) == 0;
+	}
 	
 	public static void main(String[] args) {
 		System.out.println(valueOf(null));
 		System.out.println(add(new BigDecimal[]{null,null}, new BigDecimal(5)));
 		System.out.println(divide(new BigDecimal(10), new BigDecimal(3), 4));
 		System.out.println(divideRatio(new BigDecimal(3), new BigDecimal(10), 0));
+
+		System.out.println(Objects.equals(new BigDecimal(0), new BigDecimal(0.00)));
 	}
 }
