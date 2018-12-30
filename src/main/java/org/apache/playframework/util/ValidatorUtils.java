@@ -14,7 +14,15 @@ public class ValidatorUtils {
 	public static final String LENGTH_MESSAGE = "字符长度在{min}-{max}之间";
 
 	public static final String NOTBLANK_MESSAGE = "不能为空";
-	
+
+	public static final String URL_MESSAGE = "无效的URL地址";
+
+	public static final String DATE_FORMAT_MESSAGE = "日期格式错误";
+
+	public static final String DATE_YYYYMMDDHHMMSS_REGEXP = "[0-9]{14}";
+
+	public static final String DATE_YYYYMMDD_REGEXP = "[0-9]{4}[0-9]{2}[0-9]{2}";
+
 	/**
 	 * 验证 javabean中所有属性值是否正确
 	 * @param t 要验证的javabean对象
