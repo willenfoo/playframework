@@ -74,7 +74,7 @@ public class LocalDateTimeUtils {
 
     //获取一天的开始时间，2017,7,22 00:00
     public static LocalDateTime getDayStart(LocalDate time) {
-        return  LocalDateTime.from(time).withHour(0)
+        return  LocalDateTime.of(time, LocalTime.now()).withHour(0)
                 .withMinute(0)
                 .withSecond(0)
                 .withNano(0);
@@ -90,7 +90,7 @@ public class LocalDateTimeUtils {
 
     //获取一天的结束时间，2017,7,22 23:59:59.999999999
     public static LocalDateTime getDayEnd(LocalDate time) {
-        return LocalDateTime.from(time).withHour(23)
+        return LocalDateTime.of(time, LocalTime.now()).withHour(23)
                 .withMinute(59)
                 .withSecond(59)
                 .withNano(999999999);

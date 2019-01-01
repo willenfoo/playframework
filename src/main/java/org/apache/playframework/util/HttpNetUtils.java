@@ -178,8 +178,12 @@ public  class HttpNetUtils  {
 		return postXml(url, xml, CHARSET_UTF8,headers);
     }
 
-	public static String postJson(String url, String xml, String encode) {
-		return send(url, xml, encode,null, "POST", "application/json;charset=UTF-8");
+	public static String postJson(String url, String data) {
+		return postJson(url, data, CHARSET_UTF8);
+	}
+
+	public static String postJson(String url, String data, String encode) {
+		return send(url, data, encode,null, "POST", "application/json;charset=UTF-8");
 	}
 
 	public static String postXml(String url, String xml, String encode) {

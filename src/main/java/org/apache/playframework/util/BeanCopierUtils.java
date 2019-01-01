@@ -1,8 +1,11 @@
 package org.apache.playframework.util;
 
+import com.baomidou.mybatisplus.core.enums.IEnum;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.cglib.beans.BeanMap;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,8 +58,12 @@ public class BeanCopierUtils {
 		beanMap.putAll(map);
 		return bean;
 	}
-	
-	
+
+	public static Map<String, String> beanToMap(Object bean) {
+		BeanMap beanMap = BeanMap.create(bean);
+		return beanMap;
+	}
+
 	@SuppressWarnings("unchecked")
 	public static <T> T copyToObject(Object source, Class<T> clasz) {
 		try {
@@ -66,8 +73,16 @@ public class BeanCopierUtils {
 			throw new RuntimeException(e);
 		}  
 	}
-	
+
 	public static <T> List<T> copyToList(List<?> sourceList, Class<T> clasz) {
+		return copyToList(sourceList, clasz,false, null);
+	}
+
+	public static <T> List<T> copyToList(List<?> sourceList, Class<T> clasz, Map<String, String> tempMap) {
+		return copyToList(sourceList, clasz,false, tempMap);
+	}
+
+	public static <T> List<T> copyToList(List<?> sourceList, Class<T> clasz, boolean enumCopy, Map<String, String> tempMap) {
 		if (sourceList != null) {
 			List<T> listDto = new ArrayList<T>();
 			for (Object source : sourceList) {
@@ -75,6 +90,35 @@ public class BeanCopierUtils {
 				try {
 					t = clasz.newInstance();
 					copyProperties(source, t);
+
+					if (tempMap != null) {
+						for(Map.Entry<String, String> entry : tempMap.entrySet()){
+							Field field = ReflectionUtils.findField(source.getClass(), entry.getKey());
+							field.setAccessible(true);
+							Object obj = ReflectionUtils.getField(field, source);
+
+							Field targetField = ReflectionUtils.findField(clasz, entry.getValue());
+							targetField.setAccessible(true);
+							ReflectionUtils.setField(targetField, t, obj);
+						}
+					}
+					if (enumCopy) {
+						Field[] fields = source.getClass().getDeclaredFields();
+						for (Field field : fields) {
+							if (field.getType().isEnum()) {
+								field.setAccessible(true);
+								Object obj = ReflectionUtils.getField(field, source);
+								if (obj instanceof IEnum) {
+									IEnum iEnum = (IEnum)obj;
+									Field targetField = ReflectionUtils.findField(clasz, field.getName());
+									targetField.setAccessible(true);
+									if (targetField != null) {
+										ReflectionUtils.setField(targetField, t, iEnum.getValue());
+									}
+								}
+							}
+						}
+					}
 					listDto.add(t);
 				} catch (Exception e) {
 					e.printStackTrace();
