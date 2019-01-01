@@ -37,7 +37,7 @@ public class BeanCopierUtils {
 	 * @author yushaojian
 	 * @date 2015年11月25日下午4:56:44
 	 */
-	public static Object copyProperties(Object source, Object target) {
+	public static Object copyProperties(Object source, Object target, boolean enumCopy, Map<String, String> tempMap) {
 		if (source == null || target == null) {
 			return null;
 		}
@@ -50,6 +50,34 @@ public class BeanCopierUtils {
 			copier = beanCopierMap.get(beanKey);
 		}
 		copier.copy(source, target, null);
+		if (tempMap != null) {
+			for(Map.Entry<String, String> entry : tempMap.entrySet()){
+				Field field = ReflectionUtils.findField(source.getClass(), entry.getKey());
+				field.setAccessible(true);
+				Object obj = ReflectionUtils.getField(field, source);
+
+				Field targetField = ReflectionUtils.findField(target.getClass(), entry.getValue());
+				targetField.setAccessible(true);
+				ReflectionUtils.setField(targetField, target, obj);
+			}
+		}
+		if (enumCopy) {
+			Field[] fields = source.getClass().getDeclaredFields();
+			for (Field field : fields) {
+				if (field.getType().isEnum()) {
+					field.setAccessible(true);
+					Object obj = ReflectionUtils.getField(field, source);
+					if (obj instanceof IEnum) {
+						IEnum iEnum = (IEnum)obj;
+						Field targetField = ReflectionUtils.findField(target.getClass(), field.getName());
+						targetField.setAccessible(true);
+						if (targetField != null) {
+							ReflectionUtils.setField(targetField, target, iEnum.getValue());
+						}
+					}
+				}
+			}
+		}
 		return target;
 	}
 
@@ -65,9 +93,9 @@ public class BeanCopierUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T copyToObject(Object source, Class<T> clasz) {
+	public static <T> T copyToObject(Object source, Class<T> clasz, boolean enumCopy, Map<String, String> tempMap) {
 		try {
-			return (T)copyProperties(source, clasz.newInstance());
+			return (T)copyProperties(source, clasz.newInstance(), enumCopy, tempMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -89,36 +117,7 @@ public class BeanCopierUtils {
 				T t;
 				try {
 					t = clasz.newInstance();
-					copyProperties(source, t);
-
-					if (tempMap != null) {
-						for(Map.Entry<String, String> entry : tempMap.entrySet()){
-							Field field = ReflectionUtils.findField(source.getClass(), entry.getKey());
-							field.setAccessible(true);
-							Object obj = ReflectionUtils.getField(field, source);
-
-							Field targetField = ReflectionUtils.findField(clasz, entry.getValue());
-							targetField.setAccessible(true);
-							ReflectionUtils.setField(targetField, t, obj);
-						}
-					}
-					if (enumCopy) {
-						Field[] fields = source.getClass().getDeclaredFields();
-						for (Field field : fields) {
-							if (field.getType().isEnum()) {
-								field.setAccessible(true);
-								Object obj = ReflectionUtils.getField(field, source);
-								if (obj instanceof IEnum) {
-									IEnum iEnum = (IEnum)obj;
-									Field targetField = ReflectionUtils.findField(clasz, field.getName());
-									targetField.setAccessible(true);
-									if (targetField != null) {
-										ReflectionUtils.setField(targetField, t, iEnum.getValue());
-									}
-								}
-							}
-						}
-					}
+					copyProperties(source, t, enumCopy, tempMap);
 					listDto.add(t);
 				} catch (Exception e) {
 					e.printStackTrace();
