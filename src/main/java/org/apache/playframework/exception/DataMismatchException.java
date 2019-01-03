@@ -15,8 +15,6 @@
  */
 package org.apache.playframework.exception;
 
-import com.baomidou.mybatisplus.extension.api.IErrorCode;
-
 /**
  * <p>
  * 数据不匹配异常
@@ -26,6 +24,10 @@ import com.baomidou.mybatisplus.extension.api.IErrorCode;
  * @since 2017-06-26
  */
 public class DataMismatchException extends RuntimeException {
+
+    public DataMismatchException() {
+        super("数据异常");
+    }
 
     public DataMismatchException(String message) {
         super(message);

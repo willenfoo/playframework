@@ -19,12 +19,10 @@ public class TransactionParam {
     /**
      * 异常
      */
-    private Exception exception;
+    private RuntimeException exception;
 
     public TransactionParam(Object inputParam) {
         this.inputParam = inputParam;
-        this.outParam = outParam;
-        this.exception = exception;
     }
 
     public Object getInputParam() {
@@ -36,6 +34,9 @@ public class TransactionParam {
     }
 
     public Object getOutParam() {
+        if (exception != null) {
+            throw exception;
+        }
         return outParam;
     }
 
@@ -43,11 +44,11 @@ public class TransactionParam {
         this.outParam = outParam;
     }
 
-    public Exception getException() {
+    public RuntimeException getException() {
         return exception;
     }
 
-    public void setException(Exception exception) {
+    public void setException(RuntimeException exception) {
         this.exception = exception;
     }
 }
