@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.extension.api.R;
 import org.apache.playframework.domain.SimpleResult;
 import org.apache.playframework.enums.ErrorCode;
 import org.apache.playframework.util.HttpServletUtils;
+import org.apache.playframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
@@ -42,7 +44,29 @@ public class BaseController extends ApiController {
      * @return
      */
     public Long getUserId() {
-        String userId =request.getHeader("userId");
+        String userId = request.getHeader("userId");
+        //用户未登录，会抛出异常
+        Assert.notNull(ErrorCode.USER_NOT_LOGIN, userId);
+        return Long.valueOf(userId);
+    }
+
+    /**
+     * 得到用户真实姓名
+     * @return
+     */
+    public Long getRealName() {
+        String userId = request.getHeader("realName");
+        //用户未登录，会抛出异常
+        Assert.notNull(ErrorCode.USER_NOT_LOGIN, userId);
+        return Long.valueOf(userId);
+    }
+
+    /**
+     * 得到该用户的所在商家id
+     * @return
+     */
+    public Long getMerchantId() {
+        String userId =request.getHeader("merchantId");
         //用户未登录，会抛出异常
         Assert.notNull(ErrorCode.USER_NOT_LOGIN, userId);
         return  Long.valueOf(userId);
@@ -91,5 +115,20 @@ public class BaseController extends ApiController {
     }
 
 
+    public String initDownloadFileName(String fileName, String suffixName) {
+        if (StringUtils.isEmpty(fileName)) {
+            return "";
+        }
+        String userAgent = request.getHeader("User-Agent");
+        byte[] bytes;
+        try {
+            bytes = userAgent.contains("MSIE") ? fileName.getBytes() : fileName.getBytes("UTF-8");
+            fileName = new String(bytes, "ISO-8859-1"); // 各浏览器基本都支持ISO编码
+            return String.format("attachment; filename=\"%s\"", fileName + "." + suffixName);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } // name.getBytes("UTF-8")处理safari的乱码问题
+        return "";
+    }
 
 }
