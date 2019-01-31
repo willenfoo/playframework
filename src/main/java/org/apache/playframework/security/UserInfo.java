@@ -20,7 +20,24 @@ public class UserInfo extends User {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 		this.userId = userId;
 	}
-	
+
+	public UserInfo(String userId, String realName, String username, String password, boolean enabled, boolean accountNonExpired,
+					boolean credentialsNonExpired, boolean accountNonLocked,
+					Collection<? extends GrantedAuthority> authorities) {
+		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+		this.userId = userId;
+		this.realName = realName;
+	}
+
+	public UserInfo(String userId, String realName, String merchantId, String username, String password, boolean enabled, boolean accountNonExpired,
+					boolean credentialsNonExpired, boolean accountNonLocked,
+					Collection<? extends GrantedAuthority> authorities) {
+		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+		this.userId = userId;
+		this.realName = realName;
+		this.merchantId = merchantId;
+	}
+
 	public UserInfo(String username, String password, boolean enabled, boolean accountNonExpired,
 					boolean credentialsNonExpired, boolean accountNonLocked,
 					Collection<? extends GrantedAuthority> authorities) {
@@ -28,11 +45,32 @@ public class UserInfo extends User {
 	}
 
 	private String userId;
+
+	private String realName;
+
+	private String merchantId;
 	
 	public String getUserId() {
 		return userId;
 	}
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
+	public String getRealName() {
+		return realName;
+	}
 
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
 }
