@@ -28,6 +28,14 @@ public class BeanCopierUtils {
 	 */
 	public static Map<String, BeanCopier> beanCopierMap = new HashMap<String, BeanCopier>();
 
+	public static Object copyProperties(Object source, Object target) {
+		return copyProperties(source, target, false, null);
+	}
+
+	public static Object copyProperties(Object source, Object target, boolean enumCopy) {
+		return copyProperties(source, target, enumCopy, null);
+	}
+
 	/**
 	 * @Title: copyProperties
 	 * @Description: (bean属性转换)
@@ -70,8 +78,8 @@ public class BeanCopierUtils {
 					if (obj instanceof IEnum) {
 						IEnum iEnum = (IEnum)obj;
 						Field targetField = ReflectionUtils.findField(target.getClass(), field.getName());
-						targetField.setAccessible(true);
 						if (targetField != null) {
+							targetField.setAccessible(true);
 							ReflectionUtils.setField(targetField, target, iEnum.getValue());
 						}
 					}

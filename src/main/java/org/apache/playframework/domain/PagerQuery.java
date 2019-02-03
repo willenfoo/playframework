@@ -34,4 +34,12 @@ public class PagerQuery implements Serializable {
     public void setCurrent(long current) {
         this.current = current;
     }
+
+    @Override
+    public String toString() {
+        return "PagerQuery{" +
+                "size=" + size +
+                ", current=" + current +
+                '}';
+    }
 }
