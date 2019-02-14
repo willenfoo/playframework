@@ -3,8 +3,10 @@ package org.apache.playframework.web.controller;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.Assert;
 import com.baomidou.mybatisplus.extension.api.R;
+import org.apache.playframework.domain.PagerResult;
 import org.apache.playframework.domain.SimpleResult;
 import org.apache.playframework.enums.ErrorCode;
+import org.apache.playframework.util.BeanCopierUtils;
 import org.apache.playframework.util.HttpServletUtils;
 import org.apache.playframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +40,19 @@ public class BaseController extends ApiController {
      */
     protected <T> R<SimpleResult<T>> successResult(T data) {
         return R.ok(new SimpleResult(data));
+    }
+
+    /**
+     * 分页结果返回
+     * @param pagerResult
+     * @param <T>
+     * @return
+     */
+    protected <T> R<PagerResult<T>> successPager(PagerResult<?> pagerResult, Class<T> clasz) {
+        PagerResult<T> pagerResultResp = new PagerResult<>();
+        pagerResultResp.setTotal(pagerResult.getTotal());
+        pagerResultResp.setRecords(BeanCopierUtils.copyToList(pagerResult.getRecords(), clasz));
+        return R.ok(pagerResultResp);
     }
 
     /**
