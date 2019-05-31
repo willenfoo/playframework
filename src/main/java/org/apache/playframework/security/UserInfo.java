@@ -49,6 +49,8 @@ public class UserInfo extends User {
 	private String realName;
 
 	private String merchantId;
+
+	private String mobile;
 	
 	public String getUserId() {
 		return userId;
@@ -72,5 +74,13 @@ public class UserInfo extends User {
 
 	public void setMerchantId(String merchantId) {
 		this.merchantId = merchantId;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 }
