@@ -45,6 +45,12 @@ public class MobileUtils {
 	 * 
 	 */
 	public  static final String IS_CHINA_PHONE_LEGAL_REGEXP = "^((13[0-9])|(14[5-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9]))\\d{8}$";
+
+	/**
+	 *  正则表达式验证是否是手机号，允许为空
+	 */
+	public  static final String VALID_IS_CHINA_PHONE_LEGAL_REGEXP = "(^\\s*$)|("+IS_CHINA_PHONE_LEGAL_REGEXP+")";
+
 	/**
 	 * @Fields IS_CHINA_MOBILE_PHONE_LEGAL_REGEXP : 中国移动：手机号段校验正则
 	 * <p>截止2017年11月01日
