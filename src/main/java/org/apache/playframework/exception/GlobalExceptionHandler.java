@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import org.apache.playframework.enums.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -49,6 +51,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public R<Object> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         logger.warn("缺少请求参数, message:{}", e.getMessage());
+        return paramFailed(e.getMessage());
+    }
+
+    /**
+     * 400 - Bad Request
+     * 缺少请求参数
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NestedRuntimeException.class)
+    public R<Object> handleNestedRuntimeException(NestedRuntimeException e) {
+        logger.warn("参数解析失败, message:{}", e.getMessage());
         return paramFailed(e.getMessage());
     }
 
