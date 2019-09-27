@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.playframework.exception.CustomErrorCode;
 import org.apache.playframework.security.UserUtils;
 import org.apache.playframework.util.Md5Utils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -46,7 +47,7 @@ public class RedisResubmitAspect {
 		String userId = UserUtils.getUserId();
 		if (StringUtils.isBlank(userId)) {
 			logger.debug("防止重复提交,用户未登录【{}】为空");
-			return R.failed(ErrorCode.RESUBMIT);
+			return R.failed(CustomErrorCode.RESUBMIT);
 		}
 		String methodFullName = joinPoint.getTarget().getClass().getName()+"."+joinPoint.getSignature().getName() + "_" + userId;
 		String resubmitTokenKey = RESUBMIT_TOKEN + Md5Utils.getMD5(methodFullName);
