@@ -666,9 +666,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
 	/**
 	 * 取得指定日期的所处月份的第一天
-	 * 
-	 * @param date
-	 *            指定日期。
+	 * @param date 指定日期。
 	 * @return 指定日期的所处月份的第一天
 	 */
 	public static String getMonthFirst(Date date) {

@@ -2,13 +2,11 @@ package org.apache.playframework.exception;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
-import org.apache.playframework.enums.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -38,8 +36,8 @@ public class GlobalExceptionHandler {
 
     private R<Object> paramFailed(String message) {
         R<Object> r = new R<>();
-        r.setCode(ErrorCode.PARAMETER__ERROR.getCode());
-        r.setMsg(ErrorCode.PARAMETER__ERROR.getMsg() + "," + message);
+        r.setCode(CustomErrorCode.PARAMETER__ERROR.getCode());
+        r.setMsg(CustomErrorCode.PARAMETER__ERROR.getMsg() + "," + message);
         return r;
     }
 
@@ -165,7 +163,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R<Object> handleException(Exception e) {
         logger.error("系统异常", e);
-        return R.failed(ErrorCode.SYSTEM_ERROR);
+        return R.failed(CustomErrorCode.SYSTEM_ERROR);
     }
 
     /**
@@ -175,7 +173,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public R<Object> handleException(DataIntegrityViolationException e) {
         logger.error("操作数据库系统异常:", e);
-        return R.failed(ErrorCode.SYSTEM_ERROR);
+        return R.failed(CustomErrorCode.SYSTEM_ERROR);
     }
 
 }

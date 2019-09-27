@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
  * @description: 是否删除的公共枚举
  */
 @JSONType(serializeEnumAsJavaBean = true)
-public enum IsDeleted implements IEnum {
+public enum YesNo implements IEnum<Integer> {
 
     /**
      * 是
@@ -26,7 +26,7 @@ public enum IsDeleted implements IEnum {
 
     private String desc;
 
-    IsDeleted(final int value, final String desc) {
+    YesNo(final int value, final String desc) {
         this.value = value;
         this.desc = desc;
     }

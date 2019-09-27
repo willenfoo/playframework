@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.api.Assert;
 import com.baomidou.mybatisplus.extension.api.R;
 import org.apache.playframework.domain.PagerResult;
 import org.apache.playframework.domain.SimpleResult;
-import org.apache.playframework.enums.ErrorCode;
 import org.apache.playframework.util.BeanCopierUtils;
 import org.apache.playframework.util.HttpServletUtils;
 import org.apache.playframework.util.StringUtils;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Map;
 
 /**
