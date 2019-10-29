@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.api.Assert;
 import com.baomidou.mybatisplus.extension.api.R;
 import org.apache.playframework.domain.PagerResult;
 import org.apache.playframework.domain.SimpleResult;
+import org.apache.playframework.exception.CustomErrorCode;
 import org.apache.playframework.util.BeanCopierUtils;
 import org.apache.playframework.util.HttpServletUtils;
 import org.apache.playframework.util.StringUtils;
@@ -60,7 +61,7 @@ public class BaseController extends ApiController {
     public Long getUserId() {
         String userId = request.getHeader("userId");
         //用户未登录，会抛出异常
-        Assert.notNull(ErrorCode.USER_NOT_LOGIN, userId);
+        Assert.notNull(CustomErrorCode.USER_NOT_LOGIN, userId);
         return Long.valueOf(userId);
     }
 
@@ -71,7 +72,7 @@ public class BaseController extends ApiController {
     public Long getRealName() {
         String userId = request.getHeader("realName");
         //用户未登录，会抛出异常
-        Assert.notNull(ErrorCode.USER_NOT_LOGIN, userId);
+        Assert.notNull(CustomErrorCode.USER_NOT_LOGIN, userId);
         return Long.valueOf(userId);
     }
 
@@ -82,7 +83,7 @@ public class BaseController extends ApiController {
     public Long getMerchantId() {
         String userId =request.getHeader("merchantId");
         //用户未登录，会抛出异常
-        Assert.notNull(ErrorCode.USER_NOT_LOGIN, userId);
+        Assert.notNull(CustomErrorCode.USER_NOT_LOGIN, userId);
         return  Long.valueOf(userId);
     }
 
@@ -95,7 +96,7 @@ public class BaseController extends ApiController {
         //用户未登录，会抛出异常
         if (appId == null) {
             logger.warn("appId不能为空");
-            Assert.notNull(ErrorCode.PARAMETER__ERROR, appId);
+            Assert.notNull(CustomErrorCode.PARAMETER__ERROR, appId);
         }
         return Integer.valueOf(appId);
     }
