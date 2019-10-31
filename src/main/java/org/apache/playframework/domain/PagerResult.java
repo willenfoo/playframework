@@ -8,19 +8,24 @@ import java.util.List;
 public class PagerResult<T> {
 
     /**
-     * 查询数据列表
-     */
-    @ApiModelProperty(value = "查询数据列表")
-    private List<T> records = Collections.emptyList();
-
-    /**
      * 总数
      */
     @ApiModelProperty(value = "总数")
     private long total = 0;
 
+    /**
+     * 查询数据列表
+     */
+    @ApiModelProperty(value = "查询数据列表")
+    private List<T> records = Collections.emptyList();
+
     public PagerResult() {
 
+    }
+
+    public PagerResult(long total, List<T> records) {
+        this.records = records;
+        this.total = total;
     }
 
     public PagerResult(List<T> records, long total) {
