@@ -5,10 +5,8 @@ import java.util.Set;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.stereotype.Component;
 
-@Component
-public class BeanUtils {
+public class BeanCopyUtils {
 
 	public static String[] getNullPropertyNames(Object source) {
 		final BeanWrapper src = new BeanWrapperImpl(source);
@@ -26,7 +24,7 @@ public class BeanUtils {
 	}
 
 	// then use Spring BeanUtils to copy and ignore null
-	public static void copyProperties(Object src, Object target) {
+	public static void copyPropertiesIgnoreNull(Object src, Object target) {
 		org.springframework.beans.BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
 	}
 }
