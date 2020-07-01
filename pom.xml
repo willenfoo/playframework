@@ -22,7 +22,7 @@
 		<commons-configuration.version>1.6</commons-configuration.version>
 		<curator-framework.version>2.4.0</curator-framework.version>
 		<curator-recipes.version>2.4.0</curator-recipes.version>
-		<quartz.version>2.2.1</quartz.version>
+		<quartz.version>2.3.2</quartz.version>
 	</properties>
 
 	<dependencies>
