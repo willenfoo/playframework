@@ -19,7 +19,7 @@ public class CustomErrorCode implements IErrorCode {
 
     public static final CustomErrorCode RESUBMIT = new CustomErrorCode(1004, "重复提交");
 
-    public static final CustomErrorCode PARAMETER_ERROR = new CustomErrorCode(1005, "参数错误");
+    public static final CustomErrorCode PARAMETER__ERROR = new CustomErrorCode(1005, "参数错误");
 
     public static final CustomErrorCode DATA_ERROR = new CustomErrorCode(1006, "数据错误");
 

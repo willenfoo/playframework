@@ -281,7 +281,7 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-generator</artifactId>
-			<version>3.2.0</version>
+			<version>3.3.2</version>
 		</dependency>
 		<!-- freemarker模版 end -->
 
@@ -346,7 +346,7 @@
 		<dependency> 
 			<groupId>com.baomidou</groupId> 
 			<artifactId>mybatis-plus</artifactId>
-			<version>3.2.0</version>
+			<version>3.3.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- mybatis-plus end -->  
