@@ -12,10 +12,12 @@ import com.baomidou.mybatisplus.extension.api.IErrorCode;
  */
 public enum ErrorCode implements IErrorCode {
 
-    SYSTEM_ERROR(1002, "系统维护中,请稍后再试"),
-    USER_NOT_LOGIN(1003, "用户未登录"),
-    RESUBMIT(1004, "重复提交"),
-    PARAMETER__ERROR(1004, "参数错误");
+    SYSTEM_ERROR(1002, "系统维护中,请稍后再试!"),
+    USER_NOT_LOGIN(1003, "用户未登录!"),
+    RESUBMIT(1004, "重复提交!"),
+    PARAMETER_ERROR(1004, "参数错误!"),
+    DATA_ID_ERROR(1005, "数据ID错误!")
+    ;
 
     private final long code;
     private final String msg;

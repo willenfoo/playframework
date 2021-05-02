@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
 
     private R<Object> paramFailed(String message) {
         R<Object> r = new R<>();
-        r.setCode(CustomErrorCode.PARAMETER__ERROR.getCode());
-        r.setMsg(CustomErrorCode.PARAMETER__ERROR.getMsg() + "," + message);
+        r.setCode(CustomErrorCode.PARAMETER_ERROR.getCode());
+        r.setMsg(CustomErrorCode.PARAMETER_ERROR.getMsg() + "," + message);
         return r;
     }
 

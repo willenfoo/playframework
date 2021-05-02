@@ -87,20 +87,6 @@ public class BaseController extends ApiController {
         return  Long.valueOf(userId);
     }
 
-    /**
-     * 得到appId， 提供给手机端的API接口可以获取用户
-     * @return
-     */
-    public Integer getAppId() {
-        String appId = request.getHeader("appId");
-        //用户未登录，会抛出异常
-        if (appId == null) {
-            logger.warn("appId不能为空");
-            Assert.notNull(CustomErrorCode.PARAMETER__ERROR, appId);
-        }
-        return Integer.valueOf(appId);
-    }
-
     public String getIpAddr() {
         return HttpServletUtils.getIpAddr(request);
     }

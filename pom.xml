@@ -4,7 +4,7 @@
 
 	<groupId>org.apache</groupId>
 	<artifactId>playframework</artifactId>
-	<version>0.4.5</version>
+	<version>0.4.8</version>
 	<packaging>jar</packaging> 
 
 	<name>playframework</name>
