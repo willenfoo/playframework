@@ -1,5 +1,6 @@
 package org.apache.playframework.util;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.enums.IEnum;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.cglib.beans.BeanMap;
@@ -125,7 +126,7 @@ public class BeanCopierUtils {
 				T t;
 				try {
 					t = clasz.newInstance();
-					copyProperties(source, t, enumCopy, tempMap);
+					BeanUtil.copyProperties(source, t);
 					listDto.add(t);
 				} catch (Exception e) {
 					e.printStackTrace();

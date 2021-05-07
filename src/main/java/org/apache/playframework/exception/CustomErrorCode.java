@@ -36,6 +36,16 @@ public class CustomErrorCode implements IErrorCode {
 
     public static final CustomErrorCode INVALID_SIGN = new CustomErrorCode(1011, "无效的签名!");
 
+    public static final CustomErrorCode MINA_AUTH_FAIL = new CustomErrorCode(1012, "微信小程序授权失败!");
+
+    public static final CustomErrorCode MINA_LOGIN_FAIL = new CustomErrorCode(1013, "未绑定微信小程序账号!");
+
+    public static final CustomErrorCode PARAM_PHONE_INVALID = new CustomErrorCode(1014, "手机号码格式错误!");
+
+    public static final CustomErrorCode PHONE_ALREADY_REGISTER = new CustomErrorCode(1015, "手机号已经注册!");
+
+    public static final CustomErrorCode INVALID_TOKEN = new CustomErrorCode(1011, "无效的token!");
+
     private final long code;
 
     private final String msg;

@@ -17,6 +17,11 @@ public class UserOnlineInfoDTO implements Serializable {
     private Long userId;
 
     /**
+     * 用户ID
+     */
+    private Long merchantId;
+
+    /**
      * 手机号
      */
     private String phone;
@@ -98,5 +103,13 @@ public class UserOnlineInfoDTO implements Serializable {
 
     public void setResourceCodes(List<String> resourceCodes) {
         this.resourceCodes = resourceCodes;
+    }
+
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
     }
 }
