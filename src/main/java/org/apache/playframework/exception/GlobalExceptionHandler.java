@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
      * 400 - Bad Request
      * 缺少请求参数
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public R<Object> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         logger.warn("缺少请求参数, message:{}", e.getMessage());
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
      * 400 - Bad Request
      * 缺少请求参数
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(NestedRuntimeException.class)
     public R<Object> handleNestedRuntimeException(NestedRuntimeException e) {
         logger.warn("参数解析失败, message:{}", e.getMessage());
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
     /**
      * 400 - Bad Request
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public R<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         logger.warn("参数解析失败, message:{}", e.getCause().getMessage());
@@ -76,7 +76,7 @@ public class GlobalExceptionHandler {
     /**
      * 400 - Bad Request
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         logger.warn("参数验证失败, message:{}", e.getMessage());
@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
     /**
      * 400 - Bad Request
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(BindException.class)
     public R<Object> handleBindException(BindException e) {
         logger.warn("参数绑定失败, message:{}", e.getMessage());
@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
     /**
      * 400 - Bad Request
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ConstraintViolationException.class)
     public R<Object> handleServiceException(ConstraintViolationException e) {
         logger.warn("参数验证失败, message:{}", e.getMessage());
@@ -119,7 +119,7 @@ public class GlobalExceptionHandler {
     /**
      * 400 - Bad Request
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ValidationException.class)
     public R<Object> handleValidationException(ValidationException e) {
         logger.warn("参数验证失败, message:{}", e.getMessage());
@@ -129,7 +129,7 @@ public class GlobalExceptionHandler {
     /**
      * 405 - Method Not Allowed
      */
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         logger.warn("不支持当前请求方法, message:{}", e.getMessage());
@@ -159,7 +159,7 @@ public class GlobalExceptionHandler {
     /**
      * 500 - Internal Server Error
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(Exception.class)
     public R<Object> handleException(Exception e) {
         logger.error("系统异常", e);
@@ -169,7 +169,7 @@ public class GlobalExceptionHandler {
     /**
      * 操作数据库出现异常:名称重复，外键关联
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public R<Object> handleException(DataIntegrityViolationException e) {
         logger.error("操作数据库系统异常:", e);
