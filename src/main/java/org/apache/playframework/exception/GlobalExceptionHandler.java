@@ -15,6 +15,7 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -46,8 +47,8 @@ public class GlobalExceptionHandler {
      * 缺少请求参数
      */
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public R<Object> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+    @ExceptionHandler(ServletRequestBindingException.class)
+    public R<Object> handleMissingServletRequestParameterException(ServletRequestBindingException e) {
         logger.warn("缺少请求参数, message:{}", e.getMessage());
         return paramFailed(e.getMessage());
     }
