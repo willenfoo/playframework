@@ -80,12 +80,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        logger.warn("参数验证失败, message:{}", e.getMessage());
         BindingResult result = e.getBindingResult();
         FieldError error = result.getFieldError();
         String field = error.getField();
         String msg = error.getDefaultMessage();
-        String message = String.format("%s:%s", field, msg);
+        String message = String.format("%s:%s, 接到前端参数为:%s", field, msg, error.getRejectedValue());
+        logger.warn("参数验证失败, message:{}", message);
         return paramFailed(message);
     }
 
