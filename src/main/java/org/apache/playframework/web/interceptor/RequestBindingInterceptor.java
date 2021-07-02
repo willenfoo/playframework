@@ -20,53 +20,56 @@ import java.lang.reflect.Method;
  * 请求绑定拦截器，
  * 1. 绑定请求id，为每一个请求分配一个请求id，日志打印出来，方便查找错误
  * 2. 绑定API功能关键字，日志打印出来，方便查找错误
+ *
  * @author fuwei
  */
 public class RequestBindingInterceptor extends HandlerInterceptorAdapter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RequestBindingInterceptor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestBindingInterceptor.class);
 
-	private static final String USER_LOG_KEYWORD = ",用户ID:%s";
+    private static final String USER_LOG_KEYWORD = ",用户ID:%s";
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-		if (handler instanceof HandlerMethod) {
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			Method method = handlerMethod.getMethod();
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Method method = handlerMethod.getMethod();
 
-			//设置日志关键字，如果用户登录了，加上用户id
-			ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
-			if (apiOperation != null) {
-				String userId = request.getParameter("userId");
-				String logKeyword;
-				if (!StringUtils.isEmpty(userId)) {
-					logKeyword = String.format(apiOperation.value() + USER_LOG_KEYWORD, userId);
-				} else {
-					logKeyword = apiOperation.value();
-				}
-				Request.setLogKeyword(logKeyword);
-			}
-		}
-		String rid = request.getHeader("X-Request-ID");
-		Request.setId(rid);
-		LOGGER.info("RequestId:{}, URL:{}", Request.getId(), request.getRequestURI());
-		
-		String cached = request.getHeader("X-Cached");
-		String ip = HttpServletUtils.getIpAddr(request);
-		Request.setRIP(ip);
+            //设置日志关键字，如果用户登录了，加上用户id
+            ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
+            if (apiOperation != null) {
+                String userId = request.getParameter("userId");
+                String logKeyword;
+                if (!StringUtils.isEmpty(userId)) {
+                    logKeyword = String.format(apiOperation.value() + USER_LOG_KEYWORD, userId);
+                } else {
+                    logKeyword = apiOperation.value();
+                }
+                Request.setLogKeyword(logKeyword);
+            }
+        }
+        String rid = request.getHeader("X-Request-ID");
+        String userId = request.getHeader("userId");
+        String merchantId = request.getHeader("merchantId");
+        Request.setId(rid);
+        LOGGER.info("RequestId:{}, URL:{}, merchantId:{}, userId:{}, parameters:{}", Request.getId(), request.getRequestURI(), merchantId, userId, HttpServletUtils.getParameterMap(request));
 
-		if ("true".equalsIgnoreCase(cached) || "false".equalsIgnoreCase(cached)) {
-			CacheSwitcher.set(Boolean.valueOf(cached));
-		} else {
-			CacheSwitcher.set(true);
-		}
-		return true;
-	}
+        String cached = request.getHeader("X-Cached");
+        String ip = HttpServletUtils.getIpAddr(request);
+        Request.setRIP(ip);
 
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-						   ModelAndView modelAndView) {
-		Request.unset();
-		CacheSwitcher.unset();
-	}
+        if ("true".equalsIgnoreCase(cached) || "false".equalsIgnoreCase(cached)) {
+            CacheSwitcher.set(Boolean.valueOf(cached));
+        } else {
+            CacheSwitcher.set(true);
+        }
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+                           ModelAndView modelAndView) {
+        Request.unset();
+        CacheSwitcher.unset();
+    }
 }
