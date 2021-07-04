@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.NestedRuntimeException;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -14,7 +13,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -50,17 +48,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServletRequestBindingException.class)
     public R<Object> handleMissingServletRequestParameterException(ServletRequestBindingException e) {
         logger.warn("缺少请求参数, message:{}", e.getMessage());
-        return paramFailed(e.getMessage());
-    }
-
-    /**
-     * 400 - Bad Request
-     * 缺少请求参数
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(NestedRuntimeException.class)
-    public R<Object> handleNestedRuntimeException(NestedRuntimeException e) {
-        logger.warn("参数解析失败, message:{}", e.getMessage());
         return paramFailed(e.getMessage());
     }
 
@@ -171,8 +158,8 @@ public class GlobalExceptionHandler {
      * 操作数据库出现异常:名称重复，外键关联
      */
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public R<Object> handleException(DataIntegrityViolationException e) {
+    @ExceptionHandler(DataAccessException.class)
+    public R<Object> handleException(DataAccessException e) {
         logger.error("操作数据库系统异常:", e);
         return R.failed(CustomErrorCode.SYSTEM_ERROR);
     }
