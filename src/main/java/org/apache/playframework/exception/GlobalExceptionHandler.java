@@ -71,8 +71,8 @@ public class GlobalExceptionHandler {
         FieldError error = result.getFieldError();
         String field = error.getField();
         String msg = error.getDefaultMessage();
-        String message = String.format("%s:%s, 接到前端参数为:%s", field, msg, error.getRejectedValue());
-        logger.warn("参数验证失败, message:{}", message);
+        String message = String.format("%s:%s", field, msg);
+        logger.warn("参数验证失败, message:{}", String.format("%s:%s, 接到前端参数为:%s", field, msg, error.getRejectedValue()));
         return paramFailed(message);
     }
 
