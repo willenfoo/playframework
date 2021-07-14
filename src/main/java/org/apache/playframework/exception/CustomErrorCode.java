@@ -46,6 +46,8 @@ public class CustomErrorCode implements IErrorCode {
 
     public static final CustomErrorCode INVALID_TOKEN = new CustomErrorCode(1011, "无效的token!");
 
+    public static final CustomErrorCode NO_PERMISSION = new CustomErrorCode(1012, "没有操作权限!");
+
     private final long code;
 
     private final String msg;
