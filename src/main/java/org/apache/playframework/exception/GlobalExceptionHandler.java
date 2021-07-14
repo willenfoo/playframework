@@ -1,5 +1,6 @@
 package org.apache.playframework.exception;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+import java.lang.reflect.Field;
 import java.util.Set;
 
 
@@ -33,11 +36,19 @@ public class GlobalExceptionHandler {
 
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private R<Object> paramFailed(String message) {
+    private R<Object> paramFailed(String message, Boolean appendFlag) {
         R<Object> r = new R<>();
         r.setCode(CustomErrorCode.PARAMETER_ERROR.getCode());
-        r.setMsg(CustomErrorCode.PARAMETER_ERROR.getMsg() + "," + message);
+        if (appendFlag) {
+            r.setMsg(CustomErrorCode.PARAMETER_ERROR.getMsg() + "," + message);
+        } else {
+            r.setMsg(message);
+        }
         return r;
+    }
+
+    private R<Object> paramFailed(String message) {
+        return paramFailed(message, true);
     }
 
     /**
@@ -69,10 +80,19 @@ public class GlobalExceptionHandler {
     public R<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         FieldError error = result.getFieldError();
+
         String field = error.getField();
         String msg = error.getDefaultMessage();
         String message = String.format("%s:%s", field, msg);
         logger.warn("参数验证失败, message:{}", String.format("%s:%s, 接到前端参数为:%s", field, msg, error.getRejectedValue()));
+
+        Field fieldViolation = ReflectionUtils.findField(error.getClass(), "violation", ConstraintViolation.class);
+        fieldViolation.setAccessible(true);
+        ConstraintViolation<?> violation = (ConstraintViolation<?>) ReflectionUtils.getField(fieldViolation, error);
+        String messageTemplate = violation.getMessageTemplate();
+        if (StrUtil.indexOfIgnoreCase(messageTemplate, "{") == -1) {
+            return paramFailed(messageTemplate, false);
+        }
         return paramFailed(message);
     }
 
