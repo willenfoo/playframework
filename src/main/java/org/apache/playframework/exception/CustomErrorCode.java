@@ -48,6 +48,8 @@ public class CustomErrorCode implements IErrorCode {
 
     public static final CustomErrorCode NO_PERMISSION = new CustomErrorCode(1012, "没有操作权限!");
 
+    public static final CustomErrorCode MERCHANT_BAN = new CustomErrorCode(1013, "当前商户已被封禁，请联系管理员!");
+
     private final long code;
 
     private final String msg;
