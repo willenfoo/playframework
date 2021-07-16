@@ -9,6 +9,8 @@ public class Constants {
 
     public static final String MOBILE_PLATFORM = "_app";
 
+    public static final String MINA_PLATFORM = "_mina";
+
     public static final String ADMIN_PLATFORM = "_admin";
 
 }
