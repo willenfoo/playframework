@@ -48,6 +48,10 @@ public class UserOnlineInfoDTO implements Serializable {
 
     private List<String> resourceCodes;
 
+    /**
+     * 测试标识（0=否，1=是）
+     */
+    private Integer testFlag;
 
     public Long getUserId() {
         return userId;
@@ -111,5 +115,13 @@ public class UserOnlineInfoDTO implements Serializable {
 
     public void setMerchantId(Long merchantId) {
         this.merchantId = merchantId;
+    }
+
+    public Integer getTestFlag() {
+        return testFlag;
+    }
+
+    public void setTestFlag(Integer testFlag) {
+        this.testFlag = testFlag;
     }
 }
