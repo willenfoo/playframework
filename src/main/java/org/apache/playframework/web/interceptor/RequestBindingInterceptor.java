@@ -52,7 +52,7 @@ public class RequestBindingInterceptor extends HandlerInterceptorAdapter {
         String userId = request.getHeader("userId");
         String merchantId = request.getHeader("merchantId");
         Request.setId(rid);
-        LOGGER.info("RequestId:{}, URL:{}, merchantId:{}, userId:{}, parameters:{}", Request.getId(), request.getRequestURI(), merchantId, userId, HttpServletUtils.getParameterMap(request));
+        LOGGER.info("RequestId:{}, URL:{}, method:{}, merchantId:{}, userId:{}, parameters:{}", Request.getId(), request.getRequestURI(),request.getMethod(),  merchantId, userId, HttpServletUtils.getParameterMap(request));
 
         String cached = request.getHeader("X-Cached");
         String ip = HttpServletUtils.getIpAddr(request);
