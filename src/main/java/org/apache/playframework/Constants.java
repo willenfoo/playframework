@@ -11,6 +11,8 @@ public class Constants {
 
     public static final String MINA_PLATFORM = "_mina";
 
+    public static final String H5_PLATFORM = "_h5";
+
     public static final String ADMIN_PLATFORM = "_admin";
 
 }
