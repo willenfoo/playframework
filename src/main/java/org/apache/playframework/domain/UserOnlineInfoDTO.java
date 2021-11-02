@@ -49,6 +49,11 @@ public class UserOnlineInfoDTO implements Serializable {
     private List<String> resourceCodes;
 
     /**
+     * 用户可以访问的URL，做权限控制
+     */
+    private List<String> urls;
+
+    /**
      * 测试标识（0=否，1=是）
      */
     private Integer testFlag;
@@ -123,5 +128,13 @@ public class UserOnlineInfoDTO implements Serializable {
 
     public void setTestFlag(Integer testFlag) {
         this.testFlag = testFlag;
+    }
+
+    public List<String> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
     }
 }
